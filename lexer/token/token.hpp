@@ -2,7 +2,7 @@
 #include <string> 
 
 using namespace std; 
-enum class tokenType { 
+enum class TokenType { 
 	INTCON, REALCON, CHARCON, STRING,
  	OP_PLUS, OP_MINUS, OP_TIMES, OP_IDIV, OP_RDIV, OP_MOD,
     	OP_AND, OP_OR, OP_NOT,
@@ -20,10 +20,10 @@ enum class tokenType {
 
 class Token { 
 	public: 
-		tokenType type; 
+		TokenType type; 
 		string value; 
 		int line; 
-		Token(tokenType type, string value, int line);
+		Token(TokenType type, string value, int line);
 };
 
 

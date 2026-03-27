@@ -3,7 +3,7 @@
 #include <iostream> 
 #include <stdexcept> 
 
-static string readFile(const string& filePath){ 
+string FileReader::readFile(const string& filePath){ 
 
 	// reads file from entire buffer stream 
 	ifstream file(filePath, ios::in | ios::binary); 
