@@ -1,0 +1,4 @@
+int main() { 
+	"hello this is intcon" 
+	return intcon; 
+} 
