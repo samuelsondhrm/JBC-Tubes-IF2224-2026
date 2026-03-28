@@ -1,16 +1,27 @@
-// #include "token/token.hpp" 
+#include "token/token.hpp" 
 #include "util/read.hpp" 
+#include "lexer/symbolTable.hpp"
 #include <cctype>
 #include <iostream> 
+#include <sstream>
 using namespace std; 
+
 int main() { 
 	string readContents; 
-	readContents = FileReader::readFile("test.txt"); 
+	readContents = FileReader::readFile("lexer/test.txt"); 
 
-	for (auto c : readContents) { 	
-		if (isspace(c)) continue; 
-		cout << c << endl; 
-		
-	}
-	return 0; 
+	SymbolTable symTable;
+    TokenType result;
+	istringstream stream(readContents);
+    string word;
+
+    while (stream >> word) {
+        if (symTable.lookup(word, result)) {
+            cout << "KEYWORD : " << word << endl;
+        } else {
+            cout << "IDENT   : " << word << endl;
+        }
+    }
+ 
+    return 0;
 } 
