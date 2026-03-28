@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "token/token.hpp"
+#include "../token/token.hpp"
 
 using namespace std;
 

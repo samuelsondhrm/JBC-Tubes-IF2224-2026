@@ -8,20 +8,20 @@ using namespace std;
 
 int main() { 
 	string readContents; 
-	readContents = FileReader::readFile("lexer/test.txt"); 
+	readContents = FileReader::readFile("test.txt"); 
 
 	SymbolTable symTable;
-    TokenType result;
+    	TokenType result;
 	istringstream stream(readContents);
-    string word;
+    	string word;
 
-    while (stream >> word) {
-        if (symTable.lookup(word, result)) {
-            cout << "KEYWORD : " << word << endl;
-        } else {
-            cout << "IDENT   : " << word << endl;
-        }
-    }
+	while (stream >> word) {
+		if (symTable.lookup(word, result)) {
+			cout << "KEYWORD : " << word << endl;
+		} else {
+		    	cout << "IDENT   : " << word << endl;
+		}
+	}
  
     return 0;
 } 
