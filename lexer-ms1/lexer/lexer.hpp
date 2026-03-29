@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "../token/token.hpp"
-//#include "../dfa/dfa.hpp"
+#include "../dfa/dfa.hpp"
 
 using namespace std;
 
