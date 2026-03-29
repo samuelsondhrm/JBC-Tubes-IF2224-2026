@@ -1,0 +1,25 @@
+program EdgeCases;
+
+{ komentar brace }
+(* komentar paren *)
+
+var
+  pi   : real;
+  ch   : char;
+
+begin
+  pi   := 3.14;
+  ch   := 'z';
+
+  if 5 <> 10 then
+    pi := NOT pi;
+
+  if pi >= 3.0 then
+    pi := pi + 26.7;
+
+  (* komentar
+     multiline *)
+
+  for pi := 1 downto 0 do
+    pi := pi + 1;
+end.

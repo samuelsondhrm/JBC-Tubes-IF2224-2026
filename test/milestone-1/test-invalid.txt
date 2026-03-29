@@ -1,0 +1,8 @@
+program Bad;
+var
+  @illegal: integer;
+  x: integer;
+begin
+  x := 'unclosed string;
+  x := 5 $ 3;
+end.
