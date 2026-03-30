@@ -223,8 +223,8 @@ The table below records which team member is responsible for each function or cl
 
 | Function / Item | PIC |
 |-----------------|-----|
-| `SymbolTable` constructor (keyword map) | |
-| `SymbolTable::lookup()` | |
+| `SymbolTable` constructor (keyword map) | 13524089 |
+| `SymbolTable::lookup()` | 135124089 |
 
 ### `src/lexer-ms1/lexer/lexer.hpp` & `lexer.cpp`
 
