@@ -262,9 +262,3 @@ The table below records which team member is responsible for each function or cl
 | Niko Samuel Simanjuntak | 13524029 |
 | Aurelia Jennifer Gunawan | 13524089 |
 | Reinsen Silitonga | 13524093 |
-
----
-
-> Repository format: `[KODE]-Tubes-IF2224-2026`  
-> Release tag format: `v0.X.Y` (milestone . submission number)  
-> Deadline Milestone 1: **Kamis, 2 April 2026 pukul 23.59 WIB**
