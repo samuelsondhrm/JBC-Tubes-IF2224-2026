@@ -2,8 +2,6 @@
 
 > IF2224 Formal Language and Automata Theory · STEI ITB · 2026
 
----
-
 ## Description
 
 Arion Lexer is the first milestone of the Arion Compiler project — a lexical analyzer (lexer) for the **Arion** programming language, implemented in C++17 without the use of any lexer-generating tools or libraries.
