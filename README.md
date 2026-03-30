@@ -184,6 +184,14 @@ period
 
 The table below records which team member is responsible for each function or class.
 
+### Workspace architecture 
+| Job | PIC | 
+| --- | --- | 
+| Class Definition | 13524027 |
+| Attributes and methods definition | 13524027 | 
+| Class cohesion definition | 13524027 | 
+
+
 ### `src/lexer-ms1/token/token.hpp` & `token.cpp`
 
 | Function / Item | PIC |
@@ -227,19 +235,24 @@ The table below records which team member is responsible for each function or cl
 | `Lexer::tokenize()` | |
 | `Lexer::isEOF()` | |
 
-### `src/lexer-ms1/util/read.hpp` & `read.cpp`
+### `src/lexer-ms1/util/file.hpp` & `file.cpp`
 
 | Function / Item | PIC |
 |-----------------|-----|
-| `FileReader::readFile()` | |
-
+| `FileUtil::readFile()` | 13524027 |
+| `FileUtil::writeFile()` | 13524027 | 
 ### `src/lexer-ms1/main.cpp`
 
 | Function / Item | PIC |
 |-----------------|-----|
-| Argument parsing & file I/O wiring | |
-| Output formatting loop | |
+| Argument parsing & file I/O wiring | 13524027 |
+| Output formatting | |
 
+### `src/lexer-ms1/token/token.hpp` & `token.cpp` 
+| Function / Item | PIC | 
+| --------------- | --- | 
+| enum TokenType | 13524027 | 
+| Token::Token() | 13524027 | 
 ### Other
 
 | Item | PIC |
