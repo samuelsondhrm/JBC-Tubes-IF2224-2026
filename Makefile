@@ -17,9 +17,12 @@ SRCS = $(MS1_SRC)/main.cpp \
 OBJS = $(SRCS:.cpp=.o)
 
 # Test input files
-TEST_VALID    = test/milestone-1/test-valid.txt
-TEST_INVALID  = test/milestone-1/test-invalid.txt
-TEST_EDGE     = test/milestone-1/test-edgecases.txt
+TEST_VALID    			= test/milestone-1/test-valid.txt
+TEST_INVALID  			= test/milestone-1/test-invalid.txt
+TEST_EDGE     			= test/milestone-1/test-edgecases.txt
+TEST_CASE_INSENSITIVE 	= test/milestone-1/test-caseinsensitive.txt
+TEST_LITERAL_TYPES 		= test/milestone-1/test-literaltypes.txt
+TEST_EQL				= test/milestone-1/test-eql.txt
 
 # Default target
 all: $(TARGET)
@@ -46,10 +49,22 @@ run-invalid: $(TARGET) | $(MS1_OUT)
 run-edge: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_EDGE) $(MS1_OUT)/output-edgecases.txt
 
+run-caseinsensitive: $(TARGET) | $(MS1_OUT)
+	./$(TARGET) $(TEST_CASE_INSENSITIVE) $(MS1_OUT)/output-caseinsensitive.txt
+
+run-literaltypes: $(TARGET) | $(MS1_OUT)
+	./$(TARGET) $(TEST_LITERAL_TYPES)/output-literaltypes.txt
+
+run-eql$(TARGET) | $(MS1_OUT)
+	./$(TARGET) $(TEST_EQL) $(MS1_OUT)/output-eql.txt
+
 run-all: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_VALID)   $(MS1_OUT)/output-valid.txt
 	./$(TARGET) $(TEST_INVALID) $(MS1_OUT)/output-invalid.txt
 	./$(TARGET) $(TEST_EDGE)    $(MS1_OUT)/output-edgecases.txt
+	./$(TARGET) $(TEST_CASE_INSENSITIVE) $(MS1_OUT)/output-caseinsensitive.txt
+	./$(TARGET) $(TEST_LITERAL_TYPES)/output-literaltypes.txt
+	./$(TARGET) $(TEST_EQL) $(MS1_OUT)/output-eql.txt
 
 # Clean
 clean:

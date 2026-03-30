@@ -1,0 +1,16 @@
+PROGRAM CaseInsensitive;
+
+VAR
+  a, b: integer;
+BEGIN
+  a := 5;
+  b := 10;
+  IF a == b then
+    a := 1
+  ELSE
+    b := 2;
+  while a > 0 DO
+    a := a - 1;
+  FOR b := 1 TO 5 do
+    b := b + 1;
+END.

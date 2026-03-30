@@ -1,0 +1,24 @@
+program LiteralTypes;
+var
+  c: char;
+  s: string;
+  x, y: real;
+  a: integer;
+begin
+  { charcon: tepat 1 karakter }
+  c := 'z';
+  c := 'a';
+
+  { string: lebih dari 1 karakter }
+  s := 'hello';
+  s := 'IRK';
+
+  { realcon: angka dengan titik desimal diikuti digit }
+  x := 3.14;
+  y := 26.7;
+
+  { intcon + period: angka diikuti titik tanpa digit setelahnya }
+  a := 5;
+  x := x + y;
+end.
+
