@@ -31,18 +31,6 @@ int main(int argc, char* argv[]) {
         cout << t.toString() << "\n";
     }
 
-    // Write to output file
-    if (argc >= 3) {
-        ofstream out(argv[2]);
-        if (!out) {
-            cerr << "Error: cannot open output file: " << argv[2] << "\n";
-            return 1;
-        }
-        for (const Token& t : tokens) {
-            out << t.toString() << "\n";
-        }
-    }
-
     if (argc >= 3) { 
 	    string s; 
 	    for (auto const& t : tokens) { 
