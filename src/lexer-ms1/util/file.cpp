@@ -1,9 +1,9 @@
-#include "read.hpp" 
+#include "file.hpp" 
 #include <fstream> 
 #include <iostream> 
 #include <stdexcept> 
 
-string FileReader::readFile(const string& filePath){ 
+string FileUtil::readFile(const string& filePath){ 
 
 	// reads file from entire buffer stream 
 	ifstream file(filePath, ios::in | ios::binary); 
@@ -24,4 +24,17 @@ string FileReader::readFile(const string& filePath){
 	file.close();
 
 	return contents; 
+} 
+
+
+ int FileUtil::writeFile(const string& filePath, const string& buffer){ 
+	ofstream file(filePath); 
+
+	if (!file.is_open()){ 
+        	throw runtime_error("Cannot open file for writing: " + filePath);
+	} 
+	
+	file << buffer; 
+	file.close(); 
+	return 0; 
 } 

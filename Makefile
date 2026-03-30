@@ -12,7 +12,7 @@ SRCS = $(MS1_SRC)/main.cpp \
        $(MS1_SRC)/lexer/symbolTable.cpp \
        $(MS1_SRC)/lexer/lexer.cpp \
        $(MS1_SRC)/dfa/dfa.cpp \
-       $(MS1_SRC)/util/read.cpp
+       $(MS1_SRC)/util/file.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
