@@ -216,11 +216,11 @@ The table below records which team member is responsible for each function or cl
 | `DFA::skipWhitespace()` | 13524001 |
 | `DFA::isEOF()` | 13524001 |
 | `DFA::nextToken()` — `Q0` dispatch | 13524001 |
-| `DFA::nextToken()` — `Q_ALPHA` (identifier/keyword) | |
-| `DFA::nextToken()` — `Q_INT` / `Q_REAL` (number literals) | |
-| `DFA::nextToken()` — `Q_STR` (char/string literals) | |
-| `DFA::nextToken()` — `Q_COLON` / `Q_LT` / `Q_GT` / `Q_EQL` (operators) | |
-| `DFA::nextToken()` — `Q_LPAR` / `Q_CMT_BRACE` / `Q_CMT_PAREN*` (comments) | |
+| `DFA::nextToken()` — `Q_ALPHA` (identifier/keyword) | 13524093 |
+| `DFA::nextToken()` — `Q_INT` / `Q_REAL` (number literals) | 13524093 |
+| `DFA::nextToken()` — `Q_STR` (char/string literals) | 13524093 |
+| `DFA::nextToken()` — `Q_COLON` / `Q_LT` / `Q_GT` / `Q_EQL` (operators) | 13524093 |
+| `DFA::nextToken()` — `Q_LPAR` / `Q_CMT_BRACE` / `Q_CMT_PAREN*` (comments) | 13524093 |
 
 ### `src/lexer-ms1/lexer/symbolTable.hpp` & `symbolTable.cpp`
 
