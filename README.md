@@ -199,8 +199,8 @@ The table below records which team member is responsible for each function or cl
 
 | Function / Item | PIC |
 |-----------------|-----|
-| `TokenType` enum definition (all 52 types) | |
-| `Token` constructor | |
+| `TokenType` enum definition (all 52 types) | 13524027 |
+| `Token` constructor | 13524027 |
 | `Token::tokenTypeName()` | 13524001 |
 | `Token::toString()` | 13524001 |
 
