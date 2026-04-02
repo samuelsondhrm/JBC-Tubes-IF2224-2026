@@ -1,0 +1,24 @@
+program KwIdBoundary;
+var
+  begin2, iff, forloop: integer;
+  score: integer;
+
+begin
+  { identifier yang mirip keyword harus tetap jadi ident }
+  begin2  := 1;
+  iff     := 2;
+  forloop := 3;
+
+  { case/of }
+  score := 85;
+  case score of
+    100: begin2 := 1;
+    85 : begin2 := 2;
+    0  : begin2 := 0;
+  end;
+
+  { repeat/until }
+  repeat
+    forloop := forloop - 1;
+  until forloop == 0;
+end.
