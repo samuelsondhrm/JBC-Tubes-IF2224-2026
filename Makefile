@@ -23,6 +23,8 @@ TEST_EDGE     			= test/milestone-1/test-edgecases.txt
 TEST_CASE_INSENSITIVE 	= test/milestone-1/test-caseinsensitive.txt
 TEST_LITERAL_TYPES 		= test/milestone-1/test-literaltypes.txt
 TEST_EQL				= test/milestone-1/test-eql.txt
+TEST_KWID				= test/milestone-1/test-kwidboundary.txt
+TEST_COMMENT_AMBIGUITY	= test/milestone-1/test-commentambiguity.txt
 
 # Default target
 all: $(TARGET)
@@ -55,16 +57,24 @@ run-caseinsensitive: $(TARGET) | $(MS1_OUT)
 run-literaltypes: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_LITERAL_TYPES)/output-literaltypes.txt
 
-run-eql$(TARGET) | $(MS1_OUT)
+run-eql: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_EQL) $(MS1_OUT)/output-eql.txt
+
+run-kwid: $(TARGET) | $(MS1_OUT)
+	./$(TARGET) $(TEST_KWID) $(MS1_OUT)/output-kwidboundary.txt
+
+run-eql: $(TARGET) | $(MS1_OUT)
+	./$(TARGET) $(TEST_COMMENT_AMBIGUITY) $(MS1_OUT)/output-commentambiguity.txt
 
 run-all: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_VALID)   $(MS1_OUT)/output-valid.txt
 	./$(TARGET) $(TEST_INVALID) $(MS1_OUT)/output-invalid.txt
 	./$(TARGET) $(TEST_EDGE)    $(MS1_OUT)/output-edgecases.txt
 	./$(TARGET) $(TEST_CASE_INSENSITIVE) $(MS1_OUT)/output-caseinsensitive.txt
-	./$(TARGET) $(TEST_LITERAL_TYPES)/output-literaltypes.txt
+	./$(TARGET) $(TEST_LITERAL_TYPES) $(MS1_OUT)/output-literaltypes.txt
 	./$(TARGET) $(TEST_EQL) $(MS1_OUT)/output-eql.txt
+	./$(TARGET) $(TEST_KWID) $(MS1_OUT)/output-kwidboundary.txt
+	./$(TARGET) $(TEST_COMMENT_AMBIGUITY) $(MS1_OUT)/output-commentambiguity.txt
 
 # Clean
 clean:
