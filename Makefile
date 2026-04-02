@@ -83,7 +83,12 @@ clean:
 clean-out:
 	rm -f $(MS1_OUT)/output-valid.txt \
 	      $(MS1_OUT)/output-invalid.txt \
-	      $(MS1_OUT)/output-edgecases.txt
+	      $(MS1_OUT)/output-edgecases.txt \
+		  $(MS1_OUT)/output-caseinsensitive.txt \
+		  $(MS1_OUT)/output-literaltypes.txt \
+		  $(MS1_OUT)/output-eql.txt\
+		  $(MS1_OUT)/output-kwidboundary.txt\
+		  $(MS1_OUT)/output-commentambiguity.txt\
 
 clean-all: clean clean-out
 
