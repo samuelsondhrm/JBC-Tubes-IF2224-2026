@@ -63,7 +63,7 @@ run-eql: $(TARGET) | $(MS1_OUT)
 run-kwid: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_KWID) $(MS1_OUT)/output-kwidboundary.txt
 
-run-eql: $(TARGET) | $(MS1_OUT)
+run-commentambiguity: $(TARGET) | $(MS1_OUT)
 	./$(TARGET) $(TEST_COMMENT_AMBIGUITY) $(MS1_OUT)/output-commentambiguity.txt
 
 run-all: $(TARGET) | $(MS1_OUT)
