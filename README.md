@@ -135,9 +135,14 @@ Token list is printed to the terminal **and** written to the specified output fi
 All `make run*` targets read from `test/milestone-1/` and write output to `test/milestone-1/outputs/` (the folder is created automatically if it does not exist).
 
 ```bash
-make run          # test-valid.txt      → outputs/output-valid.txt
-make run-invalid  # test-invalid.txt    → outputs/output-invalid.txt
-make run-edge     # test-edgecases.txt  → outputs/output-edgecases.txt
+make run                  # test-valid.txt              → outputs/output-valid.txt
+make run-invalid          # test-invalid.txt            → outputs/output-invalid.txt
+make run-edge             # test-edgecases.txt          → outputs/output-edgecases.txt
+make run-caseinsensitive  # test-caseinsensitive.txt    → outputs/output-caseinsensitive.txt
+make run-literaltypes     # test-literaltypes.txt       → outputs/output-literaltypes.txt
+make run-eql              # test-eql.txt                → outputs/output-eql.txt
+make run-kwid             # test-kwidboundary.txt       → outputs/output-kwidboundary.txt
+make run-commentambiguity # test-commentambiguity.txt   → outputs/output-commentambiguity.txt
 make run-all      # runs all three targets above
 ```
 
