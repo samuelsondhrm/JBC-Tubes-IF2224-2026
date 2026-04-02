@@ -238,10 +238,10 @@ The table below records which team member is responsible for each function or cl
 
 | Function / Item | PIC |
 |-----------------|-----|
-| `Lexer` constructor | |
-| `Lexer::nextToken()` | |
-| `Lexer::tokenize()` | |
-| `Lexer::isEOF()` | |
+| `Lexer` constructor | 13524029 |
+| `Lexer::nextToken()` | 13524029 |
+| `Lexer::tokenize()` | 13524029 |
+| `Lexer::isEOF()` | 13524029 |
 
 ### `src/lexer-ms1/util/file.hpp` & `file.cpp`
 
@@ -254,7 +254,7 @@ The table below records which team member is responsible for each function or cl
 | Function / Item | PIC |
 |-----------------|-----|
 | Argument parsing & file I/O wiring | 13524027 |
-| Output formatting | |
+| Output formatting | 13524029 |
 
 ### `src/lexer-ms1/token/token.hpp` & `token.cpp` 
 | Function / Item | PIC | 
