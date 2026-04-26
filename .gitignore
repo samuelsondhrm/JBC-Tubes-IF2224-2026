@@ -1,6 +1,3 @@
 # Ignore all build artifacts
 *.o
 src/lexer-ms1/arion-lexer
-
-# Ignore output files
-test/milestone-1/outputs

@@ -1,0 +1,58 @@
+programsy
+ident (CaseInsensitive)
+semicolon
+varsy
+ident (a)
+comma
+ident (b)
+colon
+ident (integer)
+semicolon
+beginsy
+ident (a)
+becomes
+intcon (5)
+semicolon
+ident (b)
+becomes
+intcon (10)
+semicolon
+ifsy
+ident (a)
+eql
+ident (b)
+thensy
+ident (a)
+becomes
+intcon (1)
+elsesy
+ident (b)
+becomes
+intcon (2)
+semicolon
+whilesy
+ident (a)
+gtr
+intcon (0)
+dosy
+ident (a)
+becomes
+ident (a)
+minus
+intcon (1)
+semicolon
+forsy
+ident (b)
+becomes
+intcon (1)
+tosy
+intcon (5)
+dosy
+ident (b)
+becomes
+ident (b)
+plus
+intcon (1)
+semicolon
+endsy
+period

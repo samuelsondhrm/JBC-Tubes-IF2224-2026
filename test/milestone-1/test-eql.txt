@@ -1,0 +1,11 @@
+program EqlTest;
+var
+  a, b: integer;
+begin
+  a := 5;
+  b := 10;
+  if a == b then
+    a := 1;
+  if a = b then
+    a := 2;
+end.

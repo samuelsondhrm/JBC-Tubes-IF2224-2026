@@ -1,0 +1,61 @@
+programsy
+ident (EdgeCases)
+semicolon
+comment ({ komentar brace })
+comment ((* komentar paren *))
+varsy
+ident (pi)
+colon
+ident (real)
+semicolon
+ident (ch)
+colon
+ident (char)
+semicolon
+beginsy
+ident (pi)
+becomes
+realcon (3.14)
+semicolon
+ident (ch)
+becomes
+charcon ('z')
+semicolon
+ifsy
+intcon (5)
+neq
+intcon (10)
+thensy
+ident (pi)
+becomes
+notsy
+ident (pi)
+semicolon
+ifsy
+ident (pi)
+geq
+realcon (3.0)
+thensy
+ident (pi)
+becomes
+ident (pi)
+plus
+realcon (26.7)
+semicolon
+comment ((* komentar
+     multiline *))
+forsy
+ident (pi)
+becomes
+intcon (1)
+downtosy
+intcon (0)
+dosy
+ident (pi)
+becomes
+ident (pi)
+plus
+intcon (1)
+semicolon
+endsy
+period

@@ -1,0 +1,20 @@
+program commentAmbiguity;
+var
+  x: integer;
+  s: string;
+
+begin
+  { komentar brace dengan (* di dalamnya, bukan komentar paren }
+  (* komentar paren dengan { di dalamnya, bukan komentar brace *)
+
+  { komentar dengan karakter khusus: := + - * / < > = }
+
+  (* komentar dengan bintang di tengah: 5 * 3 = 15 *)
+
+  s := '''''''''''''''''''''';
+  s := ''''''''''''''''''''''';
+
+  { operasi perkalian setelah lparent: jangan bingung dengan komentar }
+  x := (5 * 3);
+  x := (x * 2);
+end.

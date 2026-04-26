@@ -1,0 +1,25 @@
+programsy
+ident (Bad)
+semicolon
+varsy
+error (@)
+ident (illegal)
+colon
+ident (integer)
+semicolon
+ident (x)
+colon
+ident (integer)
+semicolon
+beginsy
+ident (x)
+becomes
+error ('unclosed string;)
+ident (x)
+becomes
+intcon (5)
+error ($)
+intcon (3)
+semicolon
+endsy
+period

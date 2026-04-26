@@ -1,0 +1,64 @@
+programsy
+ident (commentAmbiguity)
+semicolon
+varsy
+ident (x)
+colon
+ident (integer)
+semicolon
+ident (s)
+colon
+ident (string)
+semicolon
+beginsy
+comment ({ komentar brace dengan (* di dalamnya, bukan komentar paren })
+comment ((* komentar paren dengan { di dalamnya, bukan komentar brace *))
+comment ({ komentar dengan karakter khusus: := + - * / < > = })
+comment ((* komentar dengan bintang di tengah: 5 * 3 = 15 *))
+ident (s)
+becomes
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+semicolon
+ident (s)
+becomes
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+string ('')
+error (';)
+comment ({ operasi perkalian setelah lparent: jangan bingung dengan komentar })
+ident (x)
+becomes
+lparent
+intcon (5)
+times
+intcon (3)
+rparent
+semicolon
+ident (x)
+becomes
+lparent
+ident (x)
+times
+intcon (2)
+rparent
+semicolon
+endsy
+period

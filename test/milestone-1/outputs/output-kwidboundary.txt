@@ -1,0 +1,73 @@
+programsy
+ident (KwIdBoundary)
+semicolon
+varsy
+ident (begin2)
+comma
+ident (iff)
+comma
+ident (forloop)
+colon
+ident (integer)
+semicolon
+ident (score)
+colon
+ident (integer)
+semicolon
+beginsy
+comment ({ identifier yang mirip keyword harus tetap jadi ident })
+ident (begin2)
+becomes
+intcon (1)
+semicolon
+ident (iff)
+becomes
+intcon (2)
+semicolon
+ident (forloop)
+becomes
+intcon (3)
+semicolon
+comment ({ case/of })
+ident (score)
+becomes
+intcon (85)
+semicolon
+casesy
+ident (score)
+ofsy
+intcon (100)
+colon
+ident (begin2)
+becomes
+intcon (1)
+semicolon
+intcon (85)
+colon
+ident (begin2)
+becomes
+intcon (2)
+semicolon
+intcon (0)
+colon
+ident (begin2)
+becomes
+intcon (0)
+semicolon
+endsy
+semicolon
+comment ({ repeat/until })
+repeatsy
+ident (forloop)
+becomes
+ident (forloop)
+minus
+intcon (1)
+semicolon
+untilsy
+ident (forloop)
+eql
+intcon (0)
+semicolon
+endsy
+period
