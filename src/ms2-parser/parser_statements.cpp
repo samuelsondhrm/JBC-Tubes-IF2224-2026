@@ -15,7 +15,19 @@ ParseNode* Parser::parseAssignmentStatement(const Token &identTok){
 
 
 ParseNode* Parser::parseIfStatement(){
+    ParseNode* node = new ParseNode("<if-statement>");
+    node->addChild(makeTerminal(expect(TokenType::KW_IF, "if-statement")));
+    node->addChild(parseExpression());
 
+    node->addChild(makeTerminal(expect(TokenType::KW_THEN, "if-statement")));
+    node->addChild(parseStatement());
+    
+    
+    if(check(TokenType::KW_ELSE)) {
+        node->addChild(makeTerminal(consume()));
+        node->addChild(parseStatement());
+    }
+    return node;
 };
 ParseNode* Parser::parseCaseStatement(){
 
