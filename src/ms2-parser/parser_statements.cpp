@@ -68,13 +68,52 @@ ParseNode* Parser::parseCaseBlock(){
 
 
 ParseNode* Parser::parseWhileStatement(){
+    ParseNode* node = new ParseNode("<while-statement>");
+ 
+    node->addChild(makeTerminal(expect(TokenType::KW_WHILE, "while-statement")));
+    node->addChild(parseExpression());
 
+    node->addChild(makeTerminal(expect(TokenType::KW_DO, "while-statement")));
+    node->addChild(parseStatement());
+ 
+    return node;
 };
+
 ParseNode* Parser::parseRepeatStatement(){
+    ParseNode* node = new ParseNode("<repeat-statement>");
+ 
+    node->addChild(makeTerminal(expect(TokenType::KW_REPEAT, "repeat-statement")));
+    node->addChild(parseStatementList());
 
+    node->addChild(makeTerminal(expect(TokenType::KW_UNTIL, "repeat-statement")));
+    node->addChild(parseExpression());
+ 
+
+    return node;
 };
-ParseNode* Parser::parseForStatement(){
 
+
+ParseNode* Parser::parseForStatement(){
+    ParseNode* node = new ParseNode("<for-statement>");
+ 
+    node->addChild(makeTerminal(expect(TokenType::KW_FOR, "for-statement")));
+    node->addChild(makeTerminal(expect(TokenType::IDENT, "for-statement")));
+    node->addChild(makeTerminal(expect(TokenType::BECOMES, "for-statement")));
+    node->addChild(parseExpression());
+ 
+    if (check(TokenType::KW_TO)) {
+        node->addChild(makeTerminal(consume()));
+    } else if (check(TokenType::KW_DOWNTO)) {
+        node->addChild(makeTerminal(consume()));
+    } else {
+        error("expected 'to' or 'downto' in for-statement", current());
+    }
+ 
+    node->addChild(parseExpression());
+    node->addChild(makeTerminal(expect(TokenType::KW_DO, "for-statement")));
+    node->addChild(parseStatement());
+ 
+    return node;
 };
 
 
