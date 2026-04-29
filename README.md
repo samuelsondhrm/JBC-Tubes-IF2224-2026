@@ -18,7 +18,7 @@ The program accepts a `.txt` source file as input and outputs the resulting toke
 ├── README.md
 ├── doc/
 ├── src/
-│   └── lexer-ms1/
+│   └── ms1-lexer/
 │       ├── main.cpp
 │       ├── dfa/
 │       │   ├── dfa.hpp
@@ -49,24 +49,24 @@ The program accepts a `.txt` source file as input and outputs the resulting toke
 
 The lexer is split into separated, independently testable components:
 
-| Component | Path | Role |
-|-----------|------|------|
-| `Token` | `src/lexer-ms1/token/` | Data class holding a token's type, value, and line number |
-| `DFA` | `src/lexer-ms1/dfa/` | Pure state machine — reads characters, transitions states, emits tokens |
-| `SymbolTable` | `src/lexer-ms1/lexer/` | Keyword map used by DFA to distinguish identifiers from reserved words |
-| `Lexer` | `src/lexer-ms1/lexer/` | Driver layer — owns a DFA instance, exposes `nextToken()` and `tokenize()` |
-| `FileReader` | `src/lexer-ms1/util/` | Reads the entire source file into a string |
-| `main` | `src/lexer-ms1/main.cpp` | Entry point — wires all components together and handles output |
+| Component     | Path                     | Role                                                                       |
+| ------------- | ------------------------ | -------------------------------------------------------------------------- |
+| `Token`       | `src/ms1-lexer/token/`   | Data class holding a token's type, value, and line number                  |
+| `DFA`         | `src/ms1-lexer/dfa/`     | Pure state machine — reads characters, transitions states, emits tokens    |
+| `SymbolTable` | `src/ms1-lexer/lexer/`   | Keyword map used by DFA to distinguish identifiers from reserved words     |
+| `Lexer`       | `src/ms1-lexer/lexer/`   | Driver layer — owns a DFA instance, exposes `nextToken()` and `tokenize()` |
+| `FileReader`  | `src/ms1-lexer/util/`    | Reads the entire source file into a string                                 |
+| `main`        | `src/ms1-lexer/main.cpp` | Entry point — wires all components together and handles output             |
 
 ---
 
 ## Requirements
 
-| Requirement | Version | Description |
-|-------------|---------|-------------|
-| `g++` | ≥ 9.0 | GNU C++ compiler with C++17 support (`-std=c++17`) |
-| `make` | ≥ 3.81 | Build automation tool used to compile the project |
-| OS | Linux / macOS / WSL | The Makefile uses standard Unix shell commands |
+| Requirement | Version             | Description                                        |
+| ----------- | ------------------- | -------------------------------------------------- |
+| `g++`       | ≥ 9.0               | GNU C++ compiler with C++17 support (`-std=c++17`) |
+| `make`      | ≥ 3.81              | Build automation tool used to compile the project  |
+| OS          | Linux / macOS / WSL | The Makefile uses standard Unix shell commands     |
 
 No third-party libraries are required. The project uses only the C++17 standard library.
 
@@ -102,7 +102,7 @@ From the **project root** (where `Makefile` lives):
 make
 ```
 
-This compiles all source files and produces the `arion-lexer` binary at `src/lexer-ms1/arion-lexer`. To clean compiled artifacts:
+This compiles all source files and produces the `arion-lexer` binary at `src/ms1-lexer/arion-lexer`. To clean compiled artifacts:
 
 ```bash
 make clean
@@ -117,7 +117,7 @@ make clean
 Run directly using the compiled binary:
 
 ```bash
-./src/lexer-ms1/arion-lexer <input.txt>
+./src/ms1-lexer/arion-lexer <input.txt>
 ```
 
 Token list is printed to the terminal.
@@ -125,7 +125,7 @@ Token list is printed to the terminal.
 ### Save output to file
 
 ```bash
-./src/lexer-ms1/arion-lexer <input.txt> <output.txt>
+./src/ms1-lexer/arion-lexer <input.txt> <output.txt>
 ```
 
 Token list is printed to the terminal **and** written to the specified output file.
@@ -156,6 +156,7 @@ make clean-all    # removes compiled artifacts + output files
 ### Example
 
 **Input** (`test/milestone-1/test-valid.txt`):
+
 ```
 program Hello;
 var
@@ -166,6 +167,7 @@ end.
 ```
 
 **Output** (`test/milestone-1/outputs/output-valid.txt`):
+
 ```
 programsy
 ident (Hello)
@@ -192,92 +194,95 @@ period
 
 The table below records which team member is responsible for each function or class.
 
-### Workspace architecture 
-| Job | PIC | 
-| --- | --- | 
-| Class Definition | 13524027 |
-| Attributes and methods definition | 13524027 | 
-| Class cohesion definition | 13524027 | 
+### Workspace architecture
 
+| Job                               | PIC      |
+| --------------------------------- | -------- |
+| Class Definition                  | 13524027 |
+| Attributes and methods definition | 13524027 |
+| Class cohesion definition         | 13524027 |
 
-### `src/lexer-ms1/token/token.hpp` & `token.cpp`
+### `src/ms1-lexer/token/token.hpp` & `token.cpp`
 
-| Function / Item | PIC |
-|-----------------|-----|
+| Function / Item                            | PIC      |
+| ------------------------------------------ | -------- |
 | `TokenType` enum definition (all 52 types) | 13524027 |
-| `Token` constructor | 13524027 |
-| `Token::tokenTypeName()` | 13524001 |
-| `Token::toString()` | 13524001 |
+| `Token` constructor                        | 13524027 |
+| `Token::tokenTypeName()`                   | 13524001 |
+| `Token::toString()`                        | 13524001 |
 
-### `src/lexer-ms1/dfa/dfa.hpp` & `dfa.cpp`
+### `src/ms1-lexer/dfa/dfa.hpp` & `dfa.cpp`
 
-| Function / Item | PIC |
-|-----------------|-----|
-| `State` enum definition | 13524001 |
-| `DFA` constructor | 13524001 |
-| `DFA::advance()` | 13524001 |
-| `DFA::peek()` | 13524001 |
-| `DFA::retract()` | 13524001 |
-| `DFA::skipWhitespace()` | 13524001 |
-| `DFA::isEOF()` | 13524001 |
-| `DFA::nextToken()` — `Q0` dispatch | 13524001 |
-| `DFA::nextToken()` — `Q_ALPHA` (identifier/keyword) | 13524093 |
-| `DFA::nextToken()` — `Q_INT` / `Q_REAL` (number literals) | 13524093 |
-| `DFA::nextToken()` — `Q_STR` (char/string literals) | 13524093 |
-| `DFA::nextToken()` — `Q_COLON` / `Q_LT` / `Q_GT` / `Q_EQL` (operators) | 13524093 |
+| Function / Item                                                           | PIC      |
+| ------------------------------------------------------------------------- | -------- |
+| `State` enum definition                                                   | 13524001 |
+| `DFA` constructor                                                         | 13524001 |
+| `DFA::advance()`                                                          | 13524001 |
+| `DFA::peek()`                                                             | 13524001 |
+| `DFA::retract()`                                                          | 13524001 |
+| `DFA::skipWhitespace()`                                                   | 13524001 |
+| `DFA::isEOF()`                                                            | 13524001 |
+| `DFA::nextToken()` — `Q0` dispatch                                        | 13524001 |
+| `DFA::nextToken()` — `Q_ALPHA` (identifier/keyword)                       | 13524093 |
+| `DFA::nextToken()` — `Q_INT` / `Q_REAL` (number literals)                 | 13524093 |
+| `DFA::nextToken()` — `Q_STR` (char/string literals)                       | 13524093 |
+| `DFA::nextToken()` — `Q_COLON` / `Q_LT` / `Q_GT` / `Q_EQL` (operators)    | 13524093 |
 | `DFA::nextToken()` — `Q_LPAR` / `Q_CMT_BRACE` / `Q_CMT_PAREN*` (comments) | 13524093 |
 
-### `src/lexer-ms1/lexer/symbolTable.hpp` & `symbolTable.cpp`
+### `src/ms1-lexer/lexer/symbolTable.hpp` & `symbolTable.cpp`
 
-| Function / Item | PIC |
-|-----------------|-----|
+| Function / Item                         | PIC      |
+| --------------------------------------- | -------- |
 | `SymbolTable` constructor (keyword map) | 13524089 |
-| `SymbolTable::lookup()` | 13524089 |
+| `SymbolTable::lookup()`                 | 13524089 |
 
-### `src/lexer-ms1/lexer/lexer.hpp` & `lexer.cpp`
+### `src/ms1-lexer/lexer/lexer.hpp` & `lexer.cpp`
 
-| Function / Item | PIC |
-|-----------------|-----|
-| `Lexer` constructor | 13524029 |
+| Function / Item      | PIC      |
+| -------------------- | -------- |
+| `Lexer` constructor  | 13524029 |
 | `Lexer::nextToken()` | 13524029 |
-| `Lexer::tokenize()` | 13524029 |
-| `Lexer::isEOF()` | 13524029 |
+| `Lexer::tokenize()`  | 13524029 |
+| `Lexer::isEOF()`     | 13524029 |
 
-### `src/lexer-ms1/util/file.hpp` & `file.cpp`
+### `src/ms1-lexer/util/file.hpp` & `file.cpp`
 
-| Function / Item | PIC |
-|-----------------|-----|
-| `FileUtil::readFile()` | 13524027 |
-| `FileUtil::writeFile()` | 13524027 | 
-### `src/lexer-ms1/main.cpp`
+| Function / Item         | PIC      |
+| ----------------------- | -------- |
+| `FileUtil::readFile()`  | 13524027 |
+| `FileUtil::writeFile()` | 13524027 |
 
-| Function / Item | PIC |
-|-----------------|-----|
+### `src/ms1-lexer/main.cpp`
+
+| Function / Item                    | PIC      |
+| ---------------------------------- | -------- |
 | Argument parsing & file I/O wiring | 13524027 |
-| Output formatting | 13524029 |
+| Output formatting                  | 13524029 |
 
-### `src/lexer-ms1/token/token.hpp` & `token.cpp` 
-| Function / Item | PIC | 
-| --------------- | --- | 
-| enum TokenType | 13524027 | 
-| Token::Token() | 13524027 | 
+### `src/ms1-lexer/token/token.hpp` & `token.cpp`
+
+| Function / Item | PIC      |
+| --------------- | -------- |
+| enum TokenType  | 13524027 |
+| Token::Token()  | 13524027 |
+
 ### Other
 
-| Item | PIC |
-|------|-----|
+| Item                             | PIC                                              |
+| -------------------------------- | ------------------------------------------------ |
 | DFA transition diagram (draw.io) | 13524001, 13524027, 13524029, 13524089, 13524093 |
-| `Makefile` | 13524001 |
-| Test cases (`test/milestone-1/`) | 13524001, 13524089 |
-| Report (`doc/`) | 13524001, 13524027, 13524029, 13524089, 13524093 |
+| `Makefile`                       | 13524001                                         |
+| Test cases (`test/milestone-1/`) | 13524001, 13524089                               |
+| Report (`doc/`)                  | 13524001, 13524027, 13524029, 13524089, 13524093 |
 
 ---
 
 ## Authors
 
-| Name | NIM |
-|------|-----|
+| Name                     | NIM      |
+| ------------------------ | -------- |
 | Samuelson D. Tanuraharja | 13524001 |
-| Aufa Rienaldifaza Ahmad | 13524027 |
-| Niko Samuel Simanjuntak | 13524029 |
+| Aufa Rienaldifaza Ahmad  | 13524027 |
+| Niko Samuel Simanjuntak  | 13524029 |
 | Aurelia Jennifer Gunawan | 13524089 |
-| Reinsen Silitonga | 13524093 |
+| Reinsen Silitonga        | 13524093 |
