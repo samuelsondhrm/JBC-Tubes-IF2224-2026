@@ -4,8 +4,16 @@ ParseNode* Parser::parseStatement() {
 };
 
 ParseNode* Parser::parseAssignmentStatement(const Token &identTok){
+    ParseNode* node = new ParseNode("<assignment-statement>");
+    node->addChild(makeTerminal(identTok));
+    node->addChild(makeTerminal(expect(TokenType::BECOMES, "assignment-statement")));
+    
+    node->addChild(parseExpression());
 
+    return node;
 };
+
+
 ParseNode* Parser::parseIfStatement(){
 
 };
