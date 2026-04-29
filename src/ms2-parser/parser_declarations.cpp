@@ -1,5 +1,8 @@
 #include "Parser.hpp"
 
+/**
+ * Grammar: const-declaration → constsy + (ident + eql + constant + semicolon)+
+ */
 ParseNode* Parser::parseConstDeclaration() {
     ParseNode* node = new ParseNode("<const-declaration>");
 
@@ -14,6 +17,10 @@ ParseNode* Parser::parseConstDeclaration() {
     return node;
 }
 
+
+/**
+ * Grammar: constant → charcon | string | [(plus | minus)? + (ident | intcon | realcon)]
+ */
 ParseNode* Parser::parseConstant() {
     ParseNode* node = new ParseNode("<constant>");
 
@@ -38,6 +45,9 @@ ParseNode* Parser::parseConstant() {
     return node;
 }
 
+/**
+ * Grammar: type-declaration → typesy + (ident + eql + type + semicolon)+
+ */
 ParseNode* Parser::parseTypeDeclaration() {
     ParseNode* node = new ParseNode("<type-declaration>");
 
@@ -54,6 +64,9 @@ ParseNode* Parser::parseTypeDeclaration() {
     return node;
 }
 
+/**
+ * Grammar: type → ident | array-type | range | enumerated | record-type
+ */
 ParseNode* Parser::parseType() {
     ParseNode* node = new ParseNode("<type>");
 
@@ -67,14 +80,17 @@ ParseNode* Parser::parseType() {
         node->addChild(parseRecordType());
     } 
     else {
+        // Membedakan 'ident' dengan 'range'
         if (check(TokenType::IDENT)) {
             TokenType next = peekAt(1).type;
+            // Jika setelahnya adalah delimiter penutup, ini adalah 'ident'
             if (next == TokenType::SEMICOLON || next == TokenType::RBRACK || 
                 next == TokenType::RPAR || next == TokenType::KW_END) {
                 node->addChild(makeTerminal(consume()));
                 return node;
             }
         }
+        // Jika bukan 'ident', token membentuk 'range'
         ParseNode* exprNode = parseExpression();
         node->addChild(parseRange(exprNode));
     }
@@ -82,14 +98,19 @@ ParseNode* Parser::parseType() {
     return node;
 }
 
+/**
+ * Grammar: array-type → arraysy + lbrack + (range | ident) + rbrack + ofsy + type
+ */
 ParseNode* Parser::parseArrayType() {
     ParseNode* node = new ParseNode("<array-type>");
 
     node->addChild(makeTerminal(expect(TokenType::KW_ARRAY, "array-type")));
     node->addChild(makeTerminal(expect(TokenType::LBRACK, "array-type")));
+    // 'ident'
     if (check(TokenType::IDENT) && peekAt(1).type == TokenType::RBRACK) {
         node->addChild(makeTerminal(consume()));
-    } 
+    }
+    // 'range'
     else {
         ParseNode* exprNode = parseExpression();
         node->addChild(parseRange(exprNode));
@@ -101,6 +122,9 @@ ParseNode* Parser::parseArrayType() {
     return node;
 }
 
+/**
+ * Grammar: range → expression + period + period + expression
+ */
 ParseNode* Parser::parseRange(ParseNode* firstExpr) {
     ParseNode* node = new ParseNode("<range>");
 
@@ -112,6 +136,9 @@ ParseNode* Parser::parseRange(ParseNode* firstExpr) {
     return node;
 }
 
+/**
+ * Grammar: enumerated → lpar + ident + (comma + ident)* + rpar
+ */
 ParseNode* Parser::parseEnumerated() {
     ParseNode* node = new ParseNode("<enumerated>");
 
@@ -126,6 +153,9 @@ ParseNode* Parser::parseEnumerated() {
     return node;
 }
 
+/**
+ * Grammar: record-type → recordsy + field-list + endsy
+ */
 ParseNode* Parser::parseRecordType() {
     ParseNode* node = new ParseNode("<record-type>");
 
@@ -136,11 +166,15 @@ ParseNode* Parser::parseRecordType() {
     return node;
 }
 
+/**
+ * Grammar: field-list → field-part + (semicolon + field-part)*
+ */
 ParseNode* Parser::parseFieldList() {
     ParseNode* node = new ParseNode("<field-list>");
 
     node->addChild(parseFieldPart());
     while (check(TokenType::SEMICOLON)) {
+        // Jika saat ini 'semicolon' dan setelahnya 'end', ini adalah field-list terakhir
         if (peekAt(1).type == TokenType::KW_END) {
             node->addChild(makeTerminal(consume()));
             break;
@@ -152,6 +186,9 @@ ParseNode* Parser::parseFieldList() {
     return node;
 }
 
+/**
+ * Grammar: field-part → identifier-list + colon + type
+ */
 ParseNode* Parser::parseFieldPart() {
     ParseNode* node = new ParseNode("<field-part>");
 
@@ -162,6 +199,9 @@ ParseNode* Parser::parseFieldPart() {
     return node;
 }
 
+/**
+ * Grammar: var-declaration → varsy + (identifier-list + colon + type + semicolon)+
+ */
 ParseNode* Parser::parseVarDeclaration() {
     ParseNode* node = new ParseNode("<var-declaration>");
 
@@ -176,6 +216,9 @@ ParseNode* Parser::parseVarDeclaration() {
     return node;
 }
 
+/**
+ * Grammar: identifier-list → ident + (comma + ident)*
+ */
 ParseNode* Parser::parseIdentifierList() {
     ParseNode* node = new ParseNode("<identifier-list>");
 
