@@ -29,12 +29,44 @@ ParseNode* Parser::parseIfStatement(){
     }
     return node;
 };
+
 ParseNode* Parser::parseCaseStatement(){
-
+    ParseNode* node = new ParseNode("<case-statement>");
+ 
+    node->addChild(makeTerminal(expect(TokenType::KW_CASE, "case-statement")));
+    node->addChild(parseExpression());                                            
+    
+    node->addChild(makeTerminal(expect(TokenType::KW_OF, "case-statement"))); 
+    node->addChild(parseCaseBlock());                     
+    node->addChild(makeTerminal(expect(TokenType::KW_END, "case-statement")));
+ 
+    return node;
 };
+
 ParseNode* Parser::parseCaseBlock(){
-
+    ParseNode* node = new ParseNode("<case-block>");
+ 
+    node->addChild(parseConstant());
+    while (check(TokenType::COMMA)) {
+        node->addChild(makeTerminal(consume()));
+        node->addChild(parseConstant());
+    }
+ 
+    node->addChild(makeTerminal(expect(TokenType::COLON, "case-block")));
+    node->addChild(parseStatement());
+    while (check(TokenType::SEMICOLON)) {
+        node->addChild(makeTerminal(consume()));
+ 
+        
+        if (!check(TokenType::KW_END)) {
+            node->addChild(parseCaseBlock());
+        }
+    }
+ 
+    return node;
 };
+
+
 ParseNode* Parser::parseWhileStatement(){
 
 };
@@ -44,6 +76,8 @@ ParseNode* Parser::parseRepeatStatement(){
 ParseNode* Parser::parseForStatement(){
 
 };
+
+
 ParseNode* Parser::parseProcedureFunctionCall(const Token &identTok){
     ParseNode* node = new ParseNode("<procedure-call>");
     node->addChild(makeTerminal(identTok));
