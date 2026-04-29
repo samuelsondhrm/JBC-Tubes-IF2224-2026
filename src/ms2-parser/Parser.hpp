@@ -7,8 +7,12 @@
 
 // Thrown on any syntax error. Caught in main() to print the message and exit.
 class ParseError : public std::runtime_error {
+private: 
+    Token token_; 
+    int line_; 
+
 public:
-    explicit ParseError(const std::string& msg) : std::runtime_error(msg) {}
+    explicit ParseError(const Token& tok, const std::string& msg) : std::runtime_error(msg), token_(tok), line_(tok.line) {} 
 };
 
 // Recursive Descent Parser for the Arion language.
@@ -26,8 +30,9 @@ public:
     ParseNode* parse();
 
 private:
-    std::vector<Token> tokens;
-    size_t             pos;     // index of current token
+    std::vector<Token> tokens_;
+    size_t             pos_;     // index of current token
+    static const Token EOF_TOKEN; 
 
     // ── Token utilities ──────────────────────────────────────────────────────
 
@@ -57,7 +62,7 @@ private:
     ParseNode* makeTerminal(const Token& tok);
 
     // Throw a ParseError with line information.
-    [[noreturn]] void error(const std::string& msg, const Token& at);
+	void error(const std::string& msg, const Token& at);
 
 
     // ── Grammar rules ─────────────────────────────────────────────────────
