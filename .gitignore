@@ -1,3 +1,11 @@
-# Ignore all build artifacts
 *.o
-src/ms1-lexer/arion-lexer
+build/
+
+arion-lexer
+arion-parser
+
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+*.a
+compile_commands.json

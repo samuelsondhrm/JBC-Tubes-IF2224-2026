@@ -1,0 +1,9 @@
+program ProcTest;
+procedure greet;
+begin
+end;
+procedure printVal(n: integer);
+begin
+end;
+begin
+end.

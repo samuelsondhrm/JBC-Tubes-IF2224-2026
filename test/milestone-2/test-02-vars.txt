@@ -1,0 +1,6 @@
+program Vars;
+var
+  x: integer;
+  a, b: real;
+begin
+end.

@@ -1,0 +1,11 @@
+program TypesTest;
+type
+  RangeType == 1 .. 100;
+  Colors == (red, green, blue);
+  IntArray == array [1 .. 10] of integer;
+  Person == record
+    name: string;
+    age: integer
+  end;
+begin
+end.

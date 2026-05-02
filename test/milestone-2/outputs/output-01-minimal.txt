@@ -1,0 +1,11 @@
+<program>
+├── <program-header>
+│   ├── programsy(program)
+│   ├── ident(Hello)
+│   └── semicolon(;)
+├── <declaration-part>
+├── <compound-statement>
+│   ├── beginsy(begin)
+│   ├── <statement-list>
+│   └── endsy(end)
+└── period(.)

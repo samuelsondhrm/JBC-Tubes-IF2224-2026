@@ -1,0 +1,6 @@
+program FuncTest;
+function add(a: integer; b: integer): integer;
+begin
+end;
+begin
+end.
