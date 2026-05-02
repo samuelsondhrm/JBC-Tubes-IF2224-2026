@@ -83,7 +83,7 @@ ParseNode* Parser::parseType() {
         // Membedakan 'ident' dengan 'range'
         if (check(TokenType::IDENT)) {
             TokenType next = peekAt(1).type;
-            // Jika setelahnya adalah delimiter penutup, ini adalah 'ident'
+            // Jika setelahnya adalah delimiter ; atau }, ini adalah 'ident'
             if (next == TokenType::SEMICOLON || next == TokenType::RBRACK || 
                 next == TokenType::RPAR || next == TokenType::KW_END) {
                 node->addChild(makeTerminal(consume()));

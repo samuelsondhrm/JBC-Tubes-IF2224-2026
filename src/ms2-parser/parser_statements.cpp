@@ -2,7 +2,7 @@
 
 //dispatches to the correct statement parser based on the leading token
 ParseNode* Parser::parseStatement() {
-    ParseNode* node = new ParseNode("statement");
+    ParseNode* node = new ParseNode("<statement>");
     if (check(TokenType::IDENT)) {
         Token identTok = consume();
         if (check(TokenType::BECOMES)) {
@@ -24,6 +24,8 @@ ParseNode* Parser::parseStatement() {
         node->addChild(parseWhileStatement());
     } else if (check(TokenType::KW_REPEAT)) {
         node->addChild(parseRepeatStatement());
+    } else if (check(TokenType::KW_FOR)) {
+        node->addChild(parseForStatement());
     } else {
         delete node;
         return nullptr;
