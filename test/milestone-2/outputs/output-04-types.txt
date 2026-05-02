@@ -1,0 +1,87 @@
+<program>
+├── <program-header>
+│   ├── programsy(program)
+│   ├── ident(TypesTest)
+│   └── semicolon(;)
+├── <declaration-part>
+│   └── <type-declaration>
+│       ├── typesy(type)
+│       ├── ident(RangeType)
+│       ├── eql(==)
+│       ├── <type>
+│       │   └── <range>
+│       │       ├── <expression>
+│       │       │   └── <simple-expression>
+│       │       │       └── <term>
+│       │       │           └── <factor>
+│       │       │               └── intcon(1)
+│       │       ├── period(.)
+│       │       ├── period(.)
+│       │       └── <expression>
+│       │           └── <simple-expression>
+│       │               └── <term>
+│       │                   └── <factor>
+│       │                       └── intcon(100)
+│       ├── semicolon(;)
+│       ├── ident(Colors)
+│       ├── eql(==)
+│       ├── <type>
+│       │   └── <enumerated>
+│       │       ├── lparent(()
+│       │       ├── ident(red)
+│       │       ├── comma(,)
+│       │       ├── ident(green)
+│       │       ├── comma(,)
+│       │       ├── ident(blue)
+│       │       └── rparent())
+│       ├── semicolon(;)
+│       ├── ident(IntArray)
+│       ├── eql(==)
+│       ├── <type>
+│       │   └── <array-type>
+│       │       ├── arraysy(array)
+│       │       ├── lbrack([)
+│       │       ├── <range>
+│       │       │   ├── <expression>
+│       │       │   │   └── <simple-expression>
+│       │       │   │       └── <term>
+│       │       │   │           └── <factor>
+│       │       │   │               └── intcon(1)
+│       │       │   ├── period(.)
+│       │       │   ├── period(.)
+│       │       │   └── <expression>
+│       │       │       └── <simple-expression>
+│       │       │           └── <term>
+│       │       │               └── <factor>
+│       │       │                   └── intcon(10)
+│       │       ├── rbrack(])
+│       │       ├── ofsy(of)
+│       │       └── <type>
+│       │           └── ident(integer)
+│       ├── semicolon(;)
+│       ├── ident(Person)
+│       ├── eql(==)
+│       ├── <type>
+│       │   └── <record-type>
+│       │       ├── recordsy(record)
+│       │       ├── <field-list>
+│       │       │   ├── <field-part>
+│       │       │   │   ├── <identifier-list>
+│       │       │   │   │   └── ident(name)
+│       │       │   │   ├── colon(:)
+│       │       │   │   └── <type>
+│       │       │   │       └── ident(string)
+│       │       │   ├── semicolon(;)
+│       │       │   └── <field-part>
+│       │       │       ├── <identifier-list>
+│       │       │       │   └── ident(age)
+│       │       │       ├── colon(:)
+│       │       │       └── <type>
+│       │       │           └── ident(integer)
+│       │       └── endsy(end)
+│       └── semicolon(;)
+├── <compound-statement>
+│   ├── beginsy(begin)
+│   ├── <statement-list>
+│   └── endsy(end)
+└── period(.)

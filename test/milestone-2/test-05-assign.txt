@@ -1,0 +1,9 @@
+program Assign;
+var
+  x: integer;
+  y: real;
+begin
+  x := 5;
+  y := 3.14;
+  x := x + 1;
+end.

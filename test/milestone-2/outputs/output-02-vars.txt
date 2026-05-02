@@ -1,0 +1,27 @@
+<program>
+├── <program-header>
+│   ├── programsy(program)
+│   ├── ident(Vars)
+│   └── semicolon(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── varsy(var)
+│       ├── <identifier-list>
+│       │   └── ident(x)
+│       ├── colon(:)
+│       ├── <type>
+│       │   └── ident(integer)
+│       ├── semicolon(;)
+│       ├── <identifier-list>
+│       │   ├── ident(a)
+│       │   ├── comma(,)
+│       │   └── ident(b)
+│       ├── colon(:)
+│       ├── <type>
+│       │   └── ident(real)
+│       └── semicolon(;)
+├── <compound-statement>
+│   ├── beginsy(begin)
+│   ├── <statement-list>
+│   └── endsy(end)
+└── period(.)

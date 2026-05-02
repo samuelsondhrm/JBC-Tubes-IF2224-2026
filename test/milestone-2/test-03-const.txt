@@ -1,0 +1,7 @@
+program ConstTest;
+const
+  max == 100;
+  min == -1;
+  msg == 'hello';
+begin
+end.

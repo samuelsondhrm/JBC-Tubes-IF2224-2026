@@ -1,6 +1,5 @@
 #include "Parser.hpp"
 
-namespace {
 
 bool isRelationalOperator(TokenType type) {
     return type == TokenType::EQL ||
@@ -25,7 +24,6 @@ bool isMultiplicativeOperator(TokenType type) {
            type == TokenType::OP_AND;
 }
 
-} // namespace
 
 ParseNode* Parser::parseExpression() {
     ParseNode* node = new ParseNode("<expression>");
@@ -129,6 +127,7 @@ ParseNode* Parser::parseFactor() {
         "' in factor - expected expression operand",
         current()
     );
+    return nullptr;
 }
 
 ParseNode* Parser::parseParameterList() {

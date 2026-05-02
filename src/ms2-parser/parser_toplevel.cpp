@@ -53,7 +53,7 @@ ParseNode* Parser::parseDeclarationPart() {
 }
 
 ParseNode* Parser::parseBlock() {
-    ParseNode* node = new ParseNode("block");
+    ParseNode* node = new ParseNode("<block>");
 
     node->addChild(parseDeclarationPart());
     node->addChild(parseCompoundStatement());

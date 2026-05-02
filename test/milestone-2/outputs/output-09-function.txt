@@ -1,0 +1,39 @@
+<program>
+├── <program-header>
+│   ├── programsy(program)
+│   ├── ident(FuncTest)
+│   └── semicolon(;)
+├── <declaration-part>
+│   └── <subprogram-declaration>
+│       └── <function-declaration>
+│           ├── functionsy(function)
+│           ├── ident(add)
+│           ├── <formal-parameter-list>
+│           │   ├── lparent(()
+│           │   ├── <parameter-group>
+│           │   │   ├── <identifier-list>
+│           │   │   │   └── ident(a)
+│           │   │   ├── colon(:)
+│           │   │   └── ident(integer)
+│           │   ├── semicolon(;)
+│           │   ├── <parameter-group>
+│           │   │   ├── <identifier-list>
+│           │   │   │   └── ident(b)
+│           │   │   ├── colon(:)
+│           │   │   └── ident(integer)
+│           │   └── rparent())
+│           ├── colon(:)
+│           ├── ident(integer)
+│           ├── semicolon(;)
+│           ├── <block>
+│           │   ├── <declaration-part>
+│           │   └── <compound-statement>
+│           │       ├── beginsy(begin)
+│           │       ├── <statement-list>
+│           │       └── endsy(end)
+│           └── semicolon(;)
+├── <compound-statement>
+│   ├── beginsy(begin)
+│   ├── <statement-list>
+│   └── endsy(end)
+└── period(.)
