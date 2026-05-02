@@ -5,7 +5,6 @@
 #include "../ms1-lexer/token/token.hpp"
 #include "ParseNode.hpp"
 
-// Thrown on any syntax error. Caught in main() to print the message and exit.
 class ParseError : public std::runtime_error {
 private: 
     Token token_; 
@@ -14,61 +13,35 @@ private:
 public:
     explicit ParseError(const Token& tok, const std::string& msg) : std::runtime_error(msg), token_(tok), line_(tok.line) {} 
 };
-
-// Recursive Descent Parser for the Arion language.
-//
-// Entry point: Parser p(tokens); ParseNode* tree = p.parse();
-//
-// Each grammar rule has exactly one parseXxx() method.
-// Methods are grouped by team member ownership.
 class Parser {
 public:
     explicit Parser(const std::vector<Token>& tokens);
 
-    // Entry point. Returns the root <program> node.
-    // Throws ParseError on syntax error.
     ParseNode* parse();
 
 private:
     std::vector<Token> tokens_;
     size_t             pos_;     // index of current token
-    static const Token EOF_TOKEN; 
+    inline static const Token EOF_TOKEN{TokenType::KW_EOF, "", -1}; 
 
-    // ── Token utilities ──────────────────────────────────────────────────────
 
-    // Current token (does not advance pos).
     const Token& current() const;
 
-    // Look ahead without advancing. peekAt(0) == current().
     const Token& peekAt(size_t offset) const;
 
-    // Returns true if current token has the given type.
     bool check(TokenType t) const;
 
-    // Returns true if the token at pos+offset has the given type.
     bool checkAt(size_t offset, TokenType t) const;
 
-    // Consume and return the current token, advance pos.
     Token consume();
 
-    // Consume current token if its type matches t.
-    // Throws ParseError with a helpful message if it doesn't.
     Token expect(TokenType t, const std::string& context);
 
-    // Wrap a terminal token in a ParseNode.
-    // Tokens that carry a value (ident, intcon, realcon, charcon, string,
-    // comment, unknown) set node.value = tok.value.
-    // All other tokens leave node.value = "".
     ParseNode* makeTerminal(const Token& tok);
 
-    // Throw a ParseError with line information.
 	void error(const std::string& msg, const Token& at);
 
 
-    // ── Grammar rules ─────────────────────────────────────────────────────
-    // Owner tags match CONTEXT_<NAME>.md in the repository root.
-
-    // [Samuelson] — Top-level & structural
     ParseNode* parseProgram();
     ParseNode* parseProgramHeader();
     ParseNode* parseDeclarationPart();
@@ -78,7 +51,6 @@ private:
     ParseNode* parseFormalParameterList();
     ParseNode* parseParameterGroup();
 
-    // [Niko] — Declarations
     ParseNode* parseConstDeclaration();
     ParseNode* parseConstant();
     ParseNode* parseTypeDeclaration();
@@ -92,7 +64,6 @@ private:
     ParseNode* parseVarDeclaration();
     ParseNode* parseIdentifierList();
 
-    // [Reinsen] — Expressions, subprograms, error framework
     ParseNode* parseSubprogramDeclaration();
     ParseNode* parseProcedureDeclaration();
     ParseNode* parseFunctionDeclaration();
@@ -102,8 +73,6 @@ private:
     ParseNode* parseFactor();
     ParseNode* parseParameterList();
 
-    // [Aurelia] — Statements
-    // Note: parseStatement reads one token ahead when it sees ident.
     ParseNode* parseStatement();
     ParseNode* parseAssignmentStatement(const Token& identTok);
     ParseNode* parseIfStatement();

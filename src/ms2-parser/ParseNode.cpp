@@ -3,9 +3,8 @@
 
 
 ParseNode::ParseNode(const std::string& name, const std::string& value)
-    : name(name), value(value) {}
+    : name(name), value(value), isTerminal(false) {}
 
-// Recursively delete all children to prevent memory leaks.
 ParseNode::~ParseNode() {
     for (ParseNode* child : children) {
         delete child;
