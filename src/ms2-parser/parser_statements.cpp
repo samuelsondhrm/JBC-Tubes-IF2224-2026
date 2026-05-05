@@ -5,14 +5,14 @@ ParseNode* Parser::parseStatement() {
     ParseNode* node = new ParseNode("<statement>");
     if (check(TokenType::IDENT)) {
         Token identTok = consume();
-        if (check(TokenType::BECOMES)) {
+        if (check(TokenType::LBRACK) || check(TokenType::PERIOD)) {
+            node->addChild(parseAssignmentStatement(identTok));
+        } else if (check(TokenType::BECOMES)) {
             node->addChild(parseAssignmentStatement(identTok));
         } else if (check(TokenType::LPAR)) {
             node->addChild(parseProcedureFunctionCall(identTok));
         } else {
-            ParseNode* callNode = new ParseNode("<procedure-all>");
-            callNode->addChild(makeTerminal(identTok));
-            node->addChild(callNode);
+            node->addChild(parseProcedureFunctionCall(identTok));
         }
     } else if (check(TokenType::KW_BEGIN)){
         node->addChild(parseCompoundStatement());
@@ -33,10 +33,58 @@ ParseNode* Parser::parseStatement() {
     return node;
 };
 
+//parses variable (with possible array/record access)
+ParseNode* Parser::parseVariable(const Token &identTok) {
+    ParseNode* node = new ParseNode("<variable>");
+    node->addChild(makeTerminal(identTok));
+    
+    while (check(TokenType::LBRACK) || check(TokenType::PERIOD)) {
+        node->addChild(parseComponentVariable());
+    }
+    
+    return node;
+}
+
+//parses component-variable: array indexing or record field access
+ParseNode* Parser::parseComponentVariable() {
+    ParseNode* node = new ParseNode("<component-variable>");
+    
+    if (check(TokenType::LBRACK)) {
+        node->addChild(makeTerminal(consume())); // [
+        node->addChild(parseIndexList());
+        node->addChild(makeTerminal(expect(TokenType::RBRACK, "component-variable"))); // ]
+    } else if (check(TokenType::PERIOD)) {
+        node->addChild(makeTerminal(consume())); // .
+        node->addChild(makeTerminal(expect(TokenType::IDENT, "component-variable")));
+    }
+    
+    return node;
+}
+
+//parses index-list for array access
+ParseNode* Parser::parseIndexList() {
+    ParseNode* node = new ParseNode("<index-list>");
+    
+    if (check(TokenType::INTCON) || check(TokenType::CHARCON) || check(TokenType::IDENT)) {
+        node->addChild(makeTerminal(consume()));
+    }
+    
+    while (check(TokenType::COMMA)) {
+        node->addChild(makeTerminal(consume()));
+        if (check(TokenType::INTCON) || check(TokenType::CHARCON) || check(TokenType::IDENT)) {
+            node->addChild(makeTerminal(consume()));
+        } else {
+            error("expected index after comma", current());
+        }
+    }
+    
+    return node;
+}
+
 //parses ident := expression given the pre-consumed ident token
 ParseNode* Parser::parseAssignmentStatement(const Token &identTok){
     ParseNode* node = new ParseNode("<assignment-statement>");
-    node->addChild(makeTerminal(identTok));
+    node->addChild(parseVariable(identTok));
     node->addChild(makeTerminal(expect(TokenType::BECOMES, "assignment-statement")));
     
     node->addChild(parseExpression());
@@ -151,14 +199,16 @@ ParseNode* Parser::parseForStatement(){
 
 //parses ident([args]) given the pre-consumed ident token
 ParseNode* Parser::parseProcedureFunctionCall(const Token &identTok){
-    ParseNode* node = new ParseNode("<procedure-call>");
+    ParseNode* node = new ParseNode("<procedure/function-call>");
     node->addChild(makeTerminal(identTok));
-    node->addChild(makeTerminal(expect(TokenType::LPAR, "procedure-call")));
-
-    if(!check(TokenType::RPAR)) {
-        node->addChild(parseParameterList());
+    
+    if (check(TokenType::LPAR)) {
+        node->addChild(makeTerminal(consume()));
+        if(!check(TokenType::RPAR)) {
+            node->addChild(parseParameterList());
+        }
+        node->addChild(makeTerminal(expect(TokenType::RPAR, "procedure/function-call")));
     }
-    node->addChild(makeTerminal(expect(TokenType::RPAR, "procedure-call")));
     
     return node;
 };
