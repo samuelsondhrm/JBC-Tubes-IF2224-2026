@@ -74,6 +74,9 @@ private:
     ParseNode* parseParameterList();
 
     ParseNode* parseStatement();
+    ParseNode* parseVariable(const Token& identTok);
+    ParseNode* parseComponentVariable();
+    ParseNode* parseIndexList();
     ParseNode* parseAssignmentStatement(const Token& identTok);
     ParseNode* parseIfStatement();
     ParseNode* parseCaseStatement();
