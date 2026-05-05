@@ -80,3 +80,8 @@ add_diff_test(ms2-07-loops       arion-parser ${MS2_IN}/test-07-loops.txt       
 add_diff_test(ms2-08-procedure   arion-parser ${MS2_IN}/test-08-procedure.txt   ${MS2_OUT}/output-08-procedure.txt)
 add_diff_test(ms2-09-function    arion-parser ${MS2_IN}/test-09-function.txt    ${MS2_OUT}/output-09-function.txt)
 add_diff_test(ms2-10-expressions arion-parser ${MS2_IN}/test-10-expressions.txt ${MS2_OUT}/output-10-expressions.txt)
+add_diff_test(ms2-11-arrrecord   arion-parser ${MS2_IN}/test-11-arrrecord.txt   ${MS2_OUT}/output-11-arrrecord.txt)
+add_diff_test(ms2-12-case        arion-parser ${MS2_IN}/test-12-case.txt        ${MS2_OUT}/output-12-case.txt)
+add_diff_test(ms2-13-proccall    arion-parser ${MS2_IN}/test-13-proccall.txt    ${MS2_OUT}/output-13-proccall.txt)
+add_diff_test(ms2-14-complex     arion-parser ${MS2_IN}/test-14-complex.txt     ${MS2_OUT}/output-14-complex.txt)
+add_diff_test(ms2-15-alldecl     arion-parser ${MS2_IN}/test-15-alldecl.txt     ${MS2_OUT}/output-15-alldecl.txt)

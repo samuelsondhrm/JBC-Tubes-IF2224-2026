@@ -23,7 +23,8 @@
 │   ├── <statement-list>
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
-│   │   │       ├── ident(x)
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(x)
 │   │   │       ├── becomes(:=)
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
@@ -42,7 +43,8 @@
 │   │   ├── semicolon(;)
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
-│   │   │       ├── ident(x)
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(x)
 │   │   │       ├── becomes(:=)
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
@@ -67,7 +69,8 @@
 │   │   ├── semicolon(;)
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
-│   │   │       ├── ident(y)
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(y)
 │   │   │       ├── becomes(:=)
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
@@ -86,18 +89,21 @@
 │   │   ├── semicolon(;)
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
-│   │   │       ├── ident(x)
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(x)
 │   │   │       ├── becomes(:=)
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               ├── <term>
 │   │   │               │   └── <factor>
-│   │   │               │       └── ident(x)
+│   │   │               │       └── <variable>
+│   │   │               │           └── ident(x)
 │   │   │               ├── <additive-operator>
 │   │   │               │   └── plus(+)
 │   │   │               └── <term>
 │   │   │                   ├── <factor>
-│   │   │                   │   └── ident(y)
+│   │   │                   │   └── <variable>
+│   │   │                   │       └── ident(y)
 │   │   │                   ├── <multiplicative-operator>
 │   │   │                   │   └── times(*)
 │   │   │                   └── <factor>
@@ -115,7 +121,8 @@
 │   │   │       │       │   │   │   ├── <simple-expression>
 │   │   │       │       │   │   │   │   └── <term>
 │   │   │       │       │   │   │   │       └── <factor>
-│   │   │       │       │   │   │   │           └── ident(x)
+│   │   │       │       │   │   │   │           └── <variable>
+│   │   │       │       │   │   │   │               └── ident(x)
 │   │   │       │       │   │   │   ├── <relational-operator>
 │   │   │       │       │   │   │   │   └── gtr(>)
 │   │   │       │       │   │   │   └── <simple-expression>
@@ -131,7 +138,8 @@
 │   │   │       │       │       │   ├── <simple-expression>
 │   │   │       │       │       │   │   └── <term>
 │   │   │       │       │       │   │       └── <factor>
-│   │   │       │       │       │   │           └── ident(y)
+│   │   │       │       │       │   │           └── <variable>
+│   │   │       │       │       │   │               └── ident(y)
 │   │   │       │       │       │   ├── <relational-operator>
 │   │   │       │       │       │   │   └── eql(==)
 │   │   │       │       │       │   └── <simple-expression>
@@ -150,7 +158,8 @@
 │   │   │       │                   │   ├── <simple-expression>
 │   │   │       │                   │   │   └── <term>
 │   │   │       │                   │   │       └── <factor>
-│   │   │       │                   │   │           └── ident(x)
+│   │   │       │                   │   │           └── <variable>
+│   │   │       │                   │   │               └── ident(x)
 │   │   │       │                   │   ├── <relational-operator>
 │   │   │       │                   │   │   └── eql(==)
 │   │   │       │                   │   └── <simple-expression>
@@ -161,7 +170,8 @@
 │   │   │       ├── thensy(then)
 │   │   │       └── <statement>
 │   │   │           └── <assignment-statement>
-│   │   │               ├── ident(x)
+│   │   │               ├── <variable>
+│   │   │               │   └── ident(x)
 │   │   │               ├── becomes(:=)
 │   │   │               └── <expression>
 │   │   │                   └── <simple-expression>

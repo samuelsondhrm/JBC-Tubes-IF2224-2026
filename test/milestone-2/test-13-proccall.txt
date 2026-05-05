@@ -1,0 +1,22 @@
+program ProcedureCallTest;
+procedure greet;
+begin
+end;
+
+procedure printNum(n: integer);
+begin
+end;
+
+procedure compute(a: integer; b: integer);
+var
+  result: integer;
+begin
+  result := a + b;
+  printNum(result);
+end;
+
+begin
+  greet;
+  printNum(5);
+  compute(10, 20);
+end.

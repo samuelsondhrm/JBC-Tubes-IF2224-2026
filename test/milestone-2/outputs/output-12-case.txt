@@ -1,0 +1,164 @@
+<program>
+├── <program-header>
+│   ├── programsy(program)
+│   ├── ident(CaseStatementTest)
+│   └── semicolon(;)
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── varsy(var)
+│       ├── <identifier-list>
+│       │   └── ident(day)
+│       ├── colon(:)
+│       ├── <type>
+│       │   └── ident(integer)
+│       ├── semicolon(;)
+│       ├── <identifier-list>
+│       │   └── ident(month)
+│       ├── colon(:)
+│       ├── <type>
+│       │   └── ident(integer)
+│       ├── semicolon(;)
+│       ├── <identifier-list>
+│       │   └── ident(result)
+│       ├── colon(:)
+│       ├── <type>
+│       │   └── ident(string)
+│       └── semicolon(;)
+├── <compound-statement>
+│   ├── beginsy(begin)
+│   ├── <statement-list>
+│   │   ├── <statement>
+│   │   │   └── <case-statement>
+│   │   │       ├── casesy(case)
+│   │   │       ├── <expression>
+│   │   │       │   └── <simple-expression>
+│   │   │       │       └── <term>
+│   │   │       │           └── <factor>
+│   │   │       │               └── <variable>
+│   │   │       │                   └── ident(day)
+│   │   │       ├── ofsy(of)
+│   │   │       ├── <case-block>
+│   │   │       │   ├── <constant>
+│   │   │       │   │   └── intcon(1)
+│   │   │       │   ├── colon(:)
+│   │   │       │   ├── <statement>
+│   │   │       │   │   └── <assignment-statement>
+│   │   │       │   │       ├── <variable>
+│   │   │       │   │       │   └── ident(result)
+│   │   │       │   │       ├── becomes(:=)
+│   │   │       │   │       └── <expression>
+│   │   │       │   │           └── <simple-expression>
+│   │   │       │   │               └── <term>
+│   │   │       │   │                   └── <factor>
+│   │   │       │   │                       └── string('Monday')
+│   │   │       │   ├── semicolon(;)
+│   │   │       │   └── <case-block>
+│   │   │       │       ├── <constant>
+│   │   │       │       │   └── intcon(2)
+│   │   │       │       ├── colon(:)
+│   │   │       │       ├── <statement>
+│   │   │       │       │   └── <assignment-statement>
+│   │   │       │       │       ├── <variable>
+│   │   │       │       │       │   └── ident(result)
+│   │   │       │       │       ├── becomes(:=)
+│   │   │       │       │       └── <expression>
+│   │   │       │       │           └── <simple-expression>
+│   │   │       │       │               └── <term>
+│   │   │       │       │                   └── <factor>
+│   │   │       │       │                       └── string('Tuesday')
+│   │   │       │       ├── semicolon(;)
+│   │   │       │       └── <case-block>
+│   │   │       │           ├── <constant>
+│   │   │       │           │   └── intcon(3)
+│   │   │       │           ├── comma(,)
+│   │   │       │           ├── <constant>
+│   │   │       │           │   └── intcon(4)
+│   │   │       │           ├── comma(,)
+│   │   │       │           ├── <constant>
+│   │   │       │           │   └── intcon(5)
+│   │   │       │           ├── colon(:)
+│   │   │       │           ├── <statement>
+│   │   │       │           │   └── <assignment-statement>
+│   │   │       │           │       ├── <variable>
+│   │   │       │           │       │   └── ident(result)
+│   │   │       │           │       ├── becomes(:=)
+│   │   │       │           │       └── <expression>
+│   │   │       │           │           └── <simple-expression>
+│   │   │       │           │               └── <term>
+│   │   │       │           │                   └── <factor>
+│   │   │       │           │                       └── string('Midweek')
+│   │   │       │           ├── semicolon(;)
+│   │   │       │           └── <case-block>
+│   │   │       │               ├── <constant>
+│   │   │       │               │   └── intcon(6)
+│   │   │       │               ├── colon(:)
+│   │   │       │               ├── <statement>
+│   │   │       │               │   └── <assignment-statement>
+│   │   │       │               │       ├── <variable>
+│   │   │       │               │       │   └── ident(result)
+│   │   │       │               │       ├── becomes(:=)
+│   │   │       │               │       └── <expression>
+│   │   │       │               │           └── <simple-expression>
+│   │   │       │               │               └── <term>
+│   │   │       │               │                   └── <factor>
+│   │   │       │               │                       └── string('Saturday')
+│   │   │       │               ├── semicolon(;)
+│   │   │       │               └── <case-block>
+│   │   │       │                   ├── <constant>
+│   │   │       │                   │   └── intcon(7)
+│   │   │       │                   ├── colon(:)
+│   │   │       │                   └── <statement>
+│   │   │       │                       └── <assignment-statement>
+│   │   │       │                           ├── <variable>
+│   │   │       │                           │   └── ident(result)
+│   │   │       │                           ├── becomes(:=)
+│   │   │       │                           └── <expression>
+│   │   │       │                               └── <simple-expression>
+│   │   │       │                                   └── <term>
+│   │   │       │                                       └── <factor>
+│   │   │       │                                           └── string('Sunday')
+│   │   │       └── endsy(end)
+│   │   ├── semicolon(;)
+│   │   ├── <statement>
+│   │   │   └── <case-statement>
+│   │   │       ├── casesy(case)
+│   │   │       ├── <expression>
+│   │   │       │   └── <simple-expression>
+│   │   │       │       └── <term>
+│   │   │       │           └── <factor>
+│   │   │       │               └── <variable>
+│   │   │       │                   └── ident(month)
+│   │   │       ├── ofsy(of)
+│   │   │       ├── <case-block>
+│   │   │       │   ├── <constant>
+│   │   │       │   │   └── intcon(1)
+│   │   │       │   ├── colon(:)
+│   │   │       │   ├── <statement>
+│   │   │       │   │   └── <assignment-statement>
+│   │   │       │   │       ├── <variable>
+│   │   │       │   │       │   └── ident(result)
+│   │   │       │   │       ├── becomes(:=)
+│   │   │       │   │       └── <expression>
+│   │   │       │   │           └── <simple-expression>
+│   │   │       │   │               └── <term>
+│   │   │       │   │                   └── <factor>
+│   │   │       │   │                       └── string('Jan')
+│   │   │       │   ├── semicolon(;)
+│   │   │       │   └── <case-block>
+│   │   │       │       ├── <constant>
+│   │   │       │       │   └── intcon(2)
+│   │   │       │       ├── colon(:)
+│   │   │       │       └── <statement>
+│   │   │       │           └── <assignment-statement>
+│   │   │       │               ├── <variable>
+│   │   │       │               │   └── ident(result)
+│   │   │       │               ├── becomes(:=)
+│   │   │       │               └── <expression>
+│   │   │       │                   └── <simple-expression>
+│   │   │       │                       └── <term>
+│   │   │       │                           └── <factor>
+│   │   │       │                               └── string('Feb')
+│   │   │       └── endsy(end)
+│   │   └── semicolon(;)
+│   └── endsy(end)
+└── period(.)

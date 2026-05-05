@@ -1,0 +1,23 @@
+program ComplexExprTest;
+type
+  Point == record
+    x: integer;
+    y: integer
+  end;
+var
+  arr: array[1..10] of integer;
+  p: Point;
+  result: integer;
+function square(n: integer): integer;
+begin
+end;
+function distance(p1: Point; p2: Point): integer;
+begin
+end;
+begin
+  result := square(5) + arr[1];
+  result := arr[2] * square(p.x);
+  arr[3] := square(arr[1]) + square(arr[2]);
+  p.x := square(10);
+  result := p.x + p.y * arr[1];
+end.
