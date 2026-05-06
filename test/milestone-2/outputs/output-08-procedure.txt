@@ -1,43 +1,43 @@
 <program>
 ├── <program-header>
-│   ├── programsy(program)
+│   ├── programsy
 │   ├── ident(ProcTest)
-│   └── semicolon(;)
+│   └── semicolon
 ├── <declaration-part>
 │   ├── <subprogram-declaration>
 │   │   └── <procedure-declaration>
-│   │       ├── proceduresy(procedure)
+│   │       ├── proceduresy
 │   │       ├── ident(greet)
-│   │       ├── semicolon(;)
+│   │       ├── semicolon
 │   │       ├── <block>
 │   │       │   ├── <declaration-part>
 │   │       │   └── <compound-statement>
-│   │       │       ├── beginsy(begin)
+│   │       │       ├── beginsy
 │   │       │       ├── <statement-list>
-│   │       │       └── endsy(end)
-│   │       └── semicolon(;)
+│   │       │       └── endsy
+│   │       └── semicolon
 │   └── <subprogram-declaration>
 │       └── <procedure-declaration>
-│           ├── proceduresy(procedure)
+│           ├── proceduresy
 │           ├── ident(printVal)
 │           ├── <formal-parameter-list>
-│           │   ├── lparent(()
+│           │   ├── lparent
 │           │   ├── <parameter-group>
 │           │   │   ├── <identifier-list>
 │           │   │   │   └── ident(n)
-│           │   │   ├── colon(:)
+│           │   │   ├── colon
 │           │   │   └── ident(integer)
-│           │   └── rparent())
-│           ├── semicolon(;)
+│           │   └── rparent
+│           ├── semicolon
 │           ├── <block>
 │           │   ├── <declaration-part>
 │           │   └── <compound-statement>
-│           │       ├── beginsy(begin)
+│           │       ├── beginsy
 │           │       ├── <statement-list>
-│           │       └── endsy(end)
-│           └── semicolon(;)
+│           │       └── endsy
+│           └── semicolon
 ├── <compound-statement>
-│   ├── beginsy(begin)
+│   ├── beginsy
 │   ├── <statement-list>
-│   └── endsy(end)
-└── period(.)
+│   └── endsy
+└── period

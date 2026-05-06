@@ -15,7 +15,6 @@ colon
 ident (integer)
 semicolon
 beginsy
-comment ({ identifier yang mirip keyword harus tetap jadi ident })
 ident (begin2)
 becomes
 intcon (1)
@@ -28,7 +27,6 @@ ident (forloop)
 becomes
 intcon (3)
 semicolon
-comment ({ case/of })
 ident (score)
 becomes
 intcon (85)
@@ -56,7 +54,6 @@ intcon (0)
 semicolon
 endsy
 semicolon
-comment ({ repeat/until })
 repeatsy
 ident (forloop)
 becomes

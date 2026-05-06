@@ -1,107 +1,107 @@
 <program>
 ├── <program-header>
-│   ├── programsy(program)
+│   ├── programsy
 │   ├── ident(ArrayRecordTest)
-│   └── semicolon(;)
+│   └── semicolon
 ├── <declaration-part>
 │   ├── <type-declaration>
-│   │   ├── typesy(type)
+│   │   ├── typesy
 │   │   ├── ident(Person)
-│   │   ├── eql(==)
+│   │   ├── eql
 │   │   ├── <type>
 │   │   │   └── <record-type>
-│   │   │       ├── recordsy(record)
+│   │   │       ├── recordsy
 │   │   │       ├── <field-list>
 │   │   │       │   ├── <field-part>
 │   │   │       │   │   ├── <identifier-list>
 │   │   │       │   │   │   └── ident(name)
-│   │   │       │   │   ├── colon(:)
+│   │   │       │   │   ├── colon
 │   │   │       │   │   └── <type>
 │   │   │       │   │       └── ident(string)
-│   │   │       │   ├── semicolon(;)
+│   │   │       │   ├── semicolon
 │   │   │       │   └── <field-part>
 │   │   │       │       ├── <identifier-list>
 │   │   │       │       │   └── ident(age)
-│   │   │       │       ├── colon(:)
+│   │   │       │       ├── colon
 │   │   │       │       └── <type>
 │   │   │       │           └── ident(integer)
-│   │   │       └── endsy(end)
-│   │   └── semicolon(;)
+│   │   │       └── endsy
+│   │   └── semicolon
 │   └── <var-declaration>
-│       ├── varsy(var)
+│       ├── varsy
 │       ├── <identifier-list>
 │       │   └── ident(arr)
-│       ├── colon(:)
+│       ├── colon
 │       ├── <type>
 │       │   └── <array-type>
-│       │       ├── arraysy(array)
-│       │       ├── lbrack([)
+│       │       ├── arraysy
+│       │       ├── lbrack
 │       │       ├── <range>
 │       │       │   ├── <constant>
 │       │       │   │   └── intcon(1)
-│       │       │   ├── period(.)
-│       │       │   ├── period(.)
+│       │       │   ├── period
+│       │       │   ├── period
 │       │       │   └── <constant>
 │       │       │       └── intcon(10)
-│       │       ├── rbrack(])
-│       │       ├── ofsy(of)
+│       │       ├── rbrack
+│       │       ├── ofsy
 │       │       └── <type>
 │       │           └── ident(integer)
-│       ├── semicolon(;)
+│       ├── semicolon
 │       ├── <identifier-list>
 │       │   └── ident(people)
-│       ├── colon(:)
+│       ├── colon
 │       ├── <type>
 │       │   └── <array-type>
-│       │       ├── arraysy(array)
-│       │       ├── lbrack([)
+│       │       ├── arraysy
+│       │       ├── lbrack
 │       │       ├── <range>
 │       │       │   ├── <constant>
 │       │       │   │   └── intcon(1)
-│       │       │   ├── period(.)
-│       │       │   ├── period(.)
+│       │       │   ├── period
+│       │       │   ├── period
 │       │       │   └── <constant>
 │       │       │       └── intcon(5)
-│       │       ├── rbrack(])
-│       │       ├── ofsy(of)
+│       │       ├── rbrack
+│       │       ├── ofsy
 │       │       └── <type>
 │       │           └── ident(Person)
-│       ├── semicolon(;)
+│       ├── semicolon
 │       ├── <identifier-list>
 │       │   └── ident(p)
-│       ├── colon(:)
+│       ├── colon
 │       ├── <type>
 │       │   └── ident(Person)
-│       └── semicolon(;)
+│       └── semicolon
 ├── <compound-statement>
-│   ├── beginsy(begin)
+│   ├── beginsy
 │   ├── <statement-list>
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   ├── ident(arr)
 │   │   │       │   └── <component-variable>
-│   │   │       │       ├── lbrack([)
+│   │   │       │       ├── lbrack
 │   │   │       │       ├── <index-list>
 │   │   │       │       │   └── intcon(1)
-│   │   │       │       └── rbrack(])
-│   │   │       ├── becomes(:=)
+│   │   │       │       └── rbrack
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(10)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   ├── ident(arr)
 │   │   │       │   └── <component-variable>
-│   │   │       │       ├── lbrack([)
+│   │   │       │       ├── lbrack
 │   │   │       │       ├── <index-list>
 │   │   │       │       │   └── intcon(5)
-│   │   │       │       └── rbrack(])
-│   │   │       ├── becomes(:=)
+│   │   │       │       └── rbrack
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               ├── <term>
@@ -109,81 +109,81 @@
 │   │   │               │       └── <variable>
 │   │   │               │           ├── ident(arr)
 │   │   │               │           └── <component-variable>
-│   │   │               │               ├── lbrack([)
+│   │   │               │               ├── lbrack
 │   │   │               │               ├── <index-list>
 │   │   │               │               │   └── intcon(1)
-│   │   │               │               └── rbrack(])
+│   │   │               │               └── rbrack
 │   │   │               ├── <additive-operator>
-│   │   │               │   └── plus(+)
+│   │   │               │   └── plus
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(20)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   ├── ident(p)
 │   │   │       │   └── <component-variable>
-│   │   │       │       ├── period(.)
+│   │   │       │       ├── period
 │   │   │       │       └── ident(name)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── string('John')
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   ├── ident(p)
 │   │   │       │   └── <component-variable>
-│   │   │       │       ├── period(.)
+│   │   │       │       ├── period
 │   │   │       │       └── ident(age)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(25)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   ├── ident(people)
 │   │   │       │   ├── <component-variable>
-│   │   │       │   │   ├── lbrack([)
+│   │   │       │   │   ├── lbrack
 │   │   │       │   │   ├── <index-list>
 │   │   │       │   │   │   └── intcon(1)
-│   │   │       │   │   └── rbrack(])
+│   │   │       │   │   └── rbrack
 │   │   │       │   └── <component-variable>
-│   │   │       │       ├── period(.)
+│   │   │       │       ├── period
 │   │   │       │       └── ident(name)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── string('Alice')
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   ├── ident(people)
 │   │   │       │   ├── <component-variable>
-│   │   │       │   │   ├── lbrack([)
+│   │   │       │   │   ├── lbrack
 │   │   │       │   │   ├── <index-list>
 │   │   │       │   │   │   └── intcon(2)
-│   │   │       │   │   └── rbrack(])
+│   │   │       │   │   └── rbrack
 │   │   │       │   └── <component-variable>
-│   │   │       │       ├── period(.)
+│   │   │       │       ├── period
 │   │   │       │       └── ident(age)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(30)
-│   │   └── semicolon(;)
-│   └── endsy(end)
-└── period(.)
+│   │   └── semicolon
+│   └── endsy
+└── period

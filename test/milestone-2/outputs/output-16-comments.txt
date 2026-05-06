@@ -1,7 +1,7 @@
 <program>
 ├── <program-header>
 │   ├── programsy
-│   ├── ident(Assign)
+│   ├── ident(CommentTest)
 │   └── semicolon
 ├── <declaration-part>
 │   └── <var-declaration>

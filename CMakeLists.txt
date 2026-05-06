@@ -85,3 +85,4 @@ add_diff_test(ms2-12-case        arion-parser ${MS2_IN}/test-12-case.txt        
 add_diff_test(ms2-13-proccall    arion-parser ${MS2_IN}/test-13-proccall.txt    ${MS2_OUT}/output-13-proccall.txt)
 add_diff_test(ms2-14-complex     arion-parser ${MS2_IN}/test-14-complex.txt     ${MS2_OUT}/output-14-complex.txt)
 add_diff_test(ms2-15-alldecl     arion-parser ${MS2_IN}/test-15-alldecl.txt     ${MS2_OUT}/output-15-alldecl.txt)
+add_diff_test(ms2-16-comments    arion-parser ${MS2_IN}/test-16-comments.txt    ${MS2_OUT}/output-16-comments.txt)

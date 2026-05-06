@@ -1,39 +1,39 @@
 <program>
 ├── <program-header>
-│   ├── programsy(program)
+│   ├── programsy
 │   ├── ident(FuncTest)
-│   └── semicolon(;)
+│   └── semicolon
 ├── <declaration-part>
 │   └── <subprogram-declaration>
 │       └── <function-declaration>
-│           ├── functionsy(function)
+│           ├── functionsy
 │           ├── ident(add)
 │           ├── <formal-parameter-list>
-│           │   ├── lparent(()
+│           │   ├── lparent
 │           │   ├── <parameter-group>
 │           │   │   ├── <identifier-list>
 │           │   │   │   └── ident(a)
-│           │   │   ├── colon(:)
+│           │   │   ├── colon
 │           │   │   └── ident(integer)
-│           │   ├── semicolon(;)
+│           │   ├── semicolon
 │           │   ├── <parameter-group>
 │           │   │   ├── <identifier-list>
 │           │   │   │   └── ident(b)
-│           │   │   ├── colon(:)
+│           │   │   ├── colon
 │           │   │   └── ident(integer)
-│           │   └── rparent())
-│           ├── colon(:)
+│           │   └── rparent
+│           ├── colon
 │           ├── ident(integer)
-│           ├── semicolon(;)
+│           ├── semicolon
 │           ├── <block>
 │           │   ├── <declaration-part>
 │           │   └── <compound-statement>
-│           │       ├── beginsy(begin)
+│           │       ├── beginsy
 │           │       ├── <statement-list>
-│           │       └── endsy(end)
-│           └── semicolon(;)
+│           │       └── endsy
+│           └── semicolon
 ├── <compound-statement>
-│   ├── beginsy(begin)
+│   ├── beginsy
 │   ├── <statement-list>
-│   └── endsy(end)
-└── period(.)
+│   └── endsy
+└── period
