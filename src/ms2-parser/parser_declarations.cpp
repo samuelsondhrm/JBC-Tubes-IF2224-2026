@@ -174,15 +174,9 @@ ParseNode* Parser::parseFieldList() {
 
     node->addChild(parseFieldPart());
     while (check(TokenType::SEMICOLON)) {
-        // Jika saat ini 'semicolon' dan setelahnya 'end', ini adalah field-list terakhir
-        if (peekAt(1).type == TokenType::KW_END) {
-            node->addChild(makeTerminal(consume()));
-            break;
-        }
         node->addChild(makeTerminal(consume()));
         node->addChild(parseFieldPart());
     }
-
     return node;
 }
 
