@@ -106,7 +106,9 @@
 │   ├── <statement-list>
 │   │   ├── <statement>
 │   │   │   └── <procedure/function-call>
-│   │   │       └── ident(greet)
+│   │   │       ├── ident(greet)
+│   │   │       ├── lparent(()
+│   │   │       └── rparent())
 │   │   ├── semicolon(;)
 │   │   ├── <statement>
 │   │   │   └── <procedure/function-call>

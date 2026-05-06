@@ -227,7 +227,9 @@
 │   │   ├── semicolon(;)
 │   │   ├── <statement>
 │   │   │   └── <procedure/function-call>
-│   │   │       └── ident(init)
+│   │   │       ├── ident(init)
+│   │   │       ├── lparent(()
+│   │   │       └── rparent())
 │   │   ├── semicolon(;)
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
