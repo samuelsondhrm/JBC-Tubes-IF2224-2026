@@ -12,7 +12,9 @@ ParseNode* Parser::parseStatement() {
         } else if (check(TokenType::LPAR)) {
             node->addChild(parseProcedureFunctionCall(identTok));
         } else {
-            error("expected assignment operator or '(' after identifier in statement", current());
+            ParseNode* callNode = new ParseNode("<procedure/function-call>");
+            callNode->addChild(makeTerminal(identTok));
+            node->addChild(callNode);
         }
     } else if (check(TokenType::KW_BEGIN)){
         node->addChild(parseCompoundStatement());
