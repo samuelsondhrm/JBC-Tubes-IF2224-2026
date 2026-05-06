@@ -10,18 +10,12 @@
 │       ├── eql(==)
 │       ├── <type>
 │       │   └── <range>
-│       │       ├── <expression>
-│       │       │   └── <simple-expression>
-│       │       │       └── <term>
-│       │       │           └── <factor>
-│       │       │               └── intcon(1)
+│       │       ├── <constant>
+│       │       │   └── intcon(1)
 │       │       ├── period(.)
 │       │       ├── period(.)
-│       │       └── <expression>
-│       │           └── <simple-expression>
-│       │               └── <term>
-│       │                   └── <factor>
-│       │                       └── intcon(100)
+│       │       └── <constant>
+│       │           └── intcon(100)
 │       ├── semicolon(;)
 │       ├── ident(Colors)
 │       ├── eql(==)
@@ -42,18 +36,12 @@
 │       │       ├── arraysy(array)
 │       │       ├── lbrack([)
 │       │       ├── <range>
-│       │       │   ├── <expression>
-│       │       │   │   └── <simple-expression>
-│       │       │   │       └── <term>
-│       │       │   │           └── <factor>
-│       │       │   │               └── intcon(1)
+│       │       │   ├── <constant>
+│       │       │   │   └── intcon(1)
 │       │       │   ├── period(.)
 │       │       │   ├── period(.)
-│       │       │   └── <expression>
-│       │       │       └── <simple-expression>
-│       │       │           └── <term>
-│       │       │               └── <factor>
-│       │       │                   └── intcon(10)
+│       │       │   └── <constant>
+│       │       │       └── intcon(10)
 │       │       ├── rbrack(])
 │       │       ├── ofsy(of)
 │       │       └── <type>
