@@ -1,0 +1,18 @@
+program CaseStatementTest;
+var
+  day: integer;
+  month: integer;
+  result: string;
+begin
+  case day of
+    1: result := 'Monday';
+    2: result := 'Tuesday';
+    3, 4, 5: result := 'Midweek';
+    6: result := 'Saturday';
+    7: result := 'Sunday'
+  end;
+  case month of
+    1: result := 'Jan';
+    2: result := 'Feb'
+  end;
+end.

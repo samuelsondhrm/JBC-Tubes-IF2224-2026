@@ -94,8 +94,12 @@ ParseNode* Parser::parseFactor() {
 
             callNode->addChild(makeTerminal(expect(TokenType::RPAR, "procedure/function-call")));
             node->addChild(callNode);
+        } else if (check(TokenType::LBRACK) || check(TokenType::PERIOD)) {
+            node->addChild(parseVariable(identTok));
         } else {
-            node->addChild(makeTerminal(identTok));
+            ParseNode* varNode = new ParseNode("<variable>");
+            varNode->addChild(makeTerminal(identTok));
+            node->addChild(varNode);
         }
 
         return node;

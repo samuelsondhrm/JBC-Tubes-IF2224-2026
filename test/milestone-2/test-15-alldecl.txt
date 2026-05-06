@@ -1,0 +1,35 @@
+program AllDeclTest;
+const
+  MAX == 100;
+  MIN == -10;
+  PI == 3.14;
+type
+  Range == 1..10;
+  Colors == (red, green, blue);
+  IntArr == array[1..10] of integer;
+  Person == record
+    name: string;
+    age: integer
+  end;
+var
+  x, y: integer;
+  c: Colors;
+  arr: IntArr;
+  p: Person;
+procedure init;
+var
+  temp: integer;
+begin
+  temp := 0;
+end;
+function calculate(a: integer): integer;
+begin
+end;
+begin
+  x := MAX;
+  y := MIN;
+  arr[1] := x;
+  p.age := 25;
+  init;
+  y := calculate(x);
+end.
