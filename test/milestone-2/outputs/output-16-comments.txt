@@ -1,0 +1,64 @@
+<program>
+├── <program-header>
+│   ├── programsy
+│   ├── ident(CommentTest)
+│   └── semicolon
+├── <declaration-part>
+│   └── <var-declaration>
+│       ├── varsy
+│       ├── <identifier-list>
+│       │   └── ident(x)
+│       ├── colon
+│       ├── <type>
+│       │   └── ident(integer)
+│       ├── semicolon
+│       ├── <identifier-list>
+│       │   └── ident(y)
+│       ├── colon
+│       ├── <type>
+│       │   └── ident(real)
+│       └── semicolon
+├── <compound-statement>
+│   ├── beginsy
+│   ├── <statement-list>
+│   │   ├── <statement>
+│   │   │   └── <assignment-statement>
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(x)
+│   │   │       ├── becomes
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── intcon(5)
+│   │   ├── semicolon
+│   │   ├── <statement>
+│   │   │   └── <assignment-statement>
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(y)
+│   │   │       ├── becomes
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── realcon(3.14)
+│   │   ├── semicolon
+│   │   ├── <statement>
+│   │   │   └── <assignment-statement>
+│   │   │       ├── <variable>
+│   │   │       │   └── ident(x)
+│   │   │       ├── becomes
+│   │   │       └── <expression>
+│   │   │           └── <simple-expression>
+│   │   │               ├── <term>
+│   │   │               │   └── <factor>
+│   │   │               │       └── <variable>
+│   │   │               │           └── ident(x)
+│   │   │               ├── <additive-operator>
+│   │   │               │   └── plus
+│   │   │               └── <term>
+│   │   │                   └── <factor>
+│   │   │                       └── intcon(1)
+│   │   └── semicolon
+│   └── endsy
+└── period

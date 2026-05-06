@@ -1,9 +1,8 @@
 #include "token/token.hpp"
 #include "util/file.hpp"
 #include "lexer/lexer.hpp"
-
+#include <algorithm> 
 #include <iostream>
-#include <fstream>
 
 using namespace std; 
 
@@ -27,9 +26,17 @@ int main(int argc, char* argv[]) {
     vector<Token> tokens = lexer.tokenize();
 
     // Print
+    tokens.erase(
+            std::remove_if(tokens.begin(), tokens.end(), [](const Token& t){
+                return t.type == TokenType::COMMENT;
+                }),
+            tokens.end()
+            );
+                
     for (const Token& t : tokens) {
         cout << t.toString() << "\n";
     }
+
 
     if (argc >= 3) { 
 	    string s; 

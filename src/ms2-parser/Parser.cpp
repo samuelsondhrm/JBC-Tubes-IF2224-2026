@@ -38,9 +38,16 @@ Token Parser::expect(TokenType t, const std::string& context) {
 }
 
 ParseNode* Parser::makeTerminal(const Token& tok) {
-    ParseNode* node = new ParseNode(tok.tokenTypeName(), tok.value);
-    node->isTerminal = true;
-    return node;
+    bool hasValue = tok.type == TokenType::IDENT || 
+                    tok.type == TokenType::INTCON || 
+                    tok.type == TokenType::REALCON || 
+                    tok.type == TokenType::CHARCON || 
+                    tok.type == TokenType::STRING ||
+                    tok.type == TokenType::COMMENT || 
+                    tok.type == TokenType::UNKNOWN;
+    ParseNode *node = new ParseNode(tok.tokenTypeName(), hasValue ? tok.value : ""); 
+    node->isTerminal = true; 
+    return node; 
 }
 
 void Parser::error(const std::string& msg, const Token& at) {

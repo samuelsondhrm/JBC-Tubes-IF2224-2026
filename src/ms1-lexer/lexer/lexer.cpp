@@ -17,6 +17,7 @@ vector<Token> Lexer::tokenize() {
     while (true) {
         Token t = dfa.nextToken();
         if (t.type == TokenType::KW_EOF) break;
+        if (t.type == TokenType::COMMENT) continue;
         tokens.push_back(t);
     }
     return tokens;

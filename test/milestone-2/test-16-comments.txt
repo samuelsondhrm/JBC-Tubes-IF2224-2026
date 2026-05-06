@@ -1,0 +1,18 @@
+program CommentTest;
+{ This is a brace comment }
+var
+  x: integer;
+  (* This is a paren-star comment *)
+  y: real;
+
+{ Comment before begin }
+begin
+  (* Comment inside begin-end *)
+  x := 5;
+  { Another comment mid-statement }
+  y := 3.14;
+  (* Multi-line
+     comment
+     across lines *)
+  x := x + 1;
+end.
