@@ -91,8 +91,8 @@ ParseNode* Parser::parseType() {
             }
         }
         // Jika bukan 'ident', token membentuk 'range'
-        ParseNode* exprNode = parseExpression();
-        node->addChild(parseRange(exprNode));
+        ParseNode* constNode = parseConstant();
+        node->addChild(parseRange(constNode));
     }
 
     return node;
@@ -112,8 +112,8 @@ ParseNode* Parser::parseArrayType() {
     }
     // 'range'
     else {
-        ParseNode* exprNode = parseExpression();
-        node->addChild(parseRange(exprNode));
+        ParseNode* constNode = parseConstant();
+        node->addChild(parseRange(constNode));
     }
     node->addChild(makeTerminal(expect(TokenType::RBRACK, "array-type")));
     node->addChild(makeTerminal(expect(TokenType::KW_OF, "array-type")));
@@ -123,15 +123,15 @@ ParseNode* Parser::parseArrayType() {
 }
 
 /**
- * Grammar: range → expression + period + period + expression
+ * Grammar: range → constant + period + period + constant
  */
-ParseNode* Parser::parseRange(ParseNode* firstExpr) {
+ParseNode* Parser::parseRange(ParseNode* firstConst) {
     ParseNode* node = new ParseNode("<range>");
 
-    node->addChild(firstExpr);
+    node->addChild(firstConst);
     node->addChild(makeTerminal(expect(TokenType::PERIOD, "range")));
     node->addChild(makeTerminal(expect(TokenType::PERIOD, "range")));
-    node->addChild(parseExpression());
+    node->addChild(parseConstant());
 
     return node;
 }

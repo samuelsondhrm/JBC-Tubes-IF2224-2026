@@ -56,7 +56,7 @@ private:
     ParseNode* parseTypeDeclaration();
     ParseNode* parseType();
     ParseNode* parseArrayType();
-    ParseNode* parseRange(ParseNode* firstExpr);  // firstExpr already parsed
+    ParseNode* parseRange(ParseNode* firstConst);  // firstConst already parsed
     ParseNode* parseEnumerated();
     ParseNode* parseRecordType();
     ParseNode* parseFieldList();
