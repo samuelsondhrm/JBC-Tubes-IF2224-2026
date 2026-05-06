@@ -1,53 +1,53 @@
 <program>
 ├── <program-header>
-│   ├── programsy(program)
+│   ├── programsy
 │   ├── ident(Assign)
-│   └── semicolon(;)
+│   └── semicolon
 ├── <declaration-part>
 │   └── <var-declaration>
-│       ├── varsy(var)
+│       ├── varsy
 │       ├── <identifier-list>
 │       │   └── ident(x)
-│       ├── colon(:)
+│       ├── colon
 │       ├── <type>
 │       │   └── ident(integer)
-│       ├── semicolon(;)
+│       ├── semicolon
 │       ├── <identifier-list>
 │       │   └── ident(y)
-│       ├── colon(:)
+│       ├── colon
 │       ├── <type>
 │       │   └── ident(real)
-│       └── semicolon(;)
+│       └── semicolon
 ├── <compound-statement>
-│   ├── beginsy(begin)
+│   ├── beginsy
 │   ├── <statement-list>
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   └── ident(x)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(5)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   └── ident(y)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── realcon(3.14)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <assignment-statement>
 │   │   │       ├── <variable>
 │   │   │       │   └── ident(x)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       └── <expression>
 │   │   │           └── <simple-expression>
 │   │   │               ├── <term>
@@ -55,10 +55,10 @@
 │   │   │               │       └── <variable>
 │   │   │               │           └── ident(x)
 │   │   │               ├── <additive-operator>
-│   │   │               │   └── plus(+)
+│   │   │               │   └── plus
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(1)
-│   │   └── semicolon(;)
-│   └── endsy(end)
-└── period(.)
+│   │   └── semicolon
+│   └── endsy
+└── period

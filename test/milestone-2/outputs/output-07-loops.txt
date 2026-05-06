@@ -1,23 +1,23 @@
 <program>
 ├── <program-header>
-│   ├── programsy(program)
+│   ├── programsy
 │   ├── ident(LoopsTest)
-│   └── semicolon(;)
+│   └── semicolon
 ├── <declaration-part>
 │   └── <var-declaration>
-│       ├── varsy(var)
+│       ├── varsy
 │       ├── <identifier-list>
 │       │   └── ident(i)
-│       ├── colon(:)
+│       ├── colon
 │       ├── <type>
 │       │   └── ident(integer)
-│       └── semicolon(;)
+│       └── semicolon
 ├── <compound-statement>
-│   ├── beginsy(begin)
+│   ├── beginsy
 │   ├── <statement-list>
 │   │   ├── <statement>
 │   │   │   └── <while-statement>
-│   │   │       ├── whilesy(while)
+│   │   │       ├── whilesy
 │   │   │       ├── <expression>
 │   │   │       │   ├── <simple-expression>
 │   │   │       │   │   └── <term>
@@ -25,17 +25,17 @@
 │   │   │       │   │           └── <variable>
 │   │   │       │   │               └── ident(i)
 │   │   │       │   ├── <relational-operator>
-│   │   │       │   │   └── lss(<)
+│   │   │       │   │   └── lss
 │   │   │       │   └── <simple-expression>
 │   │   │       │       └── <term>
 │   │   │       │           └── <factor>
 │   │   │       │               └── intcon(10)
-│   │   │       ├── dosy(do)
+│   │   │       ├── dosy
 │   │   │       └── <statement>
 │   │   │           └── <assignment-statement>
 │   │   │               ├── <variable>
 │   │   │               │   └── ident(i)
-│   │   │               ├── becomes(:=)
+│   │   │               ├── becomes
 │   │   │               └── <expression>
 │   │   │                   └── <simple-expression>
 │   │   │                       ├── <term>
@@ -43,33 +43,33 @@
 │   │   │                       │       └── <variable>
 │   │   │                       │           └── ident(i)
 │   │   │                       ├── <additive-operator>
-│   │   │                       │   └── plus(+)
+│   │   │                       │   └── plus
 │   │   │                       └── <term>
 │   │   │                           └── <factor>
 │   │   │                               └── intcon(1)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <for-statement>
-│   │   │       ├── forsy(for)
+│   │   │       ├── forsy
 │   │   │       ├── ident(i)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       ├── <expression>
 │   │   │       │   └── <simple-expression>
 │   │   │       │       └── <term>
 │   │   │       │           └── <factor>
 │   │   │       │               └── intcon(1)
-│   │   │       ├── tosy(to)
+│   │   │       ├── tosy
 │   │   │       ├── <expression>
 │   │   │       │   └── <simple-expression>
 │   │   │       │       └── <term>
 │   │   │       │           └── <factor>
 │   │   │       │               └── intcon(10)
-│   │   │       ├── dosy(do)
+│   │   │       ├── dosy
 │   │   │       └── <statement>
 │   │   │           └── <assignment-statement>
 │   │   │               ├── <variable>
 │   │   │               │   └── ident(i)
-│   │   │               ├── becomes(:=)
+│   │   │               ├── becomes
 │   │   │               └── <expression>
 │   │   │                   └── <simple-expression>
 │   │   │                       ├── <term>
@@ -77,33 +77,33 @@
 │   │   │                       │       └── <variable>
 │   │   │                       │           └── ident(i)
 │   │   │                       ├── <additive-operator>
-│   │   │                       │   └── plus(+)
+│   │   │                       │   └── plus
 │   │   │                       └── <term>
 │   │   │                           └── <factor>
 │   │   │                               └── intcon(1)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <for-statement>
-│   │   │       ├── forsy(for)
+│   │   │       ├── forsy
 │   │   │       ├── ident(i)
-│   │   │       ├── becomes(:=)
+│   │   │       ├── becomes
 │   │   │       ├── <expression>
 │   │   │       │   └── <simple-expression>
 │   │   │       │       └── <term>
 │   │   │       │           └── <factor>
 │   │   │       │               └── intcon(10)
-│   │   │       ├── downtosy(downto)
+│   │   │       ├── downtosy
 │   │   │       ├── <expression>
 │   │   │       │   └── <simple-expression>
 │   │   │       │       └── <term>
 │   │   │       │           └── <factor>
 │   │   │       │               └── intcon(1)
-│   │   │       ├── dosy(do)
+│   │   │       ├── dosy
 │   │   │       └── <statement>
 │   │   │           └── <assignment-statement>
 │   │   │               ├── <variable>
 │   │   │               │   └── ident(i)
-│   │   │               ├── becomes(:=)
+│   │   │               ├── becomes
 │   │   │               └── <expression>
 │   │   │                   └── <simple-expression>
 │   │   │                       ├── <term>
@@ -111,20 +111,20 @@
 │   │   │                       │       └── <variable>
 │   │   │                       │           └── ident(i)
 │   │   │                       ├── <additive-operator>
-│   │   │                       │   └── minus(-)
+│   │   │                       │   └── minus
 │   │   │                       └── <term>
 │   │   │                           └── <factor>
 │   │   │                               └── intcon(1)
-│   │   ├── semicolon(;)
+│   │   ├── semicolon
 │   │   ├── <statement>
 │   │   │   └── <repeat-statement>
-│   │   │       ├── repeatsy(repeat)
+│   │   │       ├── repeatsy
 │   │   │       ├── <statement-list>
 │   │   │       │   └── <statement>
 │   │   │       │       └── <assignment-statement>
 │   │   │       │           ├── <variable>
 │   │   │       │           │   └── ident(i)
-│   │   │       │           ├── becomes(:=)
+│   │   │       │           ├── becomes
 │   │   │       │           └── <expression>
 │   │   │       │               └── <simple-expression>
 │   │   │       │                   ├── <term>
@@ -132,11 +132,11 @@
 │   │   │       │                   │       └── <variable>
 │   │   │       │                   │           └── ident(i)
 │   │   │       │                   ├── <additive-operator>
-│   │   │       │                   │   └── plus(+)
+│   │   │       │                   │   └── plus
 │   │   │       │                   └── <term>
 │   │   │       │                       └── <factor>
 │   │   │       │                           └── intcon(1)
-│   │   │       ├── untilsy(until)
+│   │   │       ├── untilsy
 │   │   │       └── <expression>
 │   │   │           ├── <simple-expression>
 │   │   │           │   └── <term>
@@ -144,11 +144,11 @@
 │   │   │           │           └── <variable>
 │   │   │           │               └── ident(i)
 │   │   │           ├── <relational-operator>
-│   │   │           │   └── eql(==)
+│   │   │           │   └── eql
 │   │   │           └── <simple-expression>
 │   │   │               └── <term>
 │   │   │                   └── <factor>
 │   │   │                       └── intcon(10)
-│   │   └── semicolon(;)
-│   └── endsy(end)
-└── period(.)
+│   │   └── semicolon
+│   └── endsy
+└── period

@@ -1,8 +1,6 @@
 programsy
 ident (EdgeCases)
 semicolon
-comment ({ komentar brace })
-comment ((* komentar paren *))
 varsy
 ident (pi)
 colon
@@ -42,8 +40,6 @@ ident (pi)
 plus
 realcon (26.7)
 semicolon
-comment ((* komentar
-     multiline *))
 forsy
 ident (pi)
 becomes

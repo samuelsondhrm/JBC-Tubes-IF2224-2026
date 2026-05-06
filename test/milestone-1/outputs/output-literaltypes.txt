@@ -21,7 +21,6 @@ colon
 ident (integer)
 semicolon
 beginsy
-comment ({ charcon: tepat 1 karakter })
 ident (c)
 becomes
 charcon ('z')
@@ -30,7 +29,6 @@ ident (c)
 becomes
 charcon ('a')
 semicolon
-comment ({ string: lebih dari 1 karakter })
 ident (s)
 becomes
 string ('hello')
@@ -39,7 +37,6 @@ ident (s)
 becomes
 string ('IRK')
 semicolon
-comment ({ realcon: angka dengan titik desimal diikuti digit })
 ident (x)
 becomes
 realcon (3.14)
@@ -48,7 +45,6 @@ ident (y)
 becomes
 realcon (26.7)
 semicolon
-comment ({ intcon + period: angka diikuti titik tanpa digit setelahnya })
 ident (a)
 becomes
 intcon (5)

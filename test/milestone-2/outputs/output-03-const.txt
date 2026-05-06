@@ -1,29 +1,29 @@
 <program>
 ├── <program-header>
-│   ├── programsy(program)
+│   ├── programsy
 │   ├── ident(ConstTest)
-│   └── semicolon(;)
+│   └── semicolon
 ├── <declaration-part>
 │   └── <const-declaration>
-│       ├── constsy(const)
+│       ├── constsy
 │       ├── ident(max)
-│       ├── eql(==)
+│       ├── eql
 │       ├── <constant>
 │       │   └── intcon(100)
-│       ├── semicolon(;)
+│       ├── semicolon
 │       ├── ident(min)
-│       ├── eql(==)
+│       ├── eql
 │       ├── <constant>
-│       │   ├── minus(-)
+│       │   ├── minus
 │       │   └── intcon(1)
-│       ├── semicolon(;)
+│       ├── semicolon
 │       ├── ident(msg)
-│       ├── eql(==)
+│       ├── eql
 │       ├── <constant>
 │       │   └── string('hello')
-│       └── semicolon(;)
+│       └── semicolon
 ├── <compound-statement>
-│   ├── beginsy(begin)
+│   ├── beginsy
 │   ├── <statement-list>
-│   └── endsy(end)
-└── period(.)
+│   └── endsy
+└── period

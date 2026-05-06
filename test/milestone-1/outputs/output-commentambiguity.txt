@@ -11,10 +11,6 @@ colon
 ident (string)
 semicolon
 beginsy
-comment ({ komentar brace dengan (* di dalamnya, bukan komentar paren })
-comment ((* komentar paren dengan { di dalamnya, bukan komentar brace *))
-comment ({ komentar dengan karakter khusus: := + - * / < > = })
-comment ((* komentar dengan bintang di tengah: 5 * 3 = 15 *))
 ident (s)
 becomes
 string ('')
@@ -42,8 +38,7 @@ string ('')
 string ('')
 string ('')
 string ('')
-error (';)
-comment ({ operasi perkalian setelah lparent: jangan bingung dengan komentar })
+error (';)
 ident (x)
 becomes
 lparent
