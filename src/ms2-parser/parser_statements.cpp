@@ -12,7 +12,7 @@ ParseNode* Parser::parseStatement() {
         } else if (check(TokenType::LPAR)) {
             node->addChild(parseProcedureFunctionCall(identTok));
         } else {
-            node->addChild(parseProcedureFunctionCall(identTok));
+            error("expected assignment operator or '(' after identifier in statement", current());
         }
     } else if (check(TokenType::KW_BEGIN)){
         node->addChild(parseCompoundStatement());
@@ -202,13 +202,11 @@ ParseNode* Parser::parseProcedureFunctionCall(const Token &identTok){
     ParseNode* node = new ParseNode("<procedure/function-call>");
     node->addChild(makeTerminal(identTok));
     
-    if (check(TokenType::LPAR)) {
-        node->addChild(makeTerminal(consume()));
-        if(!check(TokenType::RPAR)) {
-            node->addChild(parseParameterList());
-        }
-        node->addChild(makeTerminal(expect(TokenType::RPAR, "procedure/function-call")));
+    node->addChild(makeTerminal(expect(TokenType::LPAR, "procedure/function-call")));
+    if(!check(TokenType::RPAR)) {
+        node->addChild(parseParameterList());
     }
+    node->addChild(makeTerminal(expect(TokenType::RPAR, "procedure/function-call")));
     
     return node;
 };

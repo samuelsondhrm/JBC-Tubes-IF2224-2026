@@ -16,7 +16,7 @@ begin
 end;
 
 begin
-  greet;
+  greet();
   printNum(5);
   compute(10, 20);
 end.

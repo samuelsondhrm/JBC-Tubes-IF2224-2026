@@ -30,6 +30,6 @@ begin
   y := MIN;
   arr[1] := x;
   p.age := 25;
-  init;
+  init();
   y := calculate(x);
 end.
