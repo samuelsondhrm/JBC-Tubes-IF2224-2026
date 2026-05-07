@@ -1,0 +1,2 @@
+expected semicolon, got varsy
+expected beginsy

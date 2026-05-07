@@ -1,0 +1,6 @@
+program MisspelledBegin
+var
+  x: integer;
+being
+  x := 5;
+end.

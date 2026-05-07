@@ -33,27 +33,46 @@ Token Parser::expect(TokenType t, const std::string& context) {
     if (!check(t)) {
         error("in " + context + ": expected " + Token(t, "", -1).tokenTypeName() +
               ", got " + current().tokenTypeName(), current());
+        synchronize();
+        if (!check(t)) {
+            return Token(t, "<missing>", current().line);
+        }
     }
     return consume();
 }
 
 ParseNode* Parser::makeTerminal(const Token& tok) {
-    bool hasValue = tok.type == TokenType::IDENT || 
-                    tok.type == TokenType::INTCON || 
-                    tok.type == TokenType::REALCON || 
-                    tok.type == TokenType::CHARCON || 
+    bool hasValue = tok.type == TokenType::IDENT ||
+                    tok.type == TokenType::INTCON ||
+                    tok.type == TokenType::REALCON ||
+                    tok.type == TokenType::CHARCON ||
                     tok.type == TokenType::STRING ||
-                    tok.type == TokenType::COMMENT || 
                     tok.type == TokenType::UNKNOWN;
-    ParseNode *node = new ParseNode(tok.tokenTypeName(), hasValue ? tok.value : ""); 
-    node->isTerminal = true; 
-    return node; 
+    ParseNode* node = new ParseNode(tok.tokenTypeName(), hasValue ? tok.value : "");
+    node->isTerminal = true;
+    return node;
 }
 
 void Parser::error(const std::string& msg, const Token& at) {
-    throw ParseError(at,
+    errors_.push_back({
+        at.line,
         "Syntax error at line " + std::to_string(at.line) +
         ": " + msg +
-        " (got '" + at.value
-        + "')");
+        " (got '" + at.value + "')"
+    });
+}
+
+void Parser::synchronize() {
+    static const TokenType syncSet[] = {
+        TokenType::SEMICOLON, TokenType::KW_END, TokenType::KW_BEGIN,
+        TokenType::KW_ELSE,  TokenType::KW_THEN, TokenType::KW_DO,
+        TokenType::KW_UNTIL, TokenType::PERIOD,  TokenType::RPAR,
+        TokenType::RBRACK,   TokenType::KW_EOF
+    };
+    while (!check(TokenType::KW_EOF)) {
+        for (TokenType t : syncSet) {
+            if (check(t)) return;
+        }
+        consume();
+    }
 }

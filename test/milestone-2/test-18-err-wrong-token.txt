@@ -1,0 +1,7 @@
+program WrongKeyword;
+var
+  a: integer;
+begin
+  a := if 5 then;
+  a := 3 + ;
+end.

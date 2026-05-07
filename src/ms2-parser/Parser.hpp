@@ -1,29 +1,28 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <stdexcept>
 #include "../ms1-lexer/token/token.hpp"
 #include "ParseNode.hpp"
 
-class ParseError : public std::runtime_error {
-private: 
-    Token token_; 
-    int line_; 
-
-public:
-    explicit ParseError(const Token& tok, const std::string& msg) : std::runtime_error(msg), token_(tok), line_(tok.line) {} 
+struct ParseError {
+    int line;
+    std::string message;
 };
+
 class Parser {
 public:
     explicit Parser(const std::vector<Token>& tokens);
 
     ParseNode* parse();
+    const std::vector<ParseError>& errors() const { return errors_; }
+    bool hasError() const { return !errors_.empty(); }
 
 private:
     std::vector<Token> tokens_;
-    size_t             pos_;     // index of current token
-    inline static const Token EOF_TOKEN{TokenType::KW_EOF, "", -1}; 
+    size_t             pos_;
+    inline static const Token EOF_TOKEN{TokenType::KW_EOF, "", -1};
 
+    std::vector<ParseError> errors_;
 
     const Token& current() const;
 
@@ -39,8 +38,8 @@ private:
 
     ParseNode* makeTerminal(const Token& tok);
 
-	void error(const std::string& msg, const Token& at);
-
+    void error(const std::string& msg, const Token& at);
+    void synchronize();
 
     ParseNode* parseProgram();
     ParseNode* parseProgramHeader();

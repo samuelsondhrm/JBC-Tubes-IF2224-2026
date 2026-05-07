@@ -1,0 +1,8 @@
+program MultiErr;
+var
+  x: integer;
+begin
+  x := ;
+  if x == 1
+  x := 2;
+end.

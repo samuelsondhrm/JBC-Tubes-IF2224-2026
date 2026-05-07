@@ -86,3 +86,23 @@ add_diff_test(ms2-13-proccall    arion-parser ${MS2_IN}/test-13-proccall.txt    
 add_diff_test(ms2-14-complex     arion-parser ${MS2_IN}/test-14-complex.txt     ${MS2_OUT}/output-14-complex.txt)
 add_diff_test(ms2-15-alldecl     arion-parser ${MS2_IN}/test-15-alldecl.txt     ${MS2_OUT}/output-15-alldecl.txt)
 add_diff_test(ms2-16-comments    arion-parser ${MS2_IN}/test-16-comments.txt    ${MS2_OUT}/output-16-comments.txt)
+
+
+set(MS2_ERR ${CMAKE_CURRENT_SOURCE_DIR}/test/milestone-2/expected-errors)
+
+function(add_error_test name exe input expected_errors)
+    add_test(
+        NAME ${name}
+        COMMAND ${CMAKE_COMMAND}
+            -D EXE=$<TARGET_FILE:${exe}>
+            -D INPUT=${input}
+            -D EXPECTED_ERRORS=${expected_errors}
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/RunErrorTest.cmake
+    )
+endfunction()
+
+add_error_test(ms2-err-17 arion-parser ${MS2_IN}/test-17-err-missing-semi.txt ${MS2_ERR}/err-17-missing-semi.txt)
+add_error_test(ms2-err-18 arion-parser ${MS2_IN}/test-18-err-wrong-token.txt  ${MS2_ERR}/err-18-wrong-token.txt)
+add_error_test(ms2-err-19 arion-parser ${MS2_IN}/test-19-err-multiple.txt     ${MS2_ERR}/err-19-multiple.txt)
+add_error_test(ms2-err-20 arion-parser ${MS2_IN}/test-20-err-misspelled.txt   ${MS2_ERR}/err-20-misspelled.txt)
+add_error_test(ms2-err-21 arion-parser ${MS2_IN}/test-21-err-bad-for.txt       ${MS2_ERR}/err-21-bad-for.txt)

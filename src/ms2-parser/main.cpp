@@ -23,22 +23,21 @@ int main(int argc, char* argv[]) {
     Lexer lexer(src);
     std::vector<Token> tokens = lexer.tokenize();
 
-    try {
-        Parser parser(tokens);
-        ParseNode* tree = parser.parse();
+    Parser parser(tokens);
+    ParseNode* tree = parser.parse();
 
-        if (argc >= 3) {
-            std::ofstream outFile(argv[2]);
-            printTree(tree, outFile);
-            outFile.close();
-            std::cout << "Parse tree saved at " << argv[2] << std::endl;
-        }
-        printTree(tree, std::cout);
-        delete tree;
-    } catch (const ParseError& e) {
-        std::cerr << e.what() << "\n";
-        return 1;
+    for (const auto& err : parser.errors()) {
+        std::cerr << err.message << "\n";
     }
 
-    return 0;
+    if (argc >= 3) {
+        std::ofstream outFile(argv[2]);
+        printTree(tree, outFile);
+        outFile.close();
+        std::cout << "Parse tree saved at " << argv[2] << std::endl;
+    }
+    printTree(tree, std::cout);
+
+    delete tree;
+    return parser.hasError() ? 1 : 0;
 }
