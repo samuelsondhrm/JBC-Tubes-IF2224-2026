@@ -174,6 +174,10 @@ ParseNode* Parser::parseFieldList() {
 
     node->addChild(parseFieldPart());
     while (check(TokenType::SEMICOLON)) {
+        if (peekAt(1).type == TokenType::KW_END) {
+            node->addChild(makeTerminal(consume()));
+            break; 
+        } 
         node->addChild(makeTerminal(consume()));
         node->addChild(parseFieldPart());
     }
