@@ -16,6 +16,7 @@ struct ParseNode {
     std::string             name;
     std::string             value;
     bool                    isTerminal; 
+    int                     line = 0;
     std::vector<ParseNode*> children;
 
     ParseNode(const std::string& name, const std::string& value = "");

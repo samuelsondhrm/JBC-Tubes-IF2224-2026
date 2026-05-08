@@ -50,6 +50,7 @@ ParseNode* Parser::makeTerminal(const Token& tok) {
                     tok.type == TokenType::UNKNOWN;
     ParseNode* node = new ParseNode(tok.tokenTypeName(), hasValue ? tok.value : "");
     node->isTerminal = true;
+    node->line = tok.line;
     return node;
 }
 
