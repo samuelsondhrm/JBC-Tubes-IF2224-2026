@@ -9,3 +9,4 @@ CMakeFiles/
 *.cmake
 *.a
 compile_commands.json
+.cache
