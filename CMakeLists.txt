@@ -40,6 +40,23 @@ target_link_libraries(arion_parser_lib PUBLIC arion_lexer_lib)
 add_executable(arion-parser src/ms2-parser/main.cpp)
 target_link_libraries(arion-parser PRIVATE arion_parser_lib)
 
+add_library(arion_semantic_lib STATIC
+    src/ms3-semantic/ast/ASTNode.cpp
+    src/ms3-semantic/builder/ASTBuilder.cpp
+    src/ms3-semantic/symtable/SymbolTable.cpp
+    src/ms3-semantic/semantic/SemanticAnalyzer.cpp
+    src/ms3-semantic/semantic/visit_declarations.cpp
+    src/ms3-semantic/semantic/visit_statements.cpp
+    src/ms3-semantic/semantic/visit_expressions.cpp
+    src/ms3-semantic/type/TypeChecker.cpp
+    src/ms3-semantic/printer/DecoratedASTPrinter.cpp
+)
+target_include_directories(arion_semantic_lib PUBLIC src/ms3-semantic)
+target_link_libraries(arion_semantic_lib PUBLIC arion_parser_lib)
+
+add_executable(arion-semantic src/ms3-semantic/main.cpp)
+target_link_libraries(arion-semantic PRIVATE arion_semantic_lib)
+
 
 function(add_diff_test name exe input expected)
     add_test(
