@@ -45,7 +45,6 @@ ASTNode* ASTBuilder::buildNode(ParseNode* node) {
     if (node->name == "<type>")                 return buildType(node);
     if (node->name == "<variable>")             return buildVariable(node);
 
-    // Some simple type resolution
     if (node->name == "<array-type>")           return buildArrayType(node);
     if (node->name == "<record-type>")          return buildRecordType(node);
     if (node->name == "<range>")                return buildRange(node);
