@@ -1,6 +1,24 @@
 #include "ASTBuilder.hpp"
 #include <iostream>
 
+static std::string tokenNameToOp(const std::string& name) {
+    if (name == "eql")    return "==";
+    if (name == "neq")    return "<>";
+    if (name == "lss")    return "<";
+    if (name == "leq")    return "<=";
+    if (name == "gtr")    return ">";
+    if (name == "geq")    return ">=";
+    if (name == "plus")   return "+";
+    if (name == "minus")  return "-";
+    if (name == "times")  return "*";
+    if (name == "rdiv")   return "/";
+    if (name == "idiv")   return "div";
+    if (name == "imod")   return "mod";
+    if (name == "andsy")  return "and";
+    if (name == "orsy")   return "or";
+    return name;
+}
+
 ASTNode* ASTBuilder::build(ParseNode* node) {
     return buildNode(node);
 }
@@ -24,9 +42,6 @@ ASTNode* ASTBuilder::buildNode(ParseNode* node) {
     if (!node) return nullptr;
     if (node->name == "<program>")              return buildProgram(node);
     if (node->name == "<block>")                return buildBlock(node);
-    if (node->name == "<var-declaration>")      return buildVarDecl(node);
-    if (node->name == "<const-declaration>")    return buildConstDecl(node);
-    if (node->name == "<type-declaration>")     return buildTypeDecl(node);
     if (node->name == "<procedure-declaration>")return buildProcDecl(node);
     if (node->name == "<function-declaration>") return buildFuncDecl(node);
     if (node->name == "<compound-statement>")   return buildCompound(node);
@@ -89,71 +104,70 @@ ASTNode* ASTBuilder::buildBlock(ParseNode* node) {
 
 void ASTBuilder::buildDeclarationPart(ParseNode* node, std::vector<ASTNode*>& decls) {
     for (auto* child : node->children) {
-        if (child->name == "<const-declaration>" ||
-            child->name == "<type-declaration>" ||
-            child->name == "<var-declaration>" ||
-            child->name == "<procedure-declaration>" ||
-            child->name == "<function-declaration>") {
-            ASTNode* d = buildNode(child);
-            if (d) decls.push_back(d);
+        if (child->name == "<const-declaration>") {
+            buildConstDecl(child, decls);
+        } else if (child->name == "<type-declaration>") {
+            buildTypeDecl(child, decls);
+        } else if (child->name == "<var-declaration>") {
+            buildVarDecl(child, decls);
+        } else if (child->name == "<subprogram-declaration>") {
+            if (!child->children.empty()) {
+                ASTNode* d = buildNode(child->children[0]);
+                if (d) decls.push_back(d);
+            }
         }
     }
 }
 
-ASTNode* ASTBuilder::buildVarDecl(ParseNode* node) {
-    auto* v = new VarDeclNode();
-    v->kind = ASTKind::VarDecl;
-    v->line = node->line;
-    
-    ParseNode* idList = findChild(node, "<identifier-list>");
-    if (idList) {
-        for (auto* ident : findChildren(idList, "ident")) {
+void ASTBuilder::buildVarDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
+    auto idLists = findChildren(node, "<identifier-list>");
+    auto typeNodes = findChildren(node, "<type>");
+    size_t count = std::min(idLists.size(), typeNodes.size());
+    for (size_t i = 0; i < count; ++i) {
+        auto* v = new VarDeclNode();
+        v->kind = ASTKind::VarDecl;
+        v->line = idLists[i]->line;
+        for (auto* ident : findChildren(idLists[i], "ident")) {
             v->names.push_back(ident->value);
         }
+        v->typeNode = buildType(typeNodes[i]);
+        decls.push_back(v);
     }
-    ParseNode* typeNode = findChild(node, "<type>");
-    if (typeNode) v->typeNode = buildType(typeNode);
-    return v;
 }
 
-ASTNode* ASTBuilder::buildConstDecl(ParseNode* node) {
-    auto* c = new ConstDeclNode();
-    c->kind = ASTKind::ConstDecl;
-    c->line = node->line;
-    
-    ParseNode* ident = findChild(node, "ident");
-    if (ident) c->name = ident->value;
-    
-    // find constant (expression or literal). skip EQL
-    ParseNode* constant = findChild(node, "<constant>");
-    if (constant && !constant->children.empty()) {
-        ParseNode* inner = constant->children[0];
-        if (inner->name == "intcon") {
-            auto* i = new IntLitNode(); i->kind = ASTKind::IntLit; i->value = std::stoi(inner->value); i->line = inner->line; c->value = i;
-        } else if (inner->name == "realcon") {
-            auto* r = new RealLitNode(); r->kind = ASTKind::RealLit; r->value = std::stod(inner->value); r->line = inner->line; c->value = r;
-        } else if (inner->name == "charcon") {
-            auto* ch = new CharLitNode(); ch->kind = ASTKind::CharLit; ch->value = inner->value.empty() ? '\0' : inner->value[0]; ch->line = inner->line; c->value = ch;
-        } else if (inner->name == "string") {
-            auto* s = new StringLitNode(); s->kind = ASTKind::StringLit; s->value = inner->value; s->line = inner->line; c->value = s;
-        } else if (inner->name == "ident") {
-            auto* v = new VarNode(); v->kind = ASTKind::Var; v->name = inner->value; v->line = inner->line; c->value = v;
+void ASTBuilder::buildConstDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
+    auto idents = findChildren(node, "ident");
+    auto constants = findChildren(node, "<constant>");
+    size_t count = std::min(idents.size(), constants.size());
+    for (size_t i = 0; i < count; ++i) {
+        auto* c = new ConstDeclNode();
+        c->kind = ASTKind::ConstDecl;
+        c->line = idents[i]->line;
+        c->name = idents[i]->value;
+        if (!constants[i]->children.empty()) {
+            ParseNode* inner = constants[i]->children[0];
+            if (inner->name == "intcon") { auto* it = new IntLitNode(); it->kind = ASTKind::IntLit; it->value = std::stoi(inner->value); it->line = inner->line; c->value = it; }
+            else if (inner->name == "realcon") { auto* r = new RealLitNode(); r->kind = ASTKind::RealLit; r->value = std::stod(inner->value); r->line = inner->line; c->value = r; }
+            else if (inner->name == "charcon") { auto* ch = new CharLitNode(); ch->kind = ASTKind::CharLit; ch->value = inner->value.empty() ? '\0' : inner->value[0]; ch->line = inner->line; c->value = ch; }
+            else if (inner->name == "string") { auto* s = new StringLitNode(); s->kind = ASTKind::StringLit; s->value = inner->value; s->line = inner->line; c->value = s; }
+            else if (inner->name == "ident") { auto* v = new VarNode(); v->kind = ASTKind::Var; v->name = inner->value; v->line = inner->line; c->value = v; }
         }
+        decls.push_back(c);
     }
-    return c;
 }
 
-ASTNode* ASTBuilder::buildTypeDecl(ParseNode* node) {
-    auto* t = new TypeDeclNode();
-    t->kind = ASTKind::TypeDecl;
-    t->line = node->line;
-    
-    ParseNode* ident = findChild(node, "ident");
-    if (ident) t->name = ident->value;
-    
-    ParseNode* typeNode = findChild(node, "<type>");
-    if (typeNode) t->typeNode = buildType(typeNode);
-    return t;
+void ASTBuilder::buildTypeDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
+    auto idents = findChildren(node, "ident");
+    auto typeNodes = findChildren(node, "<type>");
+    size_t count = std::min(idents.size(), typeNodes.size());
+    for (size_t i = 0; i < count; ++i) {
+        auto* t = new TypeDeclNode();
+        t->kind = ASTKind::TypeDecl;
+        t->line = idents[i]->line;
+        t->name = idents[i]->value;
+        t->typeNode = buildType(typeNodes[i]);
+        decls.push_back(t);
+    }
 }
 
 ASTNode* ASTBuilder::buildProcDecl(ParseNode* node) {
@@ -179,7 +193,22 @@ ASTNode* ASTBuilder::buildProcDecl(ParseNode* node) {
                 }
             }
             ParseNode* t = findChild(group, "<type>");
-            if (t) param->typeNode = buildType(t);
+            if (t) {
+                param->typeNode = buildType(t);
+            } else {
+                for (size_t j = 0; j < group->children.size(); ++j) {
+                    if (group->children[j]->name == "colon" && j+1 < group->children.size()) {
+                        ParseNode* ti = group->children[j+1];
+                        if (ti->name == "ident") {
+                            auto* s = new SimpleTypeNode();
+                            s->kind = ASTKind::SimpleType; s->typeName = ti->value; s->line = ti->line;
+                            param->typeNode = s;
+                        }
+                        break;
+                    }
+                }
+            }
+
             p->params.push_back(param);
         }
     }
@@ -211,14 +240,28 @@ ASTNode* ASTBuilder::buildFuncDecl(ParseNode* node) {
                 }
             }
             ParseNode* t = findChild(group, "<type>");
-            if (t) param->typeNode = buildType(t);
+            if (t) {
+                param->typeNode = buildType(t);
+            } else {
+                for (size_t j = 0; j < group->children.size(); ++j) {
+                    if (group->children[j]->name == "colon" && j+1 < group->children.size()) {
+                        ParseNode* ti = group->children[j+1];
+                        if (ti->name == "ident") {
+                            auto* s = new SimpleTypeNode();
+                            s->kind = ASTKind::SimpleType; s->typeName = ti->value; s->line = ti->line;
+                            param->typeNode = s;
+                        }
+                        break;
+                    }
+                }
+            }
             f->params.push_back(param);
         }
     }
     
     // Find return type
     for (size_t i = 0; i < node->children.size(); ++i) {
-        if (node->children[i]->name == "colonsy" && i + 1 < node->children.size() && node->children[i+1]->name == "ident") {
+        if (node->children[i]->name == "colon" && i + 1 < node->children.size() && node->children[i+1]->name == "ident") {
             f->returnTypeName = node->children[i+1]->value;
             break;
         }
@@ -485,7 +528,7 @@ ASTNode* ASTBuilder::buildExpression(ParseNode* node) {
             if (!left) {
                 left = buildSimpleExpression(children[i]);
             } else {
-                std::string op = children[i-1]->children[0]->value;
+                std::string op = tokenNameToOp(children[i-1]->children[0]->name);
                 auto* bin = new BinOpNode();
                 bin->kind = ASTKind::BinOp;
                 bin->line = children[i-1]->line;
@@ -504,7 +547,7 @@ ASTNode* ASTBuilder::buildSimpleExpression(ParseNode* node) {
     ASTNode* left = nullptr;
     
     size_t i = 0;
-    if (i < children.size() && (children[i]->name == "plussy" || children[i]->name == "minussy")) {
+    if (i < children.size() && (children[i]->name == "plus" || children[i]->name == "minus")) {
         auto* un = new UnaryOpNode();
         un->kind = ASTKind::UnaryOp;
         un->line = children[i]->line;
@@ -522,7 +565,7 @@ ASTNode* ASTBuilder::buildSimpleExpression(ParseNode* node) {
             if (!left) {
                 left = buildTerm(children[i]);
             } else {
-                std::string op = children[i-1]->children[0]->value;
+                std::string op = tokenNameToOp(children[i-1]->children[0]->name);
                 auto* bin = new BinOpNode();
                 bin->kind = ASTKind::BinOp;
                 bin->line = children[i-1]->line;
@@ -545,7 +588,7 @@ ASTNode* ASTBuilder::buildTerm(ParseNode* node) {
             if (!left) {
                 left = buildFactor(children[i]);
             } else {
-                std::string op = children[i-1]->children[0]->value;
+                std::string op = tokenNameToOp(children[i-1]->children[0]->name);
                 auto* bin = new BinOpNode();
                 bin->kind = ASTKind::BinOp;
                 bin->line = children[i-1]->line;
@@ -563,49 +606,15 @@ ASTNode* ASTBuilder::buildFactor(ParseNode* node) {
     if (node->children.empty()) return nullptr;
     ParseNode* child = node->children[0];
     
-    if (child->name == "ident") {
-        for (auto* sibling : node->children) {
-            if (sibling->name == "<procedure/function-call>") {
-                return buildFuncCall(sibling);
-            }
-            if (sibling->name == "<variable>") {
-                return buildVariable(sibling);
-            }
-        }
-        auto* v = new VarNode();
-        v->kind = ASTKind::Var;
-        v->name = child->value;
-        v->line = child->line;
-        return v;
-    }
-    
-    if (child->name == "intcon") {
-        auto* i = new IntLitNode(); i->kind = ASTKind::IntLit; i->value = std::stoi(child->value); i->line = child->line; return i;
-    }
-    if (child->name == "realcon") {
-        auto* r = new RealLitNode(); r->kind = ASTKind::RealLit; r->value = std::stod(child->value); r->line = child->line; return r;
-    }
-    if (child->name == "charcon") {
-        auto* c = new CharLitNode(); c->kind = ASTKind::CharLit; c->value = child->value.empty() ? '\0' : child->value[0]; c->line = child->line; return c;
-    }
-    if (child->name == "string") {
-        auto* s = new StringLitNode(); s->kind = ASTKind::StringLit; s->value = child->value; s->line = child->line; return s;
-    }
-    if (child->name == "boolcon") {
-        auto* b = new BoolLitNode(); b->kind = ASTKind::BoolLit; b->value = (child->value == "true"); b->line = child->line; return b;
-    }
-    
-    if (child->name == "notsy") {
-        auto* un = new UnaryOpNode();
-        un->kind = ASTKind::UnaryOp;
-        un->line = child->line;
-        un->op = "not";
-        un->operand = buildFactor(node->children[1]);
-        return un;
-    }
-    if (child->name == "lpar") {
-        return buildExpression(node->children[1]);
-    }
+    if (child->name == "<procedure/function-call>") return buildFuncCall(child);
+    if (child->name == "<variable>")                return buildVariable(child);
+    if (child->name == "intcon")  { auto* i = new IntLitNode(); i->kind = ASTKind::IntLit; i->value = std::stoi(child->value); i->line = child->line; return i; }
+    if (child->name == "realcon") { auto* r = new RealLitNode(); r->kind = ASTKind::RealLit; r->value = std::stod(child->value); r->line = child->line; return r; }
+    if (child->name == "charcon") { auto* c = new CharLitNode(); c->kind = ASTKind::CharLit; c->value = child->value.size()>=2 ? child->value[1] : '\0'; c->line = child->line; return c; }
+    if (child->name == "string")  { auto* s = new StringLitNode(); s->kind = ASTKind::StringLit; s->value = child->value; s->line = child->line; return s; }
+    if (child->name == "boolcon") { auto* b = new BoolLitNode(); b->kind = ASTKind::BoolLit; b->value = (child->value == "true"); b->line = child->line; return b; }
+    if (child->name == "notsy")   { auto* u = new UnaryOpNode(); u->kind = ASTKind::UnaryOp; u->op = "not"; u->line = child->line; u->operand = buildFactor(node->children[1]); return u; }
+    if (child->name == "lparent") return buildExpression(node->children[1]);
     
     return nullptr;
 }
@@ -625,14 +634,28 @@ ASTNode* ASTBuilder::buildVariable(ParseNode* node) {
             ParseNode* idxList = findChild(comp, "<index-list>");
             if (idxList) {
                 // assume single index for now
-                auto exprs = findChildren(idxList, "<expression>");
-                for (auto* e : exprs) {
-                    auto* arr = new ArrayAccessNode();
-                    arr->kind = ASTKind::ArrayAccess;
-                    arr->line = comp->line;
-                    arr->array = base;
-                    arr->index = buildExpression(e);
-                    base = arr;
+                if (idxList && !idxList->children.empty()) {
+                    ParseNode* idxTok = idxList->children[0];  // intcon, charcon, atau ident
+                    ASTNode* idxNode = nullptr;
+                    if (idxTok->name == "intcon") {
+                        auto* i = new IntLitNode(); i->kind = ASTKind::IntLit;
+                        i->value = std::stoi(idxTok->value); i->line = idxTok->line;
+                        idxNode = i;
+                    } else if (idxTok->name == "ident") {
+                        auto* v = new VarNode(); v->kind = ASTKind::Var;
+                        v->name = idxTok->value; v->line = idxTok->line;
+                        idxNode = v;
+                    } else if (idxTok->name == "charcon") {
+                        auto* c = new CharLitNode(); c->kind = ASTKind::CharLit;
+                        c->value = idxTok->value.size() >= 2 ? idxTok->value[1] : '\0'; c->line = idxTok->line;
+                        idxNode = c;
+                    }
+                    if (idxNode) {
+                        auto* arr = new ArrayAccessNode();
+                        arr->kind = ASTKind::ArrayAccess; arr->line = comp->line;
+                        arr->array = base; arr->index = idxNode;
+                        base = arr;
+                    }
                 }
             }
         } else if (comp->children[0]->name == "period") {

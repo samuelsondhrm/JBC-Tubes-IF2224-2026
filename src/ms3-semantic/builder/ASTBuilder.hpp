@@ -14,9 +14,9 @@ private:
     ASTNode* buildProgram(ParseNode* node);
     ASTNode* buildBlock(ParseNode* node);
     void buildDeclarationPart(ParseNode* node, std::vector<ASTNode*>& decls);
-    ASTNode* buildVarDecl(ParseNode* node);
-    ASTNode* buildConstDecl(ParseNode* node);
-    ASTNode* buildTypeDecl(ParseNode* node);
+    void buildVarDecl(ParseNode* node, std::vector<ASTNode*>& decls);
+    void buildConstDecl(ParseNode* node, std::vector<ASTNode*>& decls);
+    void buildTypeDecl(ParseNode* node, std::vector<ASTNode*>& decls);
     ASTNode* buildProcDecl(ParseNode* node);
     ASTNode* buildFuncDecl(ParseNode* node);
     
