@@ -148,7 +148,7 @@ void ASTBuilder::buildConstDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
             ParseNode* inner = constants[i]->children[0];
             if (inner->name == "intcon") { auto* it = new IntLitNode(); it->kind = ASTKind::IntLit; it->value = std::stoi(inner->value); it->line = inner->line; c->value = it; }
             else if (inner->name == "realcon") { auto* r = new RealLitNode(); r->kind = ASTKind::RealLit; r->value = std::stod(inner->value); r->line = inner->line; c->value = r; }
-            else if (inner->name == "charcon") { auto* ch = new CharLitNode(); ch->kind = ASTKind::CharLit; ch->value = inner->value.empty() ? '\0' : inner->value[0]; ch->line = inner->line; c->value = ch; }
+            else if (inner->name == "charcon") { auto* ch = new CharLitNode(); ch->kind = ASTKind::CharLit; ch->value = inner->value.size() >= 2 ? inner->value[1] : '\0'; ch->line = inner->line; c->value = ch; }
             else if (inner->name == "string") { auto* s = new StringLitNode(); s->kind = ASTKind::StringLit; s->value = inner->value; s->line = inner->line; c->value = s; }
             else if (inner->name == "ident") { auto* v = new VarNode(); v->kind = ASTKind::Var; v->name = inner->value; v->line = inner->line; c->value = v; }
         }
@@ -359,11 +359,8 @@ ASTNode* ASTBuilder::buildEnumerated(ParseNode* node) {
     e->kind = ASTKind::Enumerated;
     e->line = node->line;
     
-    ParseNode* idList = findChild(node, "<identifier-list>");
-    if (idList) {
-        for (auto* id : findChildren(idList, "ident")) {
-            e->values.push_back(id->value);
-        }
+    for (auto* id : findChildren(node, "ident")) {
+        e->values.push_back(id->value);
     }
     return e;
 }
@@ -405,7 +402,8 @@ ASTNode* ASTBuilder::buildIf(ParseNode* node) {
     i->kind = ASTKind::If;
     i->line = node->line;
     
-    i->condition = buildExpression(findChild(node, "<expression>"));
+    ParseNode* exprNode = findChild(node, "<expression>");
+    if (exprNode) i->condition = buildExpression(exprNode);
     auto stmts = findChildren(node, "<statement>");
     if (stmts.size() > 0) i->thenBranch = buildStatement(stmts[0]);
     if (stmts.size() > 1) i->elseBranch = buildStatement(stmts[1]);
@@ -418,8 +416,10 @@ ASTNode* ASTBuilder::buildWhile(ParseNode* node) {
     w->kind = ASTKind::While;
     w->line = node->line;
     
-    w->condition = buildExpression(findChild(node, "<expression>"));
-    w->body = buildStatement(findChild(node, "<statement>"));
+    ParseNode* exprNode = findChild(node, "<expression>");
+    if (exprNode) w->condition = buildExpression(exprNode);
+    ParseNode* bodyNode = findChild(node, "<statement>");
+    if (bodyNode) w->body = buildStatement(bodyNode);
     
     return w;
 }
@@ -438,7 +438,9 @@ ASTNode* ASTBuilder::buildFor(ParseNode* node) {
     
     if (findChild(node, "downtosy")) f->downto = true;
     
-    f->body = buildStatement(findChild(node, "<statement>"));
+    ParseNode* bodyNode = findChild(node, "<statement>");
+    if (bodyNode) f->body = buildStatement(bodyNode);
+
     return f;
 }
 
@@ -454,8 +456,17 @@ ASTNode* ASTBuilder::buildRepeat(ParseNode* node) {
             if (st) r->body.push_back(st);
         }
     }
-    r->condition = buildExpression(findChild(node, "<expression>"));
+    ParseNode* exprNode = findChild(node, "<expression>");
+    if (exprNode) r->condition = buildExpression(exprNode);
     return r;
+}
+
+static void flattenCaseBlocks(ParseNode* block, std::vector<ParseNode*>& out) {
+    if (!block || block->name != "<case-block>") return;
+    out.push_back(block);
+    for (auto* child : block->children) {
+        if (child->name == "<case-block>") flattenCaseBlocks(child, out);
+    }
 }
 
 ASTNode* ASTBuilder::buildCase(ParseNode* node) {
@@ -463,9 +474,14 @@ ASTNode* ASTBuilder::buildCase(ParseNode* node) {
     c->kind = ASTKind::Case;
     c->line = node->line;
     
-    c->expr = buildExpression(findChild(node, "<expression>"));
+    ParseNode* exprNode = findChild(node, "<expression>");
+    if (exprNode) c->expr = buildExpression(exprNode);
     
-    for (auto* block : findChildren(node, "<case-block>")) {
+    std::vector<ParseNode*> allBlocks;
+    ParseNode* firstBlock = findChild(node, "<case-block>");
+    flattenCaseBlocks(firstBlock, allBlocks);
+    
+    for (auto* block : allBlocks) {
         auto* branch = new CaseBranchNode();
         branch->kind = ASTKind::CaseBranch;
         branch->line = block->line;
@@ -551,7 +567,7 @@ ASTNode* ASTBuilder::buildSimpleExpression(ParseNode* node) {
         auto* un = new UnaryOpNode();
         un->kind = ASTKind::UnaryOp;
         un->line = children[i]->line;
-        un->op = children[i]->value;
+        un->op = tokenNameToOp(children[i]->name);
         i++;
         if (i < children.size() && children[i]->name == "<term>") {
             un->operand = buildTerm(children[i]);
