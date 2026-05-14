@@ -38,6 +38,17 @@ void SemanticAnalyzer::visitCompound(CompoundNode *node)
 void SemanticAnalyzer::visitAssign(AssignNode *node)
 {
     visitExpr(node->target);
+
+    // Check target is writable (not a constant)
+    if (node->target && node->target->sem.tab_index >= 0)
+    {
+        ms3::TabEntry &t = symTable.getTabEntry(node->target->sem.tab_index);
+        if (t.obj == OBJ_CONSTANT)
+        {
+            semanticError("Cannot assign to constant '" + t.name + "'", node->line);
+        }
+    }
+
     visitExpr(node->value);
 
     int targetType = node->target ? node->target->sem.type_code : TYPE_NONE;
