@@ -156,4 +156,67 @@ void SemanticAnalyzer::visitCase(CaseNode *node)
     }
 }
 
-void SemanticAnalyzer::visitProcCall(ProcCallNode *node){}
+
+void SemanticAnalyzer::visitProcCall(ProcCallNode *node)
+{
+    std::string lowerName = node->name;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), [](unsigned char c) { return std::tolower(c); });
+
+    if (lowerName == "writeln" || lowerName == "write" || lowerName == "readln" || lowerName == "read")
+    {
+        for (ASTNode *arg : node->args)
+        {
+            visitExpr(arg);
+        }
+        node->sem.type_code = TYPE_VOID;
+        return;
+    }
+
+    int idx = symTable.lookup(node->name);
+    if (idx == -1)
+    {
+        semanticError("Undeclared identifier: '" + node->name + "'", node->line);
+        node->sem.type_code = TYPE_VOID;
+        return;
+    }
+
+    ms3::TabEntry &e = symTable.getTabEntry(idx);
+    if (e.obj != OBJ_PROCEDURE)
+    {
+        semanticError("'" + node->name + "' is not a procedure", node->line);
+        node->sem.type_code = TYPE_VOID;
+        return;
+    }
+
+    ms3::BtabEntry &b = symTable.getBtabEntry(e.ref);
+    int expectedArgs = b.lpar;
+    int actualArgs = static_cast<int>(node->args.size());
+
+    if (actualArgs != expectedArgs)
+    {
+        semanticError("Wrong number of arguments for '" + node->name + "': expected " + std::to_string(expectedArgs) + ", got " + std::to_string(actualArgs), node->line);
+    }
+
+    int paramIdx = idx + 1;
+    int checkCount = std::min(actualArgs, expectedArgs);
+
+    for (int i = 0; i < static_cast<int>(node->args.size()); ++i)
+    {
+        visitExpr(node->args[i]);
+
+        if (i < checkCount)
+        {
+            ms3::TabEntry &param = symTable.getTabEntry(paramIdx + i);
+            int argType = node->args[i] ? node->args[i]->sem.type_code : TYPE_NONE;
+            int paramType = param.type;
+
+            if (!typeChecker.isCompatible(argType, paramType))
+            {
+                semanticError("Type mismatch for argument " + std::to_string(i + 1) + " of '" + node->name + "'", node->line);
+            }
+        }
+    }
+
+    node->sem.type_code = TYPE_VOID;
+    node->sem.tab_index = idx;
+}
