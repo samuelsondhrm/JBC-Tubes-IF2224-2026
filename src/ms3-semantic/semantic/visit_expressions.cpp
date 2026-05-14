@@ -77,9 +77,85 @@ void SemanticAnalyzer::visitBoolLit(BoolLitNode *node)
 }
 
 
-void SemanticAnalyzer::visitVar(VarNode *node){}
-void SemanticAnalyzer::visitBinOp(BinOpNode *node){}
-void SemanticAnalyzer::visitUnaryOp(UnaryOpNode *node){}
+
+void SemanticAnalyzer::visitVar(VarNode *node)
+{
+    int idx = symTable.lookup(node->name);
+    if (idx == -1)
+    {
+        semanticError("Undeclared identifier: '" + node->name + "'", node->line);
+        node->sem.type_code = TYPE_NONE;
+        return;
+    }
+
+    ms3::TabEntry &e = symTable.getTabEntry(idx);
+
+    if (e.obj != OBJ_VARIABLE && e.obj != OBJ_CONSTANT && e.obj != OBJ_FUNCTION)
+    {
+        semanticError("'" + node->name + "' is not a variable or value", node->line);
+        node->sem.type_code = TYPE_NONE;
+        return;
+    }
+
+    node->sem.type_code = e.type;
+    node->sem.tab_index = idx;
+    node->sem.lev = e.lev;
+    node->sem.ref = e.ref;
+}
+
+
+void SemanticAnalyzer::visitBinOp(BinOpNode *node)
+{
+    visitExpr(node->left);
+    visitExpr(node->right);
+
+    int leftType = node->left ? node->left->sem.type_code : TYPE_NONE;
+    int rightType = node->right ? node->right->sem.type_code : TYPE_NONE;
+    int resultType = typeChecker.getOperatorResultType(node->op, leftType, rightType);
+
+    if (resultType == TYPE_NONE)
+    {
+        semanticError("Type mismatch for operator '" + node->op + "': incompatible operands", node->line);
+    }
+
+    node->sem.type_code = resultType;
+    node->sem.lev = currentLevel_;
+}
+
+void SemanticAnalyzer::visitUnaryOp(UnaryOpNode *node)
+{
+    visitExpr(node->operand);
+
+    int t = node->operand ? node->operand->sem.type_code : TYPE_NONE;
+
+    if (node->op == "not")
+    {
+        if (t != TYPE_BOOLEAN)
+        {
+            semanticError("Type mismatch for operator 'not': operand must be Boolean", node->line);
+            node->sem.type_code = TYPE_NONE;
+            return;
+        }
+        node->sem.type_code = TYPE_BOOLEAN;
+    }
+    else if (node->op == "-" || node->op == "+")
+    {
+        if (t != TYPE_INTEGER && t != TYPE_REAL)
+        {
+            semanticError("Type mismatch for operator '" + node->op + "': operand must be Integer or Real", node->line);
+            node->sem.type_code = TYPE_NONE;
+            return;
+        }
+        node->sem.type_code = t;
+    }
+    else
+    {
+        semanticError("Unknown unary operator '" + node->op + "'", node->line);
+        node->sem.type_code = TYPE_NONE;
+    }
+    node->sem.lev = currentLevel_;
+}
+
 void SemanticAnalyzer::visitArrayAccess(ArrayAccessNode *node){}
 void SemanticAnalyzer::visitRecordAccess(RecordAccessNode *node){}
 void SemanticAnalyzer::visitFuncCall(FuncCallNode *node){}
