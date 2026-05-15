@@ -1,0 +1,34 @@
+program ParameterCoverage;
+var
+  i: integer;
+  r: real;
+  ok: boolean;
+
+function Add(a: integer; b: integer): integer;
+begin
+  Add := a + b;
+end;
+
+function Mix(a: integer; b: real; c: boolean): real;
+begin
+  Mix := a + b;
+end;
+
+procedure Store(a: integer; b: real; c: boolean);
+begin
+  i := a;
+  r := b;
+  ok := c;
+end;
+
+begin
+  i := Add(1, 2);
+  r := Mix(i, r, ok);
+  Store(i, r, ok);
+
+  i := Add(r, 2);          { ERROR: wrong parameter type }
+  r := Mix(r, i, ok);      { ERROR: wrong parameter order }
+  Store(ok, r, i);         { ERROR: wrong parameter types }
+  ok := Add(1, 2);         { ERROR: boolean := integer function return }
+  i := Mix(i, r, ok);      { ERROR: integer := real function return }
+end.
