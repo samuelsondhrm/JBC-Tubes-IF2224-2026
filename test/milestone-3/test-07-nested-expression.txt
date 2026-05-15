@@ -1,0 +1,19 @@
+program NestedExpression;
+var
+  i, j, k: integer;
+  r, s, t: real;
+  flag: boolean;
+begin
+  i := 2;
+  j := 3;
+  k := 4;
+  r := 1.5;
+  s := (i + j) * (k - 1);
+  t := (r + i) / (j + 1);
+  r := ((i * j) + (k div 2)) / 2;
+
+  i := (r + s) * 2;        { ERROR: integer := real }
+  k := (i + j) * flag;     { ERROR: integer/boolean mixing }
+  flag := (i + j) and flag;{ ERROR: and requires boolean operands }
+  r := (i < j) + 1;        { ERROR: boolean/numeric mixing }
+end.

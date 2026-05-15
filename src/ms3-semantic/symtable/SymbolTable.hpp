@@ -11,6 +11,7 @@
 #define TYPE_ARRAY 6
 #define TYPE_RECORD 7
 #define TYPE_VOID 8
+#define TYPE_SUBRANGE 9
 #define OBJ_VARIABLE 0
 #define OBJ_CONSTANT 1
 #define OBJ_TYPE 2

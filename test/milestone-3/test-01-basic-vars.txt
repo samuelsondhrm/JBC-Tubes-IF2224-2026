@@ -1,0 +1,15 @@
+program BasicVars;
+var
+  a, b: integer;
+  x: real;
+  c: char;
+  flag: boolean;
+begin
+  a := 5;
+  b := a + 10;
+  x := 3.14;
+  x := a;
+  c := 'Z';
+  flag := true;
+  writeln(b);
+end.

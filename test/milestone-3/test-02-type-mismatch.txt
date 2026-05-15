@@ -1,0 +1,12 @@
+program TypeErrors;
+var
+  i: integer;
+  r: real;
+  s: boolean;
+begin
+  i := 3.14;
+  i := true;
+  r := false;
+  if i then
+    i := 1;
+end.

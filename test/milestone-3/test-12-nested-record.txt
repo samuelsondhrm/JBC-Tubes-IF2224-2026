@@ -1,0 +1,27 @@
+program NestedRecord;
+type
+  Point == record
+    x: integer;
+    y: integer
+  end;
+  Box == record
+    topLeft: Point;
+    bottomRight: Point;
+    label: string
+  end;
+var
+  b: Box;
+  p: Point;
+begin
+  p.x := 1;
+  p.y := 2;
+  b.topLeft.x := p.x;
+  b.topLeft.y := p.y;
+  b.bottomRight.x := 10;
+  b.bottomRight.y := 20;
+  b.label := 'main';
+
+  b.topLeft.z := 3;       { ERROR: field z not found }
+  b.label.x := 1;         { ERROR: label is not a record }
+  b.bottomRight.x := b;   { ERROR: integer field assigned record }
+end.

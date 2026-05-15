@@ -1,0 +1,46 @@
+program ManyErrors;
+type
+  Pair == record
+    left: integer;
+    right: integer
+  end;
+var
+  i: integer;
+  r: real;
+  ok: boolean;
+  arr: array[1..2] of integer;
+  pair: Pair;
+
+function Id(x: integer): integer;
+begin
+  Id := x;
+end;
+
+begin
+  i := 1;
+  r := 2.0;
+  ok := true;
+  pair.left := 10;
+
+  missing := 1;          { ERROR: undeclared identifier }
+  i := r;                { ERROR: integer := real }
+  r := ok;               { ERROR: real := boolean }
+  ok := i + 1;           { ERROR: boolean := integer }
+  i := ok * 2;           { ERROR: boolean/numeric mixing }
+  if r then              { ERROR: if condition must be boolean }
+  begin
+    i := 2;
+  end;
+  while i do             { ERROR: while condition must be boolean }
+  begin
+    i := i + 1;
+  end;
+  arr[r] := 3;           { ERROR: real index }
+  arr[1] := ok;          { ERROR: integer array element assigned boolean }
+  pair.left := pair;     { ERROR: integer field assigned record }
+  pair.middle := 5;      { ERROR: field not found }
+  i := Id(ok);           { ERROR: wrong function argument type }
+  ok := Id(1);           { ERROR: boolean := integer function return }
+
+  i := i + 1;
+end.

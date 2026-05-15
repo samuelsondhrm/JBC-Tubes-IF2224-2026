@@ -1,0 +1,19 @@
+program ArrayIndexType;
+var
+  arr: array[1..5] of integer;
+  i: integer;
+  r: real;
+  ok: boolean;
+begin
+  i := 1;
+  r := 2.5;
+  ok := true;
+
+  arr[1] := 10;
+  arr[i] := arr[1] + 1;
+
+  arr[r] := 20;       { ERROR: real index }
+  arr[ok] := 30;      { ERROR: boolean index if array expects integer range }
+  arr[2] := r;        { ERROR: integer array element assigned real }
+  arr[3] := ok;       { ERROR: integer array element assigned boolean }
+end.
