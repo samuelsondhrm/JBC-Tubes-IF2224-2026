@@ -15,8 +15,9 @@ bool SemanticAnalyzer::hasError() const {
 }
 
 void SemanticAnalyzer::printSymbolTables(std::ostream& out) const {
-    // Akan diimplementasikan lengkap saat SymbolTable sudah siap.
-    // symTable.print(out);
+    symTable.printTab(out);
+    symTable.printBtab(out);
+    symTable.printAtab(out);
 }
 
 void SemanticAnalyzer::semanticError(const std::string& msg, int line) {
