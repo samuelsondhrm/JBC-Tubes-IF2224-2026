@@ -1,4 +1,5 @@
 #include "SymbolTable.hpp"
+#include <iomanip>
 
 namespace ms3 {
 
@@ -14,7 +15,7 @@ void SymbolTable::initialize() {
 }
 
 int SymbolTable::openBlock() {
-    int btabIdx = static_cast<int>(btab_.size());
+int btabIdx = static_cast<int>(btab_.size());
     btab_.push_back({-1, 0, 0, 0});
     scopeStack_.push_back(btabIdx);
     savedScopeHeads_.push_back(currentScopeHead_);
