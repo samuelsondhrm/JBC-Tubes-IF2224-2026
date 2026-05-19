@@ -32,11 +32,14 @@ namespace {
         
         return e.type;
     }
+
+    int offsetTracker[100] = {0};
 }
 
 void SemanticAnalyzer::visitProgram(ProgramNode* node) {
     int btabIdx = symTable.openBlock(); 
     currentLevel_ = 0;
+    offsetTracker[currentLevel_] = 0;
     
     int idx = symTable.enter(node->name, OBJ_PROGRAM, TYPE_VOID, 0, 1, 0, 0);
 
@@ -152,7 +155,7 @@ void SemanticAnalyzer::visitVarDecl(VarDeclNode* node) {
         }
     }
 
-    int adr = 0; 
+    int& adr = offsetTracker[currentLevel_]; 
     
     // Daftarkan masing-masing nama variabel utama ke scope saat ini
     for (const std::string& name : node->names) {
@@ -319,6 +322,7 @@ void SemanticAnalyzer::visitProcDecl(ProcDeclNode* node) {
     // 3. Buka scope untuk body prosedur
     int btabIdx = symTable.openBlock();
     currentLevel_++;
+    offsetTracker[currentLevel_] = 0;
     int psze = 0;
     int lastParamIdx = -1;
 
@@ -383,6 +387,7 @@ void SemanticAnalyzer::visitFuncDecl(FuncDeclNode* node) {
     // 4. Buka scope untuk body fungsi
     int btabIdx = symTable.openBlock();
     currentLevel_++;
+    offsetTracker[currentLevel_] = 0;
     int psze = 0;
     int lastParamIdx = -1;
 
