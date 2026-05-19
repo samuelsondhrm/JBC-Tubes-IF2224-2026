@@ -43,6 +43,7 @@ struct AtabEntry {
 struct BtabEntry {
   int last = -1;
   int lpar = 0;
+  int pcount = 0;
   int psize = 0;
   int vsize = 0;
 };

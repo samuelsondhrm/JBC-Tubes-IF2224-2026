@@ -1,6 +1,7 @@
 #include "SemanticAnalyzer.hpp"
 #include <string>
 #include <algorithm>
+#include <vector>
 
 void SemanticAnalyzer::visitExpr(ASTNode *node)
 {
@@ -241,7 +242,7 @@ void SemanticAnalyzer::visitFuncCall(FuncCallNode *node)
     }
 
     ms3::BtabEntry &b = symTable.getBtabEntry(e.ref);
-    int expectedArgs = b.lpar;
+    int expectedArgs = b.pcount;
     int actualArgs = static_cast<int>(node->args.size());
 
     if (actualArgs != expectedArgs)
@@ -249,8 +250,18 @@ void SemanticAnalyzer::visitFuncCall(FuncCallNode *node)
         semanticError("Wrong number of arguments for '" + node->name + "': expected " + std::to_string(expectedArgs) + ", got " + std::to_string(actualArgs), node->line);
     }
 
-    int paramIdx = idx + 1;
-    int checkCount = std::min(actualArgs, expectedArgs);
+    std::vector<int> paramIndices;
+    {
+        int cur = b.lpar;
+        while (cur != -1 && cur >= 0 && static_cast<int>(paramIndices.size()) < expectedArgs)
+        {
+            paramIndices.push_back(cur);
+            cur = symTable.getTabEntry(cur).link;
+        }
+        std::reverse(paramIndices.begin(), paramIndices.end()); // urut dari parameter pertama
+    }
+
+    int checkCount = std::min(actualArgs, (int)paramIndices.size());
 
     for (int i = 0; i < static_cast<int>(node->args.size()); ++i)
     {
@@ -258,7 +269,7 @@ void SemanticAnalyzer::visitFuncCall(FuncCallNode *node)
 
         if (i < checkCount)
         {
-            ms3::TabEntry &param = symTable.getTabEntry(paramIdx + i);
+            ms3::TabEntry &param = symTable.getTabEntry(paramIndices[i]);
             int argType = node->args[i] ? node->args[i]->sem.type_code : TYPE_NONE;
             int paramType = param.type;
 
