@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
+#include <iomanip>
 #define TYPE_NONE 0
 #define TYPE_INTEGER 1
 #define TYPE_REAL 2
@@ -27,6 +27,7 @@ struct TabEntry {
   int obj = OBJ_VARIABLE;
   int type = TYPE_NONE;
   int ref = 0;
+  int nrm = 1;
   int lev = 0;
   int adr = 0;
   int link = -1;
@@ -38,14 +39,15 @@ struct AtabEntry {
   int eref = 0;
   int low = 0;
   int high = 0;
+  int elsz = 1; 
+  int size = 0; 
 };
 
 struct BtabEntry {
   int last = -1;
   int lpar = 0;
-  int pcount = 0;
-  int psize = 0;
-  int vsize = 0;
+  int psze = 0;
+  int vsze = 0;
 };
 
 class SymbolTable {
