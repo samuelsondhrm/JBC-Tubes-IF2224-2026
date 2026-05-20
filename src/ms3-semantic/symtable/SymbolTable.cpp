@@ -1,4 +1,4 @@
-#include "SymbolTable.hpp"
+#include "./SymbolTable.hpp"
 
 namespace ms3 {
 
@@ -10,7 +10,15 @@ void SymbolTable::initialize() {
     savedScopeHeads_.clear();
     currentScopeHead_ = -1;
 
-    tab_.push_back({"", OBJ_VARIABLE, TYPE_NONE, 0, 0, 0, -1});
+    tab_.push_back({"", OBJ_VARIABLE, TYPE_NONE, 0, 1, 0, 0, -1});
+    openBlock(); 
+    enter("Real", OBJ_TYPE, TYPE_REAL, 0, 1, 0, 0);
+    enter("Integer", OBJ_TYPE, TYPE_INTEGER, 0, 1, 0, 0);
+    enter("Char", OBJ_TYPE, TYPE_CHAR, 0, 1, 0, 0);
+    enter("Boolean", OBJ_TYPE, TYPE_BOOLEAN, 0, 1, 0, 0);
+    enter("String", OBJ_TYPE, TYPE_STRING, 0, 1, 0, 0);
+    enter("True", OBJ_CONSTANT, TYPE_BOOLEAN, 0, 1, 0, 1);
+    enter("False", OBJ_CONSTANT, TYPE_BOOLEAN, 0, 1, 0, 0);
 }
 
 int SymbolTable::openBlock() {
@@ -40,13 +48,13 @@ void SymbolTable::closeBlock(int btabIdx, int& lastIdx) {
 
 int SymbolTable::enter(const std::string& name, int obj, int typeCode,
                        int ref, int nrm, int lev, int adr) {
-    (void)nrm;
     int idx = static_cast<int>(tab_.size());
     TabEntry entry;
     entry.name = name;
     entry.obj = obj;
     entry.type = typeCode;
     entry.ref = ref;
+    entry.nrm = nrm;
     entry.lev = lev;
     entry.adr = adr;
     entry.link = currentScopeHead_;
@@ -106,6 +114,8 @@ int SymbolTable::enterArray(int xtyp, int etyp, int eref, int low, int high, int
     entry.eref = eref;
     entry.low = low;
     entry.high = high;
+    entry.elsz = elsz; 
+    entry.size = (high - low + 1) * elsz; 
     atab_.push_back(entry);
     return idx;
 }
@@ -123,15 +133,13 @@ int SymbolTable::typeSize(int typeCode, int ref) const {
             return 1;
         case TYPE_ARRAY: {
             if (ref >= 0 && ref < static_cast<int>(atab_.size())) {
-                int numElements = atab_[ref].high - atab_[ref].low + 1;
-                int elemSize = typeSize(atab_[ref].etyp, atab_[ref].eref);
-                return (numElements > 0 ? numElements : 1) * elemSize;
+                return atab_[ref].size > 0 ? atab_[ref].size : 1;
             }
             return 1;
         }
         case TYPE_RECORD: {
             if (ref >= 0 && ref < static_cast<int>(btab_.size())) {
-                return btab_[ref].vsize > 0 ? btab_[ref].vsize : 1;
+                return btab_[ref].vsze > 0 ? btab_[ref].vsze : 1;
             }
             return 1;
         }
@@ -149,6 +157,7 @@ void SymbolTable::printTab(std::ostream& out) const {
         << std::setw(4) << std::right << "obj" << " "
         << std::setw(4) << "typ" << " "
         << std::setw(4) << "ref" << " "
+        << std::setw(4) << "nrm" << " "
         << std::setw(4) << "lev" << " "
         << std::setw(4) << "adr" << " "
         << std::setw(4) << "link" << "\n";
@@ -158,7 +167,8 @@ void SymbolTable::printTab(std::ostream& out) const {
             << std::setw(15) << std::left << e.name << " "
             << std::setw(4) << std::right << e.obj << " "
             << std::setw(4) << e.type << " "
-            << std::setw(4) << e.ref << " "
+            << std::setw(4) << e.ref << " " 
+            << std::setw(4) << e.nrm << " "
             << std::setw(4) << e.lev << " "
             << std::setw(4) << e.adr << " "
             << std::setw(4) << e.link << "\n";
@@ -171,14 +181,14 @@ void SymbolTable::printBtab(std::ostream& out) const {
         << std::setw(6) << "last" << " "
         << std::setw(6) << "lpar" << " "
         << std::setw(6) << "psze" << " "
-        << std::setw(6) << "vsize" << "\n";
+        << std::setw(6) << "vsze" << "\n";
     for (int i = 0; i < static_cast<int>(btab_.size()); i++) {
         const auto& e = btab_[i];
         out << std::setw(4) << i << " "
             << std::setw(6) << e.last << " "
             << std::setw(6) << e.lpar << " "
-            << std::setw(6) << e.psize << " "
-            << std::setw(6) << e.vsize << "\n";
+            << std::setw(6) << e.psze << " "
+            << std::setw(6) << e.vsze << "\n";
     }
 }
 
@@ -189,7 +199,9 @@ void SymbolTable::printAtab(std::ostream& out) const {
         << std::setw(6) << "etyp" << " "
         << std::setw(6) << "eref" << " "
         << std::setw(6) << "low" << " "
-        << std::setw(6) << "high" << "\n";
+        << std::setw(6) << "high" << " "
+        << std::setw(6) << "elsz" << " " 
+        << std::setw(6) << "size" << "\n";
     for (int i = 0; i < static_cast<int>(atab_.size()); i++) {
         const auto& e = atab_[i];
         out << std::setw(4) << i << " "
@@ -197,7 +209,9 @@ void SymbolTable::printAtab(std::ostream& out) const {
             << std::setw(6) << e.etyp << " "
             << std::setw(6) << e.eref << " "
             << std::setw(6) << e.low << " "
-            << std::setw(6) << e.high << "\n";
+            << std::setw(6) << e.high << " " 
+            << std::setw(6) << e.elsz << " " 
+            << std::setw(6) << e.size << "\n"; 
     }
 }
 
