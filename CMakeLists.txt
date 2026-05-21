@@ -41,7 +41,6 @@ add_executable(arion-parser src/ms2-parser/main.cpp)
 target_link_libraries(arion-parser PRIVATE arion_parser_lib)
 
 add_library(arion_semantic_lib STATIC
-    src/ms3-semantic/ast/ASTNode.cpp
     src/ms3-semantic/builder/ASTBuilder.cpp
     src/ms3-semantic/symtable/SymbolTable.cpp
     src/ms3-semantic/semantic/SemanticAnalyzer.cpp
@@ -123,3 +122,26 @@ add_error_test(ms2-err-18 arion-parser ${MS2_IN}/test-18-err-wrong-token.txt  ${
 add_error_test(ms2-err-19 arion-parser ${MS2_IN}/test-19-err-multiple.txt     ${MS2_ERR}/err-19-multiple.txt)
 add_error_test(ms2-err-20 arion-parser ${MS2_IN}/test-20-err-misspelled.txt   ${MS2_ERR}/err-20-misspelled.txt)
 add_error_test(ms2-err-21 arion-parser ${MS2_IN}/test-21-err-bad-for.txt       ${MS2_ERR}/err-21-bad-for.txt)
+
+
+
+set(MS3_OUT ${CMAKE_CURRENT_SOURCE_DIR}/test/milestone-3/outputs)
+set(MS3_IN  ${CMAKE_CURRENT_SOURCE_DIR}/test/milestone-3)
+set(MS3_ERR ${CMAKE_CURRENT_SOURCE_DIR}/test/milestone-3/expected-errors)
+
+add_diff_test(ms3-01minimal        arion-semantic ${MS3_IN}/test-01-minimal.txt      ${MS3_OUT}/output-test-01-minimal.txt)
+add_diff_test(ms3-02alltypes        arion-semantic ${MS3_IN}/test-02-alltypes.txt     ${MS3_OUT}/output-test-02-alltypes.txt)
+add_diff_test(ms3-03procfunc       arion-semantic ${MS3_IN}/test-03-procfunc.txt     ${MS3_OUT}/output-test-03-procfunc.txt)
+add_diff_test(ms3-04controlflow     arion-semantic ${MS3_IN}/test-04-controlflow.txt ${MS3_OUT}/output-test-04-controlflow.txt)
+add_diff_test(ms3-05nestedscope     arion-semantic ${MS3_IN}/test-05-nested-scope.txt ${MS3_OUT}/output-test-05-nested-scope.txt)
+add_diff_test(ms3-06assigncompat    arion-semantic ${MS3_IN}/test-06-assign-compat.txt ${MS3_OUT}/output-test-06-assign-compat.txt)
+add_error_test(ms3-err-07 arion-semantic ${MS3_IN}/test-07-err-redeclare.txt        ${MS3_ERR}/err-07-err-redeclare.txt)
+add_error_test(ms3-err-08 arion-semantic ${MS3_IN}/test-08-err-undeclared.txt       ${MS3_ERR}/err-08-err-undeclared.txt)
+add_error_test(ms3-err-09 arion-semantic ${MS3_IN}/test-09-err-assign-const.txt     ${MS3_ERR}/err-09-err-assign-const.txt)
+add_error_test(ms3-err-10 arion-semantic ${MS3_IN}/test-10-err-type-mismatch.txt   ${MS3_ERR}/err-10-err-type-mismatch.txt)
+add_error_test(ms3-err-11 arion-semantic ${MS3_IN}/test-11-err-nonbool-cond.txt    ${MS3_ERR}/err-11-err-nonbool-cond.txt)
+add_error_test(ms3-err-12 arion-semantic ${MS3_IN}/test-12-err-nonarray-index.txt   ${MS3_ERR}/err-12-err-nonarray-index.txt)
+add_error_test(ms3-err-13 arion-semantic ${MS3_IN}/test-13-err-nonrecord-access.txt ${MS3_ERR}/err-13-err-nonrecord-access.txt)
+add_error_test(ms3-err-14 arion-semantic ${MS3_IN}/test-14-err-wrong-args.txt      ${MS3_ERR}/err-14-err-wrong-args.txt)
+add_error_test(ms3-err-15 arion-semantic ${MS3_IN}/test-15-err-for-nonint.txt       ${MS3_ERR}/err-15-err-for-nonint.txt)
+add_error_test(ms3-err-16 arion-semantic ${MS3_IN}/test-16-err-case-type.txt        ${MS3_ERR}/err-16-err-case-type.txt)

@@ -1,0 +1,77 @@
+└── Program('FunctionReturnType') → tab:8, type:8
+    ├── FuncDecl('GoodInteger', returns: integer) → tab:9, type:1, ref:2
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('GoodInteger') → tab:9, type:1
+    │               └── BinOp('+') → type:1, lev:1
+    │                   ├── Var('a') → tab:10, type:1, lev:1
+    │                   └── IntLit(1) → type:1, lev:1
+    ├── FuncDecl('GoodReal', returns: real) → tab:11, type:2, ref:3
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('GoodReal') → tab:11, type:2
+    │               └── BinOp('/') → type:2, lev:1
+    │                   ├── Var('a') → tab:12, type:1, lev:1
+    │                   └── IntLit(2) → type:1, lev:1
+    ├── FuncDecl('BadIntegerReturn', returns: integer) → tab:13, type:1, ref:4
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('BadIntegerReturn') → tab:13, type:1
+    │               └── BinOp('/') → type:2, lev:1
+    │                   ├── Var('a') → tab:14, type:1, lev:1
+    │                   └── IntLit(2) → type:1, lev:1
+    ├── FuncDecl('BadBooleanReturn', returns: boolean) → tab:15, type:3, ref:5
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('BadBooleanReturn') → tab:15, type:3
+    │               └── BinOp('+') → type:1, lev:1
+    │                   ├── Var('a') → tab:16, type:1, lev:1
+    │                   └── IntLit(1) → type:1, lev:1
+    └── Compound
+        ├── ProcCall('GoodInteger') → type:8
+        │   └── IntLit(1)
+        └── ProcCall('GoodReal') → type:8
+            └── IntLit(2)
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 FunctionReturnType    5    8    0    1    0    0   -1
+   9 GoodInteger        4    1    2    1    0    0    8
+  10 a                  0    1    0    1    1    0   -1
+  11 GoodReal           4    2    3    1    0    0    9
+  12 a                  0    1    0    1    1    0   -1
+  13 BadIntegerReturn    4    1    4    1    0    0   11
+  14 a                  0    1    0    1    1    0   -1
+  15 BadBooleanReturn    4    3    5    1    0    0   13
+  16 a                  0    1    0    1    1    0   -1
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     15      0      0      0
+   2     10     10      1      0
+   3     12     12      1      0
+   4     14     14      1      0
+   5     16     16      1      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size

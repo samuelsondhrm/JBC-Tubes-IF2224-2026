@@ -1,0 +1,8 @@
+program AssignConstErr;
+const
+  maxval == 100;
+var
+  x: integer;
+begin
+  maxval := 200;
+end.

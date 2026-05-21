@@ -1,0 +1,7 @@
+program ForNonIntErr;
+var
+  r: real;
+begin
+  for r := 1.0 to 10.0 do
+    r := r + 1.0;
+end.

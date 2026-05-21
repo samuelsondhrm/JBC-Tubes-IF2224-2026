@@ -1,0 +1,99 @@
+└── Program('NestedRecord') → tab:8, type:8
+    ├── TypeDecl('Point') → tab:11, type:7, ref:2
+    │   └── RecordType
+    │       ├── FieldDecl('x')
+    │       │   └── SimpleType('integer')
+    │       └── FieldDecl('y')
+    │           └── SimpleType('integer')
+    ├── TypeDecl('Box') → tab:15, type:7, ref:3
+    │   └── RecordType
+    │       ├── FieldDecl('topLeft')
+    │       │   └── SimpleType('Point')
+    │       ├── FieldDecl('bottomRight')
+    │       │   └── SimpleType('Point')
+    │       └── FieldDecl('label')
+    │           └── SimpleType('string')
+    ├── VarDecl('b') → tab:16, type:7
+    │   └── SimpleType('Box')
+    ├── VarDecl('p') → tab:17, type:7
+    │   └── SimpleType('Point')
+    └── Compound
+        ├── Assign → type:8
+        │   ├── RecordAccess('x')
+        │   │   └── Var('p') → tab:17, type:7
+        │   └── IntLit(1) → type:1
+        ├── Assign → type:8
+        │   ├── RecordAccess('y')
+        │   │   └── Var('p') → tab:17, type:7
+        │   └── IntLit(2) → type:1
+        ├── Assign → type:8
+        │   ├── RecordAccess('x')
+        │   │   └── RecordAccess('topLeft')
+        │   │       └── Var('b') → tab:16, type:7
+        │   └── RecordAccess('x')
+        │       └── Var('p') → tab:17, type:7
+        ├── Assign → type:8
+        │   ├── RecordAccess('y')
+        │   │   └── RecordAccess('topLeft')
+        │   │       └── Var('b') → tab:16, type:7
+        │   └── RecordAccess('y')
+        │       └── Var('p') → tab:17, type:7
+        ├── Assign → type:8
+        │   ├── RecordAccess('x')
+        │   │   └── RecordAccess('bottomRight')
+        │   │       └── Var('b') → tab:16, type:7
+        │   └── IntLit(10) → type:1
+        ├── Assign → type:8
+        │   ├── RecordAccess('y')
+        │   │   └── RecordAccess('bottomRight')
+        │   │       └── Var('b') → tab:16, type:7
+        │   └── IntLit(20) → type:1
+        ├── Assign → type:8
+        │   ├── RecordAccess('label')
+        │   │   └── Var('b') → tab:16, type:7
+        │   └── StringLit('main') → type:5
+        ├── Assign → type:8
+        │   ├── RecordAccess('z')
+        │   │   └── RecordAccess('topLeft')
+        │   │       └── Var('b') → tab:16, type:7
+        │   └── IntLit(3) → type:1
+        ├── Assign → type:8
+        │   ├── RecordAccess('x')
+        │   │   └── RecordAccess('label')
+        │   │       └── Var('b') → tab:16, type:7
+        │   └── IntLit(1) → type:1
+        └── Assign → type:8
+            ├── RecordAccess('x')
+            │   └── RecordAccess('bottomRight')
+            │       └── Var('b') → tab:16, type:7
+            └── Var('b') → tab:16, type:7
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 NestedRecord       5    8    0    1    0    0   -1
+   9 x                  0    1    0    1    1    0   -1
+  10 y                  0    1    0    1    1    1    9
+  11 Point              2    7    2    1    0    0    8
+  12 topLeft            0    7    0    1    1    0   -1
+  13 bottomRight        0    7    0    1    1    1   12
+  14 label              0    5    0    1    1    2   13
+  15 Box                2    7    3    1    0    0   11
+  16 b                  0    7    0    1    0    0   15
+  17 p                  0    7    0    1    0    1   16
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     17      0      0      0
+   2     10      0      0      0
+   3     14      0      0      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size

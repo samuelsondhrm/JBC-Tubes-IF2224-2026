@@ -1,0 +1,20 @@
+program NestedScope;
+var
+  x: integer;
+procedure outer;
+var
+  y: integer;
+  procedure inner;
+  var
+    z: integer;
+  begin
+    z := x + y;
+  end;
+begin
+  y := 10;
+  inner;
+end;
+begin
+  x := 5;
+  outer;
+end.

@@ -1,0 +1,129 @@
+└── Program('ParameterCoverage') → tab:8, type:8
+    ├── VarDecl('i') → tab:9, type:1
+    │   └── SimpleType('integer')
+    ├── VarDecl('r') → tab:10, type:2
+    │   └── SimpleType('real')
+    ├── VarDecl('ok') → tab:11, type:3
+    │   └── SimpleType('boolean')
+    ├── FuncDecl('Add', returns: integer) → tab:12, type:1, ref:2
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   ├── Param('b')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('Add') → tab:12, type:1
+    │               └── BinOp('+') → type:1, lev:1
+    │                   ├── Var('a') → tab:13, type:1, lev:1
+    │                   └── Var('b') → tab:14, type:1, lev:1
+    ├── FuncDecl('Mix', returns: real) → tab:15, type:2, ref:3
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   ├── Param('b')
+    │   │   └── SimpleType('real')
+    │   ├── Param('c')
+    │   │   └── SimpleType('boolean')
+    │   └── Block
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('Mix') → tab:15, type:2
+    │               └── BinOp('+') → type:2, lev:1
+    │                   ├── Var('a') → tab:16, type:1, lev:1
+    │                   └── Var('b') → tab:17, type:2, lev:1
+    ├── ProcDecl('Store') → tab:19, type:8, ref:4
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   ├── Param('b')
+    │   │   └── SimpleType('real')
+    │   ├── Param('c')
+    │   │   └── SimpleType('boolean')
+    │   └── Block
+    │       └── Compound
+    │           ├── Assign → type:8
+    │           │   ├── Var('i') → tab:9, type:1
+    │           │   └── Var('a') → tab:20, type:1, lev:1
+    │           ├── Assign → type:8
+    │           │   ├── Var('r') → tab:10, type:2
+    │           │   └── Var('b') → tab:21, type:2, lev:1
+    │           └── Assign → type:8
+    │               ├── Var('ok') → tab:11, type:3
+    │               └── Var('c') → tab:22, type:3, lev:1
+    └── Compound
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── FuncCall('Add') → tab:12, type:1
+        │       ├── IntLit(1) → type:1
+        │       └── IntLit(2) → type:1
+        ├── Assign → type:8
+        │   ├── Var('r') → tab:10, type:2
+        │   └── FuncCall('Mix') → tab:15, type:2
+        │       ├── Var('i') → tab:9, type:1
+        │       ├── Var('r') → tab:10, type:2
+        │       └── Var('ok') → tab:11, type:3
+        ├── ProcCall('Store') → tab:19, type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   ├── Var('r') → tab:10, type:2
+        │   └── Var('ok') → tab:11, type:3
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── FuncCall('Add') → tab:12, type:1
+        │       ├── Var('r') → tab:10, type:2
+        │       └── IntLit(2) → type:1
+        ├── Assign → type:8
+        │   ├── Var('r') → tab:10, type:2
+        │   └── FuncCall('Mix') → tab:15, type:2
+        │       ├── Var('r') → tab:10, type:2
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('ok') → tab:11, type:3
+        ├── ProcCall('Store') → tab:19, type:8
+        │   ├── Var('ok') → tab:11, type:3
+        │   ├── Var('r') → tab:10, type:2
+        │   └── Var('i') → tab:9, type:1
+        ├── Assign → type:8
+        │   ├── Var('ok') → tab:11, type:3
+        │   └── FuncCall('Add') → tab:12, type:1
+        │       ├── IntLit(1) → type:1
+        │       └── IntLit(2) → type:1
+        └── Assign → type:8
+            ├── Var('i') → tab:9, type:1
+            └── FuncCall('Mix') → tab:15, type:2
+                ├── Var('i') → tab:9, type:1
+                ├── Var('r') → tab:10, type:2
+                └── Var('ok') → tab:11, type:3
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 ParameterCoverage    5    8    0    1    0    0   -1
+   9 i                  0    1    0    1    0    0    8
+  10 r                  0    2    0    1    0    1    9
+  11 ok                 0    3    0    1    0    2   10
+  12 Add                4    1    2    1    0    0   11
+  13 a                  0    1    0    1    1    0   -1
+  14 b                  0    1    0    1    1    1   13
+  15 Mix                4    2    3    1    0    0   12
+  16 a                  0    1    0    1    1    0   -1
+  17 b                  0    2    0    1    1    1   16
+  18 c                  0    3    0    1    1    2   17
+  19 Store              3    8    4    1    0    0   15
+  20 a                  0    1    0    1    1    0   -1
+  21 b                  0    2    0    1    1    1   20
+  22 c                  0    3    0    1    1    2   21
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     19      0      0      0
+   2     14     14      2      0
+   3     18     18      3      0
+   4     22     22      3      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size

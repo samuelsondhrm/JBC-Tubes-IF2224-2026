@@ -1,0 +1,8 @@
+program CaseTypeErr;
+var
+  r: real;
+begin
+  case r of
+    1.0: r := 1.0
+  end;
+end.

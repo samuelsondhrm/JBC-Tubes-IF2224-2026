@@ -1,0 +1,18 @@
+program AllTypes;
+const
+  maxval == 100;
+  minval == -1;
+  ch == 'A';
+type
+  IntArray == array [1 .. 10] of integer;
+var
+  x: integer;
+  y: real;
+  arr: IntArray;
+begin
+  x := 42;
+  y := 3.14;
+  arr[5] := x + 1;
+  x := maxval;
+  y := x;
+end.

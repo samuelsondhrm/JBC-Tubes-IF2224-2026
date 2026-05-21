@@ -1,0 +1,8 @@
+program NonArrayIndexErr;
+var
+  x: integer;
+  y: real;
+begin
+  x[1] := 5;
+  y[2] := 3.14;
+end.

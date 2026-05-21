@@ -1,0 +1,168 @@
+└── Program('OperatorCoverage') → tab:8, type:8
+    ├── VarDecl('i', 'j', 'k') → tab:11, type:1
+    │   └── SimpleType('integer')
+    ├── VarDecl('r', 's') → tab:13, type:2
+    │   └── SimpleType('real')
+    ├── VarDecl('flag', 'other') → tab:15, type:3
+    │   └── SimpleType('boolean')
+    ├── VarDecl('ch1', 'ch2') → tab:17, type:4
+    │   └── SimpleType('char')
+    ├── VarDecl('text1', 'text2') → tab:19, type:5
+    │   └── SimpleType('string')
+    └── Compound
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── BinOp('+') → type:1
+        │       ├── IntLit(10) → type:1
+        │       └── IntLit(2) → type:1
+        ├── Assign → type:8
+        │   ├── Var('j') → tab:10, type:1
+        │   └── BinOp('-') → type:1
+        │       ├── Var('i') → tab:9, type:1
+        │       └── IntLit(3) → type:1
+        ├── Assign → type:8
+        │   ├── Var('k') → tab:11, type:1
+        │   └── BinOp('*') → type:1
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('r') → tab:12, type:2
+        │   └── BinOp('/') → type:2
+        │       ├── Var('i') → tab:9, type:1
+        │       └── IntLit(2) → type:1
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── BinOp('div') → type:1
+        │       ├── Var('j') → tab:10, type:1
+        │       └── IntLit(2) → type:1
+        ├── Assign → type:8
+        │   ├── Var('k') → tab:11, type:1
+        │   └── BinOp('mod') → type:1
+        │       ├── Var('j') → tab:10, type:1
+        │       └── IntLit(3) → type:1
+        ├── Assign → type:8
+        │   ├── Var('s') → tab:13, type:2
+        │   └── BinOp('+') → type:2
+        │       ├── Var('r') → tab:12, type:2
+        │       └── Var('i') → tab:9, type:1
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── Var('true')
+        ├── Assign → type:8
+        │   ├── Var('other') → tab:15, type:3
+        │   └── Var('false')
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('and') → type:3
+        │       ├── Var('flag') → tab:14, type:3
+        │       └── Var('other') → tab:15, type:3
+        ├── Assign → type:8
+        │   ├── Var('other') → tab:15, type:3
+        │   └── BinOp('or') → type:3
+        │       ├── Var('flag') → tab:14, type:3
+        │       └── Var('other') → tab:15, type:3
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('==') → type:3
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('<>') → type:3
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('<') → type:3
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('>') → type:3
+        │       ├── Var('r') → tab:12, type:2
+        │       └── Var('s') → tab:13, type:2
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('<=') → type:3
+        │       ├── Var('ch1') → tab:16, type:4
+        │       └── Var('ch2') → tab:17, type:4
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('>=') → type:3
+        │       ├── Var('text1') → tab:18, type:5
+        │       └── Var('text2') → tab:19, type:5
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── BinOp('+') → type:2
+        │       ├── Var('r') → tab:12, type:2
+        │       └── Var('s') → tab:13, type:2
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── BinOp('/') → type:2
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('r') → tab:12, type:2
+        │   └── BinOp('+')
+        │       ├── Var('flag') → tab:14, type:3
+        │       └── Var('i') → tab:9, type:1
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── BinOp('div')
+        │       ├── Var('r') → tab:12, type:2
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('k') → tab:11, type:1
+        │   └── BinOp('mod')
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('s') → tab:13, type:2
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('and')
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('j') → tab:10, type:1
+        ├── Assign → type:8
+        │   ├── Var('other') → tab:15, type:3
+        │   └── BinOp('or')
+        │       ├── Var('flag') → tab:14, type:3
+        │       └── Var('i') → tab:9, type:1
+        ├── Assign → type:8
+        │   ├── Var('flag') → tab:14, type:3
+        │   └── BinOp('==')
+        │       ├── Var('i') → tab:9, type:1
+        │       └── Var('flag') → tab:14, type:3
+        └── Assign → type:8
+            ├── Var('flag') → tab:14, type:3
+            └── BinOp('<')
+                ├── Var('flag') → tab:14, type:3
+                └── Var('other') → tab:15, type:3
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 OperatorCoverage    5    8    0    1    0    0   -1
+   9 i                  0    1    0    1    0    0    8
+  10 j                  0    1    0    1    0    1    9
+  11 k                  0    1    0    1    0    2   10
+  12 r                  0    2    0    1    0    3   11
+  13 s                  0    2    0    1    0    4   12
+  14 flag               0    3    0    1    0    5   13
+  15 other              0    3    0    1    0    6   14
+  16 ch1                0    4    0    1    0    7   15
+  17 ch2                0    4    0    1    0    8   16
+  18 text1              0    5    0    1    0    9   17
+  19 text2              0    5    0    1    0   10   18
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     19      0      0      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size

@@ -1,0 +1,4 @@
+program UndeclaredErr;
+begin
+  y := 5;
+end.

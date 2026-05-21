@@ -139,7 +139,7 @@ int SymbolTable::typeSize(int typeCode, int ref) const {
         }
         case TYPE_RECORD: {
             if (ref >= 0 && ref < static_cast<int>(btab_.size())) {
-                return btab_[ref].vsze > 0 ? btab_[ref].vsze : 1;
+                return btab_[ref].vsize > 0 ? btab_[ref].vsize : 1;
             }
             return 1;
         }
@@ -180,15 +180,15 @@ void SymbolTable::printBtab(std::ostream& out) const {
     out << std::setw(4) << "idx" << " "
         << std::setw(6) << "last" << " "
         << std::setw(6) << "lpar" << " "
-        << std::setw(6) << "psze" << " "
-        << std::setw(6) << "vsze" << "\n";
+        << std::setw(6) << "psize" << " "
+        << std::setw(6) << "vsize" << "\n";
     for (int i = 0; i < static_cast<int>(btab_.size()); i++) {
         const auto& e = btab_[i];
         out << std::setw(4) << i << " "
             << std::setw(6) << e.last << " "
             << std::setw(6) << e.lpar << " "
-            << std::setw(6) << e.psze << " "
-            << std::setw(6) << e.vsze << "\n";
+            << std::setw(6) << e.psize << " "
+            << std::setw(6) << e.vsize << "\n";
     }
 }
 

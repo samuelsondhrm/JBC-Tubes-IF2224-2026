@@ -1,0 +1,15 @@
+program WrongArgsErr;
+var
+  r: integer;
+procedure add(a: integer; b: integer);
+begin
+end;
+function mul(a: integer; b: integer): integer;
+begin
+end;
+begin
+  add(1);
+  add(1, 2, 3);
+  r := mul(5);
+  r := mul(1, 2, 3);
+end.

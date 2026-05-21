@@ -1,0 +1,6 @@
+program NonRecordAccessErr;
+var
+  x: integer;
+begin
+  x.field := 5;
+end.

@@ -1,0 +1,65 @@
+└── Program('AllTypes') → tab:8, type:8
+    ├── ConstDecl('maxval') → tab:9, type:1
+    │   └── IntLit(100) → type:1
+    ├── ConstDecl('minval') → tab:10
+    ├── ConstDecl('ch') → tab:11, type:4
+    │   └── CharLit('A') → type:4
+    ├── TypeDecl('IntArray') → tab:12, type:6
+    │   └── ArrayType
+    │       ├── Range
+    │       │   ├── IntLit(1)
+    │       │   └── IntLit(10)
+    │       └── SimpleType('integer')
+    ├── VarDecl('x') → tab:13, type:1
+    │   └── SimpleType('integer')
+    ├── VarDecl('y') → tab:14, type:2
+    │   └── SimpleType('real')
+    ├── VarDecl('arr') → tab:15, type:6
+    │   └── SimpleType('IntArray')
+    └── Compound
+        ├── Assign → type:8
+        │   ├── Var('x') → tab:13, type:1
+        │   └── IntLit(42) → type:1
+        ├── Assign → type:8
+        │   ├── Var('y') → tab:14, type:2
+        │   └── RealLit(3.14) → type:2
+        ├── Assign → type:8
+        │   ├── ArrayAccess → type:1
+        │   │   ├── Var('arr') → tab:15, type:6
+        │   │   └── IntLit(5) → type:1
+        │   └── BinOp('+') → type:1
+        │       ├── Var('x') → tab:13, type:1
+        │       └── IntLit(1) → type:1
+        ├── Assign → type:8
+        │   ├── Var('x') → tab:13, type:1
+        │   └── Var('maxval') → tab:9, type:1
+        └── Assign → type:8
+            ├── Var('y') → tab:14, type:2
+            └── Var('x') → tab:13, type:1
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 AllTypes           5    8    0    1    0    0   -1
+   9 maxval             1    1    0    1    0  100    8
+  10 minval             1    0    0    1    0    0    9
+  11 ch                 1    4    0    1    0   65   10
+  12 IntArray           2    6    0    1    0    0   11
+  13 x                  0    1    0    1    0    0   12
+  14 y                  0    2    0    1    0    1   13
+  15 arr                0    6    0    1    0    2   14
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     15      0      0      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size
+   0      1      1      0      1     10      1     10

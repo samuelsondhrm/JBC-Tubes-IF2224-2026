@@ -70,6 +70,7 @@ ASTNode* ASTBuilder::buildNode(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildProgram(ParseNode* node) {
     auto* p = new ProgramNode();
+    p->line = node->line;
     p->kind = ASTKind::Program;
     p->line = node->line;
     
@@ -90,6 +91,7 @@ ASTNode* ASTBuilder::buildProgram(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildBlock(ParseNode* node) {
     auto* b = new BlockNode();
+    b->line = node->line;
     b->kind = ASTKind::Block;
     b->line = node->line;
     
@@ -125,6 +127,7 @@ void ASTBuilder::buildVarDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
     size_t count = std::min(idLists.size(), typeNodes.size());
     for (size_t i = 0; i < count; ++i) {
         auto* v = new VarDeclNode();
+        v->line = node->line;
         v->kind = ASTKind::VarDecl;
         v->line = idLists[i]->line;
         for (auto* ident : findChildren(idLists[i], "ident")) {
@@ -141,6 +144,7 @@ void ASTBuilder::buildConstDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
     size_t count = std::min(idents.size(), constants.size());
     for (size_t i = 0; i < count; ++i) {
         auto* c = new ConstDeclNode();
+        c->line = node->line;
         c->kind = ASTKind::ConstDecl;
         c->line = idents[i]->line;
         c->name = idents[i]->value;
@@ -162,6 +166,7 @@ void ASTBuilder::buildTypeDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
     size_t count = std::min(idents.size(), typeNodes.size());
     for (size_t i = 0; i < count; ++i) {
         auto* t = new TypeDeclNode();
+        t->line = node->line;
         t->kind = ASTKind::TypeDecl;
         t->line = idents[i]->line;
         t->name = idents[i]->value;
@@ -172,6 +177,7 @@ void ASTBuilder::buildTypeDecl(ParseNode* node, std::vector<ASTNode*>& decls) {
 
 ASTNode* ASTBuilder::buildProcDecl(ParseNode* node) {
     auto* p = new ProcDeclNode();
+    p->line = node->line;
     p->kind = ASTKind::ProcDecl;
     p->line = node->line;
     
@@ -182,6 +188,7 @@ ASTNode* ASTBuilder::buildProcDecl(ParseNode* node) {
     if (formals) {
         for (auto* group : findChildren(formals, "<parameter-group>")) {
             auto* param = new ParamNode();
+            param->line = node->line;
             param->kind = ASTKind::Param;
             param->line = group->line;
             param->isByRef = (findChild(group, "varsy") != nullptr);
@@ -219,6 +226,7 @@ ASTNode* ASTBuilder::buildProcDecl(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildFuncDecl(ParseNode* node) {
     auto* f = new FuncDeclNode();
+    f->line = node->line;
     f->kind = ASTKind::FuncDecl;
     f->line = node->line;
     
@@ -229,6 +237,7 @@ ASTNode* ASTBuilder::buildFuncDecl(ParseNode* node) {
     if (formals) {
         for (auto* group : findChildren(formals, "<parameter-group>")) {
             auto* param = new ParamNode();
+            param->line = node->line;
             param->kind = ASTKind::Param;
             param->line = group->line;
             param->isByRef = (findChild(group, "varsy") != nullptr);
@@ -277,6 +286,7 @@ ASTNode* ASTBuilder::buildType(ParseNode* node) {
     ParseNode* child = node->children[0];
     if (child->name == "ident") {
         auto* s = new SimpleTypeNode();
+        s->line = node->line;
         s->kind = ASTKind::SimpleType;
         s->typeName = child->value;
         s->line = child->line;
@@ -288,6 +298,7 @@ ASTNode* ASTBuilder::buildType(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildArrayType(ParseNode* node) {
     auto* a = new ArrayTypeNode();
+    a->line = node->line;
     a->kind = ASTKind::ArrayType;
     a->line = node->line;
     
@@ -297,6 +308,7 @@ ASTNode* ASTBuilder::buildArrayType(ParseNode* node) {
     if (indexType) {
         if (indexType->name == "ident") {
              auto* s = new SimpleTypeNode(); s->kind = ASTKind::SimpleType; s->typeName = indexType->value; s->line = indexType->line;
+             s->line = node->line;
              a->indexType = s;
         } else {
              a->indexType = buildRange(indexType);
@@ -310,6 +322,7 @@ ASTNode* ASTBuilder::buildArrayType(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildRecordType(ParseNode* node) {
     auto* r = new RecordTypeNode();
+    r->line = node->line;
     r->kind = ASTKind::RecordType;
     r->line = node->line;
     
@@ -317,6 +330,7 @@ ASTNode* ASTBuilder::buildRecordType(ParseNode* node) {
     if (fieldList) {
         for (auto* fieldPart : findChildren(fieldList, "<field-part>")) {
             auto* fd = new FieldDeclNode();
+            fd->line = node->line;
             fd->kind = ASTKind::FieldDecl;
             fd->line = fieldPart->line;
             ParseNode* idList = findChild(fieldPart, "<identifier-list>");
@@ -335,6 +349,7 @@ ASTNode* ASTBuilder::buildRecordType(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildRange(ParseNode* node) {
     auto* r = new RangeNode();
+    r->line = node->line;
     r->kind = ASTKind::Range;
     r->line = node->line;
     
@@ -356,6 +371,7 @@ ASTNode* ASTBuilder::buildRange(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildEnumerated(ParseNode* node) {
     auto* e = new EnumeratedNode();
+    e->line = node->line;
     e->kind = ASTKind::Enumerated;
     e->line = node->line;
     
@@ -372,6 +388,7 @@ ASTNode* ASTBuilder::buildStatement(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildCompound(ParseNode* node) {
     auto* c = new CompoundNode();
+    c->line = node->line;
     c->kind = ASTKind::Compound;
     c->line = node->line;
     
@@ -387,6 +404,7 @@ ASTNode* ASTBuilder::buildCompound(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildAssign(ParseNode* node) {
     auto* a = new AssignNode();
+    a->line = node->line;
     a->kind = ASTKind::Assign;
     a->line = node->line;
     
@@ -399,6 +417,7 @@ ASTNode* ASTBuilder::buildAssign(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildIf(ParseNode* node) {
     auto* i = new IfNode();
+    i->line = node->line;
     i->kind = ASTKind::If;
     i->line = node->line;
     
@@ -413,6 +432,7 @@ ASTNode* ASTBuilder::buildIf(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildWhile(ParseNode* node) {
     auto* w = new WhileNode();
+    w->line = node->line;
     w->kind = ASTKind::While;
     w->line = node->line;
     
@@ -426,6 +446,7 @@ ASTNode* ASTBuilder::buildWhile(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildFor(ParseNode* node) {
     auto* f = new ForNode();
+    f->line = node->line;
     f->kind = ASTKind::For;
     f->line = node->line;
     
@@ -446,6 +467,7 @@ ASTNode* ASTBuilder::buildFor(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildRepeat(ParseNode* node) {
     auto* r = new RepeatNode();
+    r->line = node->line;
     r->kind = ASTKind::Repeat;
     r->line = node->line;
     
@@ -471,6 +493,7 @@ static void flattenCaseBlocks(ParseNode* block, std::vector<ParseNode*>& out) {
 
 ASTNode* ASTBuilder::buildCase(ParseNode* node) {
     auto* c = new CaseNode();
+    c->line = node->line;
     c->kind = ASTKind::Case;
     c->line = node->line;
     
@@ -483,6 +506,7 @@ ASTNode* ASTBuilder::buildCase(ParseNode* node) {
     
     for (auto* block : allBlocks) {
         auto* branch = new CaseBranchNode();
+        branch->line = node->line;
         branch->kind = ASTKind::CaseBranch;
         branch->line = block->line;
         
@@ -502,6 +526,7 @@ ASTNode* ASTBuilder::buildCase(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildProcCall(ParseNode* node) {
     auto* p = new ProcCallNode();
+    p->line = node->line;
     p->kind = ASTKind::ProcCall;
     p->line = node->line;
     
@@ -519,6 +544,7 @@ ASTNode* ASTBuilder::buildProcCall(ParseNode* node) {
 
 ASTNode* ASTBuilder::buildFuncCall(ParseNode* node) {
     auto* f = new FuncCallNode();
+    f->line = node->line;
     f->kind = ASTKind::FuncCall;
     f->line = node->line;
     
@@ -546,6 +572,7 @@ ASTNode* ASTBuilder::buildExpression(ParseNode* node) {
             } else {
                 std::string op = tokenNameToOp(children[i-1]->children[0]->name);
                 auto* bin = new BinOpNode();
+                bin->line = node->line;
                 bin->kind = ASTKind::BinOp;
                 bin->line = children[i-1]->line;
                 bin->op = op;
@@ -565,6 +592,7 @@ ASTNode* ASTBuilder::buildSimpleExpression(ParseNode* node) {
     size_t i = 0;
     if (i < children.size() && (children[i]->name == "plus" || children[i]->name == "minus")) {
         auto* un = new UnaryOpNode();
+        un->line = node->line;
         un->kind = ASTKind::UnaryOp;
         un->line = children[i]->line;
         un->op = tokenNameToOp(children[i]->name);
@@ -583,6 +611,7 @@ ASTNode* ASTBuilder::buildSimpleExpression(ParseNode* node) {
             } else {
                 std::string op = tokenNameToOp(children[i-1]->children[0]->name);
                 auto* bin = new BinOpNode();
+                bin->line = node->line;
                 bin->kind = ASTKind::BinOp;
                 bin->line = children[i-1]->line;
                 bin->op = op;
@@ -606,6 +635,7 @@ ASTNode* ASTBuilder::buildTerm(ParseNode* node) {
             } else {
                 std::string op = tokenNameToOp(children[i-1]->children[0]->name);
                 auto* bin = new BinOpNode();
+                bin->line = node->line;
                 bin->kind = ASTKind::BinOp;
                 bin->line = children[i-1]->line;
                 bin->op = op;
@@ -678,6 +708,7 @@ ASTNode* ASTBuilder::buildVariable(ParseNode* node) {
             ParseNode* field = findChild(comp, "ident");
             if (field) {
                 auto* rec = new RecordAccessNode();
+                rec->line = node->line;
                 rec->kind = ASTKind::RecordAccess;
                 rec->line = comp->line;
                 rec->record = base;

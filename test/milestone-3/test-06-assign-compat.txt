@@ -1,0 +1,11 @@
+program AssignCompat;
+var
+  i: integer;
+  r: real;
+begin
+  i := 5;
+  r := i;
+  r := 3.14;
+  i := 10 + 20;
+  r := i + 3.14;
+end.

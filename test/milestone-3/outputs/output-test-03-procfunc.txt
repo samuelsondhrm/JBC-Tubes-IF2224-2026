@@ -1,0 +1,62 @@
+└── Program('ProcAndFunc') → tab:8, type:8
+    ├── VarDecl('result') → tab:9, type:1
+    │   └── SimpleType('integer')
+    ├── ProcDecl('greet') → tab:10, type:8, ref:2
+    │   └── Block
+    │       └── Compound
+    ├── ProcDecl('setVal') → tab:11, type:8, ref:3
+    │   ├── Param('n')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       ├── VarDecl('t') → tab:13, type:1, lev:1
+    │       │   └── SimpleType('integer')
+    │       └── Compound
+    │           └── Assign → type:8
+    │               ├── Var('t') → tab:13, type:1, lev:1
+    │               └── Var('n') → tab:12, type:1, lev:1
+    ├── FuncDecl('add', returns: integer) → tab:14, type:1, ref:4
+    │   ├── Param('a')
+    │   │   └── SimpleType('integer')
+    │   ├── Param('b')
+    │   │   └── SimpleType('integer')
+    │   └── Block
+    │       └── Compound
+    └── Compound
+        ├── ProcCall('greet') → tab:10, type:8
+        ├── ProcCall('setVal') → tab:11, type:8
+        │   └── IntLit(5) → type:1
+        └── Assign → type:8
+            ├── Var('result') → tab:9, type:1
+            └── FuncCall('add') → tab:14, type:1
+                ├── IntLit(3) → type:1
+                └── IntLit(4) → type:1
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 ProcAndFunc        5    8    0    1    0    0   -1
+   9 result             0    1    0    1    0    0    8
+  10 greet              3    8    2    1    0    0    9
+  11 setVal             3    8    3    1    0    0   10
+  12 n                  0    1    0    1    1    0   -1
+  13 t                  0    1    0    1    1    0   12
+  14 add                4    1    4    1    0    0   11
+  15 a                  0    1    0    1    1    0   -1
+  16 b                  0    1    0    1    1    1   15
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     14      0      0      0
+   2     -1     -1      0      0
+   3     13     12      1      0
+   4     16     16      2      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size

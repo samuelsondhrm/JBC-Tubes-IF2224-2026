@@ -1,0 +1,44 @@
+└── Program('TypeErrors') → tab:8, type:8
+    ├── VarDecl('i') → tab:9, type:1
+    │   └── SimpleType('integer')
+    ├── VarDecl('r') → tab:10, type:2
+    │   └── SimpleType('real')
+    ├── VarDecl('s') → tab:11, type:3
+    │   └── SimpleType('boolean')
+    └── Compound
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── RealLit(3.14) → type:2
+        ├── Assign → type:8
+        │   ├── Var('i') → tab:9, type:1
+        │   └── Var('true')
+        ├── Assign → type:8
+        │   ├── Var('r') → tab:10, type:2
+        │   └── Var('false')
+        └── If
+            ├── Var('i') → tab:9, type:1
+            └── Assign → type:8
+                ├── Var('i') → tab:9, type:1
+                └── IntLit(1) → type:1
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 TypeErrors         5    8    0    1    0    0   -1
+   9 i                  0    1    0    1    0    0    8
+  10 r                  0    2    0    1    0    1    9
+  11 s                  0    3    0    1    0    2   10
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     11      0      0      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size

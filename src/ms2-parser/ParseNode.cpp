@@ -14,6 +14,9 @@ ParseNode::~ParseNode() {
 void ParseNode::addChild(ParseNode* child) {
     if (child != nullptr) {
         children.push_back(child);
+        if (line == 0 && child->line > 0) {
+            line = child->line;
+        }
     }
 }
 

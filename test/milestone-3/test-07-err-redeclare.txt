@@ -1,0 +1,6 @@
+program RedeclareErr;
+var
+  x: integer;
+  x: real;
+begin
+end.

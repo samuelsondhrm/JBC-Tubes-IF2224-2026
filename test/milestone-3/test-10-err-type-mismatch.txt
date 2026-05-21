@@ -1,0 +1,13 @@
+program TypeMismatchErr;
+var
+  i: integer;
+  r: real;
+  b: boolean;
+  s: string;
+begin
+  i := 3.14;
+  b := i;
+  s := i;
+  r := b;
+  i := s;
+end.

@@ -201,7 +201,17 @@ void SemanticAnalyzer::visitProcCall(ProcCallNode *node)
     }
 
     ms3::BtabEntry &b = symTable.getBtabEntry(e.ref);
-    int expectedArgs = b.pcount;
+    int expectedArgs = 0;
+    {
+        int cur = b.lpar;
+        while (cur >= 1) {
+            ms3::TabEntry& te = symTable.getTabEntry(cur);
+            if (te.lev <= e.lev) break;
+            expectedArgs++;
+            if (te.link == cur - 1) { cur = te.link; }
+            else break;
+        }
+    }
     int actualArgs = static_cast<int>(node->args.size());
 
     if (actualArgs != expectedArgs)

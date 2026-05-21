@@ -1,0 +1,20 @@
+program ProcAndFunc;
+var
+  result: integer;
+procedure greet;
+begin
+end;
+procedure setVal(n: integer);
+var
+  t: integer;
+begin
+  t := n;
+end;
+function add(a: integer; b: integer): integer;
+begin
+end;
+begin
+  greet;
+  setVal(5);
+  result := add(3, 4);
+end.

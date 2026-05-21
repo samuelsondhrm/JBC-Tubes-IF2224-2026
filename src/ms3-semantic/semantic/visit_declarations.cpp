@@ -348,13 +348,8 @@ void SemanticAnalyzer::visitProcDecl(ProcDeclNode* node) {
 
     // 5. Simpan metadata parameter ke Btab
     ms3::BtabEntry& bEntry = symTable.getBtabEntry(btabIdx);
-    bEntry.psze = psze;
+    bEntry.psize = psze;
     bEntry.lpar = lastParamIdx;
-    
-    // Hitung total nama parameter dari semua ParamNode (bukan index terakhir!)
-    int paramCount = 0;
-    for (ParamNode* param : node->params) paramCount += static_cast<int>(param->names.size());
-    bEntry.pcount = paramCount;
 
     // 6. Eksekusi blok prosedur
     if (node->block) {
@@ -418,12 +413,7 @@ void SemanticAnalyzer::visitFuncDecl(FuncDeclNode* node) {
     // 6. Simpan metadata parameter ke Btab
     ms3::BtabEntry& bEntry = symTable.getBtabEntry(btabIdx);
     bEntry.lpar = lastParamIdx;
-    bEntry.psze = psze;
-
-    // Hitung total nama parameter dari semua ParamNode (bukan index terakhir!)
-    int paramCount = 0;
-    for (ParamNode* param : node->params) paramCount += static_cast<int>(param->names.size());
-    bEntry.pcount = paramCount;
+    bEntry.psize = psze;
 
     // 7. Eksekusi blok fungsi
     if (node->block) {

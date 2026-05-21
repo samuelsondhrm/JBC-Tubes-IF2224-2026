@@ -1,0 +1,53 @@
+└── Program('NestedScope') → tab:8, type:8
+    ├── VarDecl('x') → tab:9, type:1
+    │   └── SimpleType('integer')
+    ├── ProcDecl('outer') → tab:10, type:8, ref:2
+    │   └── Block
+    │       ├── VarDecl('y') → tab:11, type:1, lev:1
+    │       │   └── SimpleType('integer')
+    │       ├── ProcDecl('inner') → tab:12, type:8, lev:1, ref:3
+    │       │   └── Block
+    │       │       ├── VarDecl('z') → tab:13, type:1, lev:2
+    │       │       │   └── SimpleType('integer')
+    │       │       └── Compound
+    │       │           └── Assign → type:8
+    │       │               ├── Var('z') → tab:13, type:1, lev:2
+    │       │               └── BinOp('+') → type:1, lev:2
+    │       │                   ├── Var('x') → tab:9, type:1
+    │       │                   └── Var('y') → tab:11, type:1, lev:1
+    │       └── Compound
+    │           ├── Assign → type:8
+    │           │   ├── Var('y') → tab:11, type:1, lev:1
+    │           │   └── IntLit(10) → type:1, lev:1
+    │           └── ProcCall('inner') → tab:12, type:8
+    └── Compound
+        ├── Assign → type:8
+        │   ├── Var('x') → tab:9, type:1
+        │   └── IntLit(5) → type:1
+        └── ProcCall('outer') → tab:10, type:8
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 NestedScope        5    8    0    1    0    0   -1
+   9 x                  0    1    0    1    0    0    8
+  10 outer              3    8    2    1    0    0    9
+  11 y                  0    1    0    1    1    0   -1
+  12 inner              3    8    3    1    1    0   11
+  13 z                  0    1    0    1    2    0   -1
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1     10      0      0      0
+   2     12     -1      0      0
+   3     13     -1      0      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size
