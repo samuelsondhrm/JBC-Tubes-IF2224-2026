@@ -13,7 +13,7 @@
 
 ### Milestone 1: Lexical Analyzer
 
-Arion Lexer merupakan milestone pertama dari proyek Compiler Arion — sebuah lexical analyzer (lexer) untuk bahasa pemrograman **Arion**, yang diimplementasikan menggunakan C++17 tanpa menggunakan tools maupun library pembangkit lexer otomatis.
+Arion Lexer merupakan milestone pertama dari proyek Compiler Arion. Arion lexer adalah sebuah lexical analyzer (lexer) untuk bahasa pemrograman **Arion**, yang diimplementasikan menggunakan C++17 tanpa menggunakan tools maupun library pembangkit lexer otomatis.
 
 Lexer membaca file source code Arion karakter demi karakter dan menghasilkan urutan **token**. Token adalah unit bermakna terkecil dalam sebuah program (misalnya keyword, identifier, operator, dan literal). Proses ini diimplementasikan secara formal sebagai sebuah **Deterministic Finite Automaton (DFA)**, di mana setiap karakter yang dibaca menyebabkan transisi state hingga mencapai accepting state dan menghasilkan sebuah token.
 
@@ -21,7 +21,24 @@ Program menerima file source code berekstensi `.txt` sebagai input dan menghasil
 
 ### Milestone 2: Syntax Analyzer
 
-### Milestone 4: Semantic Analyzer
+Arion Parser merupakan milestone kedua dari proyek Compiler Arion. Arion parser adalah sebuah syntax analyzer (parser) untuk bahasa pemrograman **Arion**, yang diimplementasikan menggunakan algoritma **Recursive Descent** dalam C++17.
+
+Parser menerima hasil tokenisasi dari lexer dan melakukan analisis sintaksis berdasarkan grammar bahasa Arion untuk memastikan bahwa urutan token membentuk struktur program yang valid. Selama proses parsing, parser membangun sebuah **Parse Tree** yang merepresentasikan struktur hierarkis program sesuai aturan grammar yang telah didefinisikan.
+
+Tahapan ini juga mencakup proses **syntax error checking**, di mana parser mendeteksi dan melaporkan kesalahan sintaks dengan pesan error yang informatif apabila ditemukan token yang tidak sesuai dengan grammar.
+
+Program menerima file source code Arion sebagai input, menjalankan proses lexical analysis terlebih dahulu untuk menghasilkan token, kemudian melakukan syntax analysis dan menghasilkan output berupa Parse Tree yang ditampilkan pada terminal maupun disimpan ke dalam file `.txt`.
+
+
+### Milestone 3: Semantic Analyzer
+
+Arion Semantic Analyzer merupakan milestone ketiga dari proyek Compiler Arion. Arion semantic analyzer adalah sebuah semantic analyzer untuk bahasa pemrograman **Arion**, yang diimplementasikan menggunakan pendekatan **L-Attributed Grammar** dan mekanisme **visitor traversal** pada Abstract Syntax Tree (AST).
+
+Semantic analyzer menerima Parse Tree hasil parser, kemudian mengonversinya menjadi **Abstract Syntax Tree (AST)** yang lebih ringkas dan berfokus pada hubungan semantik antar node program. Setelah itu, dilakukan proses analisis semantik untuk memverifikasi makna program, seperti pengecekan tipe data, validasi deklarasi identifier, manajemen scope, dan kompatibilitas operasi.
+
+Selama proses traversal AST, semantic analyzer menggunakan beberapa **Symbol Table** (`tab`, `btab`, dan `atab`) untuk menyimpan informasi mengenai identifier, block scope, tipe data, array, prosedur, fungsi, serta atribut semantik lainnya. Setiap node AST kemudian dianotasi sehingga menghasilkan sebuah **Decorated AST** yang siap digunakan pada tahap kompilasi berikutnya.
+
+Program menerima Parse Tree sebagai input dan menghasilkan output berupa Decorated AST beserta Symbol Table yang ditampilkan pada terminal maupun disimpan ke dalam file output tertentu.
 
 ## Struktur Project
 
@@ -284,97 +301,23 @@ period
 
 ## Pembagian Tugas
 
-| NIM      | Pembagian Tugas                                   |
-| 13524001 |                                                   |
-| 13524027 |                                                   |
-| 13524029 |                                                   |
-| 13524089 |                                                   |
-| 13524093 |                                                   |
-
-The table below records which team member is responsible for each function or class.
-
-### Workspace architecture
-
-| Job                               | PIC      |
-| --------------------------------- | -------- |
-| Class Definition                  | 13524027 |
-| Attributes and methods definition | 13524027 |
-| Class cohesion definition         | 13524027 |
-
-### `src/ms1-lexer/token/token.hpp` & `token.cpp`
-
-| Function / Item                            | PIC      |
-| ------------------------------------------ | -------- |
-| `TokenType` enum definition (all 52 types) | 13524027 |
-| `Token` constructor                        | 13524027 |
-| `Token::tokenTypeName()`                   | 13524001 |
-| `Token::toString()`                        | 13524001 |
-
-### `src/ms1-lexer/dfa/dfa.hpp` & `dfa.cpp`
-
-| Function / Item                                                           | PIC      |
-| ------------------------------------------------------------------------- | -------- |
-| `State` enum definition                                                   | 13524001 |
-| `DFA` constructor                                                         | 13524001 |
-| `DFA::advance()`                                                          | 13524001 |
-| `DFA::peek()`                                                             | 13524001 |
-| `DFA::retract()`                                                          | 13524001 |
-| `DFA::skipWhitespace()`                                                   | 13524001 |
-| `DFA::isEOF()`                                                            | 13524001 |
-| `DFA::nextToken()` — `Q0` dispatch                                        | 13524001 |
-| `DFA::nextToken()` — `Q_ALPHA` (identifier/keyword)                       | 13524093 |
-| `DFA::nextToken()` — `Q_INT` / `Q_REAL` (number literals)                 | 13524093 |
-| `DFA::nextToken()` — `Q_STR` (char/string literals)                       | 13524093 |
-| `DFA::nextToken()` — `Q_COLON` / `Q_LT` / `Q_GT` / `Q_EQL` (operators)    | 13524093 |
-| `DFA::nextToken()` — `Q_LPAR` / `Q_CMT_BRACE` / `Q_CMT_PAREN*` (comments) | 13524093 |
-
-### `src/ms1-lexer/lexer/symbolTable.hpp` & `symbolTable.cpp`
-
-| Function / Item                         | PIC      |
-| --------------------------------------- | -------- |
-| `SymbolTable` constructor (keyword map) | 13524089 |
-| `SymbolTable::lookup()`                 | 13524089 |
-
-### `src/ms1-lexer/lexer/lexer.hpp` & `lexer.cpp`
-
-| Function / Item      | PIC      |
-| -------------------- | -------- |
-| `Lexer` constructor  | 13524029 |
-| `Lexer::nextToken()` | 13524029 |
-| `Lexer::tokenize()`  | 13524029 |
-| `Lexer::isEOF()`     | 13524029 |
-
-### `src/ms1-lexer/util/file.hpp` & `file.cpp`
-
-| Function / Item         | PIC      |
-| ----------------------- | -------- |
-| `FileUtil::readFile()`  | 13524027 |
-| `FileUtil::writeFile()` | 13524027 |
-
-### `src/ms1-lexer/main.cpp`
-
-| Function / Item                    | PIC      |
-| ---------------------------------- | -------- |
-| Argument parsing & file I/O wiring | 13524027 |
-| Output formatting                  | 13524029 |
-
-### `src/ms1-lexer/token/token.hpp` & `token.cpp`
-
-| Function / Item | PIC      |
-| --------------- | -------- |
-| enum TokenType  | 13524027 |
-| Token::Token()  | 13524027 |
-
-### Other
-
-| Item                             | PIC                                              |
-| -------------------------------- | ------------------------------------------------ |
-| DFA transition diagram (draw.io) | 13524001, 13524027, 13524029, 13524089, 13524093 |
-| `Makefile`                       | 13524001                                         |
-| Test cases (`test/milestone-1/`) | 13524001, 13524089                               |
-| Report (`doc/`)                  | 13524001, 13524027, 13524029, 13524089, 13524093 |
-
----
+| Milestone   | NIM      | Pembagian Tugas                                                                |
+|-------------|----------|--------------------------------------------------------------------------------|
+| Milestone 1 | 13524001 | Perancangan DFA, implementasi token operator dan delimiter, laporan            |
+|             | 13524027 | Implementasi lexical analyzer, pengujian program, laporan                      |
+|             | 13524029 | Penyusunan regular expression token, implementasi keyword recognition, laporan |
+|             | 13524089 | Pembuatan diagram transisi DFA, dokumentasi state DFA, laporan                 |
+|             | 13524093 | Implementasi komentar dan literal, integrasi lexer, laporan                    |
+| Milestone 2 | 13524001 | Implementasi parser top-level dan compound statement, laporan                  |
+|             | 13524027 | Implementasi parser declarations dan grammar language, laporan                 |
+|             | 13524029 | Implementasi parser statements dan error handling,laporan                      |
+|             | 13524089 | Implementasi parser expressions dan subprograms, laporan                       |
+|             | 13524093 | Implementasi ParseNode, TreePrinter, integrasi parser, laporan                 |
+| Milestone 3 | 13524001 | Implementasi ASTNode dan ASTBuilder,laporan                                    |
+|             | 13524027 | Implementasi SymbolTable dan scope management,laporan                          |
+|             | 13524029 | Implementasi SemanticAnalyzer dan semantic checking,laporan                    |
+|             | 13524089 | Implementasi TypeChecker dan decorated AST,laporan                             |
+|             | 13524093 | Integrasi semantic analyzer, pengujian program, laporan                        |
 
 ## Identitas Kelompok
 
