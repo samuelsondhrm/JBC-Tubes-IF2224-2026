@@ -38,8 +38,6 @@ void DecoratedASTPrinter::printNode(ASTNode* node, const std::string& prefix, bo
  
     switch (node->kind) {
  
-    // ── PROGRAM LEVEL ─────────────────────────
- 
     case ASTKind::Program: {
         auto* n = static_cast<ProgramNode*>(node);
         out << "Program('" << n->name << "')";
@@ -62,7 +60,6 @@ void DecoratedASTPrinter::printNode(ASTNode* node, const std::string& prefix, bo
         break;
     }
  
-    // ── DECLARATIONS ──────────────────────────
  
     case ASTKind::VarDecl: {
         auto* n = static_cast<VarDeclNode*>(node);
@@ -128,8 +125,6 @@ void DecoratedASTPrinter::printNode(ASTNode* node, const std::string& prefix, bo
         break;
     }
  
-    // ── TYPE NODES ────────────────────────────
- 
     case ASTKind::SimpleType: {
         auto* n = static_cast<SimpleTypeNode*>(node);
         out << "SimpleType('" << n->typeName << "')";
@@ -185,9 +180,7 @@ void DecoratedASTPrinter::printNode(ASTNode* node, const std::string& prefix, bo
         if (n->typeNode) printNode(n->typeNode, next, true, out);
         break;
     }
- 
-    // ── STATEMENTS ────────────────────────────
- 
+  
     case ASTKind::Compound: {
         auto* n = static_cast<CompoundNode*>(node);
         out << "Compound";
@@ -274,9 +267,7 @@ void DecoratedASTPrinter::printNode(ASTNode* node, const std::string& prefix, bo
             printNode(n->args[i], next, i == n->args.size() - 1, out);
         break;
     }
- 
-    // ── EXPRESSIONS ───────────────────────────
- 
+  
     case ASTKind::BinOp: {
         auto* n = static_cast<BinOpNode*>(node);
         out << "BinOp('" << n->op << "')";

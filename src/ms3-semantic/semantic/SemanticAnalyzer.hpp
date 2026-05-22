@@ -14,8 +14,6 @@ public:
     void analyze(ASTNode* root);
     bool hasError() const;
     void printSymbolTables(std::ostream& out) const;
-
-    // === visit_declarations.cpp ===
     void visitProgram(ProgramNode* node);
     void visitBlock(BlockNode* node);
     void visitVarDecl(VarDeclNode* node);
@@ -23,8 +21,6 @@ public:
     void visitTypeDecl(TypeDeclNode* node);
     void visitProcDecl(ProcDeclNode* node);
     void visitFuncDecl(FuncDeclNode* node);
-
-    // === visit_statements.cpp ===
     void visitCompound(CompoundNode* node);
     void visitAssign(AssignNode* node);
     void visitIf(IfNode* node);
@@ -33,8 +29,6 @@ public:
     void visitRepeat(RepeatNode* node);
     void visitCase(CaseNode* node);
     void visitProcCall(ProcCallNode* node);
-
-    // === visit_expressions.cpp ===
     void visitExpr(ASTNode* node);
     void visitBinOp(BinOpNode* node);
     void visitUnaryOp(UnaryOpNode* node);

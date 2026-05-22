@@ -36,7 +36,6 @@ void SemanticAnalyzer::visitNode(ASTNode* node) {
         case ASTKind::TypeDecl:   visitTypeDecl(static_cast<TypeDeclNode*>(node)); break;
         case ASTKind::ProcDecl:   visitProcDecl(static_cast<ProcDeclNode*>(node)); break;
         case ASTKind::FuncDecl:   visitFuncDecl(static_cast<FuncDeclNode*>(node)); break;
-        
         case ASTKind::Compound:   visitCompound(static_cast<CompoundNode*>(node)); break;
         case ASTKind::Assign:     visitAssign(static_cast<AssignNode*>(node)); break;
         case ASTKind::If:         visitIf(static_cast<IfNode*>(node)); break;

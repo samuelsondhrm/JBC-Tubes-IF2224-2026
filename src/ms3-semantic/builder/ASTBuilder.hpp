@@ -10,7 +10,6 @@ public:
 
 private:
     ASTNode* buildNode(ParseNode* node);
-
     ASTNode* buildProgram(ParseNode* node);
     ASTNode* buildBlock(ParseNode* node);
     void buildDeclarationPart(ParseNode* node, std::vector<ASTNode*>& decls);
@@ -19,13 +18,11 @@ private:
     void buildTypeDecl(ParseNode* node, std::vector<ASTNode*>& decls);
     ASTNode* buildProcDecl(ParseNode* node);
     ASTNode* buildFuncDecl(ParseNode* node);
-    
     ASTNode* buildType(ParseNode* node);
     ASTNode* buildArrayType(ParseNode* node);
     ASTNode* buildRecordType(ParseNode* node);
     ASTNode* buildRange(ParseNode* node);
     ASTNode* buildEnumerated(ParseNode* node);
-    
     ASTNode* buildStatement(ParseNode* node);
     ASTNode* buildAssign(ParseNode* node);
     ASTNode* buildIf(ParseNode* node);
@@ -35,15 +32,12 @@ private:
     ASTNode* buildCase(ParseNode* node);
     ASTNode* buildProcCall(ParseNode* node);
     ASTNode* buildCompound(ParseNode* node);
-    
     ASTNode* buildExpression(ParseNode* node);
     ASTNode* buildSimpleExpression(ParseNode* node);
     ASTNode* buildTerm(ParseNode* node);
     ASTNode* buildFactor(ParseNode* node);
-    
     ASTNode* buildVariable(ParseNode* node);
     ASTNode* buildFuncCall(ParseNode* node);
-
     ParseNode* findChild(ParseNode* node, const std::string& childName);
     std::vector<ParseNode*> findChildren(ParseNode* node, const std::string& childName);
 };

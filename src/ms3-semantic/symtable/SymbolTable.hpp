@@ -53,29 +53,20 @@ struct BtabEntry {
 class SymbolTable {
 public:
   SymbolTable() = default;
-
   void initialize();
-
   int  openBlock();
   void closeBlock(int btabIdx, int& lastIdx);
-
   int enter(const std::string& name, int obj, int typeCode, int ref = 0, int nrm = 1, int lev = 0, int adr = 0);
-
   int lookup(const std::string& name) const;
   int lookupCurrentScope(const std::string& name) const;
-
   TabEntry&  getTabEntry(int idx);
   BtabEntry& getBtabEntry(int idx);
   AtabEntry& getAtabEntry(int idx);
-
   int enterArray(int xtyp, int etyp, int eref, int low, int high, int elsz);
-
   int typeSize(int typeCode, int ref = 0) const;
-
   void printTab(std::ostream& out) const;
   void printBtab(std::ostream& out) const;
   void printAtab(std::ostream& out) const;
-
   int currentLevel() const;
   int tabSize() const;
   int btabSize() const;
@@ -85,9 +76,7 @@ private:
   std::vector<TabEntry>  tab_;
   std::vector<AtabEntry>  atab_;
   std::vector<BtabEntry> btab_;
-
   int currentScopeHead_ = -1;
-
   std::vector<int> scopeStack_;
   std::vector<int> savedScopeHeads_;
 };
