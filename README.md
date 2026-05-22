@@ -392,21 +392,21 @@ Script ini menjalankan semua test case valid (test-01 s/d test-06) dan error (te
 
 | Milestone   | NIM      | Pembagian Tugas                                                                |
 |-------------|----------|--------------------------------------------------------------------------------|
-|  1 | 13524001 | Perancangan DFA, implementasi token operator dan delimiter, laporan            |
-|             | 13524027 | Implementasi lexical analyzer, pengujian program, laporan                      |
-|             | 13524029 | Penyusunan regular expression token, implementasi keyword recognition, laporan |
-|             | 13524089 | Pembuatan diagram transisi DFA, dokumentasi state DFA, laporan                 |
-|             | 13524093 | Implementasi komentar dan literal, integrasi lexer, laporan                    |
-|  2 | 13524001 | Implementasi parser top-level dan compound statement, laporan                  |
-|             | 13524027 | Implementasi parser declarations dan grammar language, laporan                 |
-|             | 13524029 | Implementasi parser statements dan error handling,laporan                      |
-|             | 13524089 | Implementasi parser expressions dan subprograms, laporan                       |
-|             | 13524093 | Implementasi ParseNode, TreePrinter, integrasi parser, laporan                 |
-|  3 | 13524001 | Implementasi ASTNode dan ASTBuilder,laporan                                    |
-|             | 13524027 | Implementasi SymbolTable dan scope management,laporan                          |
-|             | 13524029 | Implementasi SemanticAnalyzer dan semantic checking,laporan                    |
-|             | 13524089 | Implementasi TypeChecker dan decorated AST,laporan                             |
-|             | 13524093 | Integrasi semantic analyzer, pengujian program, laporan                        |
+|  1 | 13524001 | Membuat class DFA, merangkai DFA model untuk pembacaan intcon, realcon, charcon, string, dan menyusun laporan            |
+|             | 13524027 | Implementasi I/O file, string parsing, dan class token, merangkai DFA model untuk logical operators, parentheses, brackets, dan comment, menyusun laporan                      |
+|             | 13524029 | Implementasi class lexer, merangkai DFA model untuk pembacaan simbol ident, proceduresy, programsy, notsy, orsy, ofsy, typesy, thensy, tosy, recordsy, repeatsy, varsy, whilesy, dan untilsy, menyusun laporan |
+|             | 13524089 | Implementasi symbol table, merangkai DFA model untuk pembacaan simbol lss, leq, neq, gtr, geq, eql, becomes, dan colon, menyusun laporan                 |
+|             | 13524093 | Implementasi class DFA, merangkai DFA model untuk pembacaan andsy, arraysy, beginsy, casesy, constsy, downtosy, elsesy, endsy, forsy, functionsy, ifsy, idiv, dan imod, menyusun laporan                    |
+|  2 | 13524001 | Implementasi top-level grammar, dan menyusun laporan                  |
+|             | 13524027 | Implementasi kelas parser, parseNode, parseError, dan menyusun laporan                 |
+|             | 13524029 | Implementasi declarations grammar, dan menyusun laporan                      |
+|             | 13524089 | Implementasi statements grammar, dan menyusun laporan                       |
+|             | 13524093 | Implementasi expressions grammar, subprograms, dan menyusun laporan                 |
+|  3 | 13524001 | Implementasi ASTNode, ASTBuilder, DecoratedASTPrinter, dan menyusun laporan                                    |
+|             | 13524027 | Implementasi SymbolTable, dan menyusun laporan                          |
+|             | 13524029 | Implementasi visit_declarations, dan menyusun laporan                    |
+|             | 13524089 | Implementasi visit_expressions dan visit_statement, dan menyusun laporan                             |
+|             | 13524093 | Implementasi TypeChecker, dan menyusun laporan                        |
 
 ## Identitas Kelompok
 
