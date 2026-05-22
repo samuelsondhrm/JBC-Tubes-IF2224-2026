@@ -7,7 +7,16 @@
 > Milestone 1: Lexical Analyzer
 
 ## Daftar Isi
-- 
+- [Deskripsi Tugas Besar](#deskripsi-tugas-besar)
+- [Struktur Project](#struktur-project)
+- [Arsitektur](#arsitektur)
+- [Persyaratan (Requirements)](#persyaratan-requirements)
+- [Instalasi (Setup)](#instalasi-setup)
+- [Cara Menjalankan Program](#cara-menjalankan-program)
+- [Contoh (Example)](#contoh-example)
+- [Pengujian (Testing)](#pengujian-testing)
+- [Pembagian Tugas](#pembagian-tugas)
+- [Identitas Kelompok](#identitas-kelompok)
 
 ## Deskripsi Tugas Besar
 
@@ -38,16 +47,20 @@ Semantic analyzer menerima Parse Tree hasil parser, kemudian mengonversinya menj
 
 Selama proses traversal AST, semantic analyzer menggunakan beberapa **Symbol Table** (`tab`, `btab`, dan `atab`) untuk menyimpan informasi mengenai identifier, block scope, tipe data, array, prosedur, fungsi, serta atribut semantik lainnya. Setiap node AST kemudian dianotasi sehingga menghasilkan sebuah **Decorated AST** yang siap digunakan pada tahap kompilasi berikutnya.
 
-Program menerima Parse Tree sebagai input dan menghasilkan output berupa Decorated AST beserta Symbol Table yang ditampilkan pada terminal maupun disimpan ke dalam file output tertentu.
+Program menerima file source code Arion sebagai input (menjalankan seluruh pipeline lexer → parser → semantic) dan menghasilkan output berupa Decorated AST beserta Symbol Table yang ditampilkan pada terminal.
 
 ## Struktur Project
 
 ```
 JBC-Tubes-IF2224-2026
-├── CMakeLists.txt
-├── Makefile
+├── CMakeLists.txt              # Build configuration (CMake)
 ├── README.md
-├── doc/
+├── doc/                        # Laporan & diagram
+├── cmake/                      # CMake helper scripts (RunDiffTest, RunErrorTest)
+├── build/                      # Build output directory (generated)
+│   ├── arion-lexer             # Executable MS1
+│   ├── arion-parser            # Executable MS2
+│   └── arion-semantic          # Executable MS3
 ├── src/
 │   ├── ms1-lexer/
 │   │   ├── main.cpp
@@ -63,30 +76,28 @@ JBC-Tubes-IF2224-2026
 │   │   │   ├── token.hpp
 │   │   │   └── token.cpp
 │   │   └── util/
-│   │       ├── read.hpp
-│   │       └── read.cpp
-│   ├── ms2-parser
+│   │       ├── file.hpp
+│   │       └── file.cpp
+│   ├── ms2-parser/
 │   │   ├── main.cpp
 │   │   ├── ParseNode.cpp
 │   │   ├── ParseNode.hpp
-│   │   ├── parser_declarations.cpp
-│   │   ├── parser_expressions.cpp
-│   │   ├── parser_statements.cpp
-│   │   ├── parser_subprograms.cpp
-│   │   ├── parser_toplevel.cpp
 │   │   ├── Parser.cpp
 │   │   ├── Parser.hpp
+│   │   ├── parser_toplevel.cpp
+│   │   ├── parser_declarations.cpp
+│   │   ├── parser_statements.cpp
+│   │   ├── parser_expressions.cpp
+│   │   ├── parser_subprograms.cpp
 │   │   ├── TreePrinter.cpp
 │   │   └── TreePrinter.hpp
-│   └── ms3-semantic
+│   └── ms3-semantic/
+│       ├── main.cpp
 │       ├── ast/
 │       │   └── ASTNode.hpp
 │       ├── builder/
 │       │   ├── ASTBuilder.cpp
 │       │   └── ASTBuilder.hpp
-│       ├── printer/
-│       │   ├── DecoratedASTPrinter.cpp
-│       │   └── DecoratedASTPrinter.hpp
 │       ├── semantic/
 │       │   ├── SemanticAnalyzer.cpp
 │       │   ├── SemanticAnalyzer.hpp
@@ -99,83 +110,44 @@ JBC-Tubes-IF2224-2026
 │       ├── type/
 │       │   ├── TypeChecker.cpp
 │       │   └── TypeChecker.hpp
-│       └── main.cpp
+│       └── printer/
+│           ├── DecoratedASTPrinter.cpp
+│           └── DecoratedASTPrinter.hpp
 └── test/
     ├── milestone-1/
     │   ├── test-valid.txt
     │   ├── test-invalid.txt
     │   ├── test-edgecases.txt
-    │   ├── test-eql.txt
-    │   ├── test-caseinsensitive.txt
-    │   ├── test-commentambiguity.txt
-    │   ├── test-kwidboundary.txt
-    │   ├── test-literaltypes.txt
+    │   ├── ...
     │   └── outputs/
-    ├── milestone-2
+    ├── milestone-2/
     │   ├── test-01-minimal.txt
     │   ├── test-02-vars.txt
-    │   ├── test-03-const.txt
-    │   ├── test-04-types.txt
-    │   ├── test-05-assign.txt
-    │   ├── test-06-ifelse.txt
-    │   ├── test-07-loops.txt
-    │   ├── test-08-procedure.txt
-    │   ├── test-09-function.txt
-    │   ├── test-10-expressions.txt
-    │   ├── test-11-arrrecord.txt
-    │   ├── test-12-case.txt
-    │   ├── test-13-proccall.txt
-    │   ├── test-14-complex.txt
-    │   ├── test-15-alldecl.txt
-    │   ├── test-16-comments.txt
-    │   ├── test-18-err-wrong-token.txt
-    │   ├── test-21-err-bad-for.txt
+    │   ├── ...
     │   ├── expected-errors/
     │   └── outputs/
     └── milestone-3/
         ├── test-01-minimal.txt
         ├── test-02-alltypes.txt
-        ├── test-03-procfunc.txt
-        ├── test-04-controlflow.txt
-        ├── test-05-nested-scope.txt
-        ├── test-06-assign-compat.txt
-        ├── test-07-err-redeclare.txt
-        ├── test-08-err-undeclared.txt
-        ├── test-09-err-assign-const.txt
-        ├── test-10-err-type-mismatch.txt
-        ├── test-11-err-nonbool-cond.txt
-        ├── test-12-err-nonarray-index.txt
-        ├── test-13-err-nonrecord-access.txt
-        ├── test-14-err-wrong-args.txt
-        ├── test-15-err-for-nonint.txt
-        ├── test-16-err-case-type.txt
-        ├── run_test.sh
+        ├── ...
+        ├── run_tests.sh
         ├── expected-errors/
         └── outputs/
 ```
 
 ### Architecture
 
-The lexer is split into separated, independently testable components:
-
-| Component     | Path                     | Role                                                                       |
-| ------------- | ------------------------ | -------------------------------------------------------------------------- |
-| `Token`       | `src/ms1-lexer/token/`   | Data class holding a token's type, value, and line number                  |
-| `DFA`         | `src/ms1-lexer/dfa/`     | Pure state machine — reads characters, transitions states, emits tokens    |
-| `SymbolTable` | `src/ms1-lexer/lexer/`   | Keyword map used by DFA to distinguish identifiers from reserved words     |
-| `Lexer`       | `src/ms1-lexer/lexer/`   | Driver layer — owns a DFA instance, exposes `nextToken()` and `tokenize()` |
-| `FileReader`  | `src/ms1-lexer/util/`    | Reads the entire source file into a string                                 |
-| `main`        | `src/ms1-lexer/main.cpp` | Entry point — wires all components together and handles output             |
-
----
+Proyek ini dibangun secara bertahap (incremental) sehingga setiap milestone menambahkan satu fase kompilasi baru di atas milestone sebelumnya. Ketiga fase dihubungkan melalui library statis CMake sehingga executable yang lebih tinggi secara otomatis menggunakan komponen milestone sebelumnya.
+![alt text](./img/image-1.png)
 
 ## Requirements
 
-| Requirement | Version             | Description                                        |
-| ----------- | ------------------- | -------------------------------------------------- |
-| `g++`       | ≥ 9.0               | GNU C++ compiler with C++17 support (`-std=c++17`) |
-| `make`      | ≥ 3.81              | Build automation tool used to compile the project  |
-| OS          | Linux / macOS / WSL | The Makefile uses standard Unix shell commands     |
+| Requirement | Version  | Description                                           |
+| ----------- | -------- | ----------------------------------------------------- |
+| `cmake`     | ≥ 3.16   | Cross-platform build system generator                 |
+| `g++`       | ≥ 9.0    | GNU C++ compiler with C++17 support (`-std=c++17`)    |
+| `make`      | ≥ 3.81   | Build automation tool (or Ninja, etc.)                |
+| OS          | Linux / macOS / WSL | Build & test scripts use standard Unix commands |
 
 No third-party libraries are required. The project uses only the C++17 standard library.
 
@@ -190,92 +162,102 @@ git clone https://github.com/samuelsondhrm/JBC-Tubes-IF2224-2026.git
 cd JBC-Tubes-IF2224-2026
 ```
 
-### 2. Verify compiler is available
+### 2. Verify toolchain is available
 
 ```bash
-g++ --version
-make --version
+cmake --version    # ≥ 3.16
+g++ --version      # ≥ 9.0 with C++17
+make --version     # ≥ 3.81
 ```
 
-Both commands should return a version without errors. If `g++` is not installed on Ubuntu/Debian:
+Jika belum terinstall pada Ubuntu/Debian:
 
 ```bash
-sudo apt update && sudo apt install build-essential
+sudo apt update && sudo apt install build-essential cmake
 ```
 
-### 3. Compile
+### 3. Build
 
-From the **project root** (where `Makefile` lives):
+Dari **project root**, jalankan CMake kemudian compile:
 
 ```bash
+mkdir -p build
+cd build
+cmake ..
 make
 ```
 
-This compiles all source files and produces the `arion-lexer` binary at `src/ms1-lexer/arion-lexer`. To clean compiled artifacts:
+Ini akan menghasilkan tiga executable di dalam folder `build/`:
+- `arion-lexer` — Lexical Analyzer (Milestone 1)
+- `arion-parser` — Syntax Analyzer (Milestone 2)
+- `arion-semantic` — Semantic Analyzer (Milestone 3)
+
+Untuk membersihkan hasil build:
 
 ```bash
+# Dari folder build/
 make clean
+
+# Atau hapus seluruh folder build
+cd .. && rm -rf build
 ```
 
 ---
 
 ## Cara Menjalankan Program
 
-### Basic usage
+Semua executable dijalankan dari folder `build/`. Setiap executable menerima file source code Arion (`.txt`) sebagai input.
 
-Run directly using the compiled binary:
-
-```bash
-./src/ms1-lexer/arion-lexer <input.txt>
-```
-
-Token list is printed to the terminal.
-
-### Save output to file
+### Milestone 1: Lexer
 
 ```bash
-./src/ms1-lexer/arion-lexer <input.txt> <output.txt>
+# Output ke terminal
+./build/arion-lexer <input.txt>
+
+# Output ke terminal + simpan ke file
+./build/arion-lexer <input.txt> <output.txt>
 ```
 
-Token list is printed to the terminal **and** written to the specified output file.
-
-### Using the Makefile targets
-
-All `make run*` targets read from `test/milestone-1/` and write output to `test/milestone-1/outputs/` (the folder is created automatically if it does not exist).
+### Milestone 2: Parser
 
 ```bash
-make run                  # test-valid.txt              → outputs/output-valid.txt
-make run-invalid          # test-invalid.txt            → outputs/output-invalid.txt
-make run-edge             # test-edgecases.txt          → outputs/output-edgecases.txt
-make run-caseinsensitive  # test-caseinsensitive.txt    → outputs/output-caseinsensitive.txt
-make run-literaltypes     # test-literaltypes.txt       → outputs/output-literaltypes.txt
-make run-eql              # test-eql.txt                → outputs/output-eql.txt
-make run-kwid             # test-kwidboundary.txt       → outputs/output-kwidboundary.txt
-make run-commentambiguity # test-commentambiguity.txt   → outputs/output-commentambiguity.txt
-make run-all      # runs all three targets above
+# Output ke terminal
+./build/arion-parser <input.txt>
+
+# Output ke terminal + simpan ke file
+./build/arion-parser <input.txt> <output.txt>
 ```
 
-To remove generated output files:
+### Milestone 3: Semantic Analyzer
 
 ```bash
-make clean-out    # removes test/milestone-1/outputs/*.txt
-make clean-all    # removes compiled artifacts + output files
+# Output ke terminal
+./build/arion-semantic <input.txt>
+
+# Output ke terminal (output file belum didukung; gunakan redirect)
+./build/arion-semantic <input.txt> > <output.txt>
 ```
 
-### Example
+---
 
-**Input** (`test/milestone-1/test-valid.txt`):
+## Example
 
-```
+### Input — Source Code Arion (`test/milestone-1/test-valid.txt`)
+
+```pascal
 program Hello;
+
 var
   a, b: integer;
+
 begin
   a := 5;
+  b := a + 10;
+  writeln('Result = ', b);
 end.
 ```
 
-**Output** (`test/milestone-1/outputs/output-valid.txt`):
+### Output Milestone 1 — Token List (Lexer)
 
 ```
 programsy
@@ -293,9 +275,116 @@ ident (a)
 becomes
 intcon (5)
 semicolon
+ident (b)
+becomes
+ident (a)
+plus
+intcon (10)
+semicolon
+ident (writeln)
+lparent
+string ('Result = ')
+comma
+ident (b)
+rparent
+semicolon
 endsy
 period
 ```
+
+### Output Milestone 2 — Parse Tree (Parser)
+
+Input (`test/milestone-2/test-01-minimal.txt`):
+```pascal
+program Hello;
+begin
+end.
+```
+
+Output:
+```
+<program>
+├── <program-header>
+│   ├── programsy
+│   ├── ident(Hello)
+│   └── semicolon
+├── <declaration-part>
+├── <compound-statement>
+│   ├── beginsy
+│   ├── <statement-list>
+│   └── endsy
+└── period
+```
+
+### Output Milestone 3 — Decorated AST + Symbol Tables (Semantic)
+
+Input (`test/milestone-3/test-01-minimal.txt`):
+```pascal
+program Minimal;
+begin
+end.
+```
+
+Output:
+```
+└── Program('Minimal') → tab:8, type:8
+    └── Compound
+
+=== TAB (Symbol Table) ===
+ idx name             obj  typ  ref  nrm  lev  adr link
+   1 Real               2    2    0    1    0    0   -1
+   2 Integer            2    1    0    1    0    0    1
+   3 Char               2    4    0    1    0    0    2
+   4 Boolean            2    3    0    1    0    0    3
+   5 String             2    5    0    1    0    0    4
+   6 True               1    3    0    1    0    1    5
+   7 False              1    3    0    1    0    0    6
+   8 Minimal            5    8    0    1    0    0   -1
+
+=== BTAB (Block Table) ===
+ idx   last   lpar  psize  vsize
+   0      7      0      0      0
+   1      8      0      0      0
+
+=== ATAB (Array Table) ===
+ idx   xtyp   etyp   eref    low   high   elsz   size
+```
+
+---
+
+## Testing
+
+Proyek ini menggunakan **CTest** (bawaan CMake) untuk automated testing. Seluruh test case didefinisikan di `CMakeLists.txt`.
+
+### Menjalankan semua test
+
+```bash
+cd build
+ctest --output-on-failure
+```
+
+### Menjalankan test untuk milestone tertentu
+
+```bash
+# Hanya test Milestone 1
+ctest -R ms1 --output-on-failure
+
+# Hanya test Milestone 2
+ctest -R ms2 --output-on-failure
+
+# Hanya test Milestone 3
+ctest -R ms3 --output-on-failure
+```
+
+### Script test khusus Milestone 3
+
+Tersedia shell script tambahan untuk menjalankan test Milestone 3 secara lebih detail:
+
+```bash
+bash test/milestone-3/run_tests.sh
+```
+
+Script ini menjalankan semua test case valid (test-01 s/d test-06) dan error (test-07 s/d test-16), kemudian menampilkan ringkasan hasil pass/fail.
 
 ---
 
