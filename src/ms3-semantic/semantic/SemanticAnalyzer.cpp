@@ -5,6 +5,10 @@ SemanticAnalyzer::SemanticAnalyzer() {
     symTable.initialize();
 }
 
+ms3::SymbolTable& SemanticAnalyzer::getSymbolTable() {
+    return symTable;
+}
+
 void SemanticAnalyzer::analyze(ASTNode* root) {
     if (!root) return;
     visitNode(root);
