@@ -56,6 +56,21 @@ target_link_libraries(arion_semantic_lib PUBLIC arion_parser_lib)
 add_executable(arion-semantic src/ms3-semantic/main.cpp)
 target_link_libraries(arion-semantic PRIVATE arion_semantic_lib)
 
+add_library(arion_interpreter_lib STATIC
+    src/ms4-interpreter/icg/ICGenerator.cpp
+    src/ms4-interpreter/icg/ICGen_Expr.cpp
+    src/ms4-interpreter/icg/ICGen_Statements.cpp
+    src/ms4-interpreter/icg/ICGen_Subprograms.cpp
+    src/ms4-interpreter/interpreter/StackMachine.cpp
+    src/ms4-interpreter/interpreter/interpreter.cpp
+)
+target_include_directories(arion_interpreter_lib PUBLIC src/ms4-interpreter/interpreter src/ms4-interpreter/icg)
+target_link_libraries(arion_interpreter_lib PUBLIC arion_semantic_lib)
+
+add_executable(arion-interpreter src/ms4-interpreter/main.cpp)
+target_link_libraries(arion-interpreter PRIVATE arion_interpreter_lib)
+
+
 
 function(add_diff_test name exe input expected)
     add_test(
