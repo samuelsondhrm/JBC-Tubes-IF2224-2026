@@ -14,6 +14,7 @@ public:
     void analyze(ASTNode* root);
     bool hasError() const;
     void printSymbolTables(std::ostream& out) const;
+    ms3::SymbolTable& getSymbolTable();
     void visitProgram(ProgramNode* node);
     void visitBlock(BlockNode* node);
     void visitVarDecl(VarDeclNode* node);
