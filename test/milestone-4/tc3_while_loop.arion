@@ -1,0 +1,10 @@
+program WhileTest;
+var y: integer;
+begin
+  y := 5;
+  while y > 0 do
+  begin
+    writeln(y);
+    y := y - 1
+  end
+end.
