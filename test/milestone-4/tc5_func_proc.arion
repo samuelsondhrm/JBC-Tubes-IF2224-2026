@@ -1,0 +1,22 @@
+program FuncProcTest;
+var
+  result: integer;
+
+function add(a: integer; b: integer): integer;
+begin
+  add := a + b
+end;
+
+procedure printTwice(n: integer);
+var
+  doubled: integer;
+begin
+  doubled := n * 2;
+  writeln(n);
+  writeln(doubled)
+end;
+
+begin
+  result := add(3, 4);
+  printTwice(result)
+end.
