@@ -87,21 +87,23 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
             pc_++;
         }
     } else if (op == "CAL") {
+        // level >= 0 : procedure, jumlah argumen = level
+        // level < 0  : function, jumlah argumen = -level - 1
+        bool hasReturnSlot = (level < 0);
+        int paramCount = hasReturnSlot ? (-level - 1) : level;
+
         int staticLink = vm_.getBP();
-        if (level > 0) {
-            int b = vm_.getBP();
-            for (int i = 0; i < level; ++i) {
-                b = toInt(vm_.at(b + 1));
-            }
-            staticLink = b;
-        }
-        vm_.saveContext(staticLink, pc_ + 1);
+
+        vm_.saveContext(paramCount, hasReturnSlot, staticLink, pc_ + 1);
         pc_ = arg;
     } else if (op == "RET") {
         if (vm_.getBP() == 0) {
             running_ = false;
         } else {
+            StackVal retVal = 0;
+            if (arg == 1) retVal = vm_.load(0, 3);
             pc_ = vm_.restoreFrame();
+            if (arg == 1) vm_.push(retVal);
         }
     } else if (op == "OPR") {
         switch (arg) {
