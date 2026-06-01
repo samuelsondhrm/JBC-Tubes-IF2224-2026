@@ -33,6 +33,11 @@ void ICGenerator::visitAssign(AssignNode* n) {
 
     if (n->target->kind == ASTKind::Var) {
         auto* varNode = static_cast<VarNode*>(n->target);
+        // assignment return function
+        if (!frameStack_.empty() && frameStack_.back().isFunction && varNode->name == frameStack_.back().functionName) {
+            emit("STO", 0, 3);
+            return;
+        }
         ms3::TabEntry& entry = symTable_.getTabEntry(varNode->sem.tab_index);
         emit("STO", runtimeLevel(entry), runtimeAddr(entry));
     }
