@@ -57,7 +57,7 @@ public:
     StackVal pop();
     StackVal top() const;
     bool empty() const;
-    void saveContext(int staticLink, int returnAddr);
+    void saveContext(int paramCount, bool hasReturnSlot, int staticLink, int returnAddr);
     void allocFrame(int n);
     int restoreFrame();
     StackVal load(int level, int addr);
