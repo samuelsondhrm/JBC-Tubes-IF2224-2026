@@ -117,3 +117,43 @@ void ICGenerator::writeToFile(const std::vector<ICInstruction>& code,
             << instr.level << " " << instr.arg << "\n";
     }
 }
+
+int ICGenerator::runtimeLevel(const ms3::TabEntry& entry) const {
+    int diff = currentLevel_ - entry.lev;
+    return diff < 0 ? 0 : diff;
+}
+
+int ICGenerator::runtimeAddr(const ms3::TabEntry& entry) const {
+    if (!frameStack_.empty() && entry.lev == currentLevel_) {
+        const FrameInfo& f = frameStack_.back();
+
+        if (f.isFunction) {
+            // Function punya hidden return slot di bp+3, jadi parameter/lokal mulai dari bp+4
+            return 4 + entry.adr;
+        }
+    }
+
+    // Program utama/procedure: bp+0..bp+2 = header
+    return 3 + entry.adr;
+}
+
+int ICGenerator::countParams(const std::vector<ParamNode*>& params) const {
+    int count = 0;
+    for (ParamNode* p : params) {
+        if (p) count += static_cast<int>(p->names.size());
+    }
+    return count;
+}
+
+int ICGenerator::countLocalVars(BlockNode* block) const {
+    int count = 0;
+    if (!block) return 0;
+
+    for (ASTNode* decl : block->declarations) {
+        if (decl && decl->kind == ASTKind::VarDecl) {
+            count += static_cast<int>(static_cast<VarDeclNode*>(decl)->names.size());
+        }
+    }
+
+    return count;
+}

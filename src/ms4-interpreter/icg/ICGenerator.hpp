@@ -19,6 +19,20 @@ private:
     int nextLine_ = 0;
     std::unordered_map<std::string, int> funcLabels_;
 
+    struct FrameInfo {
+        int paramCount = 0;
+        bool isFunction = false;
+        std::string functionName;
+    };
+
+    int currentLevel_ = 0;
+    std::vector<FrameInfo> frameStack_;
+
+    int runtimeLevel(const ms3::TabEntry& entry) const;
+    int runtimeAddr(const ms3::TabEntry& entry) const;
+    int countParams(const std::vector<ParamNode*>& params) const;
+    int countLocalVars(BlockNode* block) const;
+
     void emit(const std::string& op, int level, int arg);
     int  currentLine() const;
     void backpatch(int targetLine, int value);
