@@ -25,7 +25,7 @@ void ICGenerator::visitStringLit(StringLitNode* n) {
 
 void ICGenerator::visitVar(VarNode* n) {
     ms3::TabEntry& entry = symTable_.getTabEntry(n->sem.tab_index);
-    emit("LOD", entry.lev, entry.adr);
+    emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
 }
 
 void ICGenerator::visitAssign(AssignNode* n) {
@@ -34,7 +34,7 @@ void ICGenerator::visitAssign(AssignNode* n) {
     if (n->target->kind == ASTKind::Var) {
         auto* varNode = static_cast<VarNode*>(n->target);
         ms3::TabEntry& entry = symTable_.getTabEntry(varNode->sem.tab_index);
-        emit("STO", entry.lev, entry.adr);
+        emit("STO", runtimeLevel(entry), runtimeAddr(entry));
     }
     // ArrayAccess dan RecordAccess perlu diimplementasi disini kalau jadi ambil bonus
 }
