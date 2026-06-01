@@ -84,15 +84,15 @@ void ICGenerator::visitUnaryOp(UnaryOpNode* n) {
 }
 
 void ICGenerator::visitFuncCall(FuncCallNode* n) {
-    emit("LIT", 0, 0); // 1 slot kosong di stack untuk menampung return value
-
     for (ASTNode* arg : n->args) {
         visitNode(arg);
     }
 
     auto it = funcLabels_.find(n->name);
     if (it != funcLabels_.end()) {
-        emit("CAL", 0, it->second);
+        int argCount = static_cast<int>(n->args.size());
+        // function tanpa argumen tetap bisa dibedakan
+        emit("CAL", -(argCount + 1), it->second);
     }
 }
 
