@@ -144,5 +144,5 @@ void ICGenerator::visitArrayAccess(ArrayAccessNode* n) {
 void ICGenerator::visitRecordAccess(RecordAccessNode* n) {
     (void)n;
     throw std::runtime_error(
-        "ICGen Error: akses field record belum diimplementasikan (fitur bonus M4)");
+        "ICGen Error: akses field record tidak diimplementasikan dalam M4");
 }
