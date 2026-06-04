@@ -103,10 +103,6 @@ void ICGenerator::visitUnaryOp(UnaryOpNode* n) {
 }
 
 void ICGenerator::visitFuncCall(FuncCallNode* n) {
-    // TODO (Faza): handler RET di interpreter.cpp harus:
-    //   1. Simpan nilai puncak eval stack (return value) sebelum restoreFrame().
-    //   2. Push kembali nilai tersebut setelah frame dipulihkan.
-    // Ini memastikan caller menerima return value di atas eval stack-nya pasca-CAL.
     for (ASTNode* arg : n->args) {
         visitNode(arg);
     }
