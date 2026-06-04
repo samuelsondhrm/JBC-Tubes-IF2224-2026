@@ -1,0 +1,23 @@
+0: INT 0 9
+1: LIT 0 3
+2: STO 0 8
+3: LODA 0 3
+4: LOD 0 8
+5: IXA 1 5
+6: LIT 0 42
+7: STOI 0 0
+8: LODA 0 3
+9: LOD 0 8
+10: IXA 1 5
+11: LODI 0 0
+12: OPR 0 14
+13: LIT 0 6
+14: STO 0 8
+15: LODA 0 3
+16: LOD 0 8
+17: IXA 1 5
+18: LIT 0 99
+19: STOI 0 0
+20: RET 0 0
+42
+Runtime Error: Array index out of bounds
