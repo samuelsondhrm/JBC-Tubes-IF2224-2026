@@ -26,6 +26,9 @@ void ICGenerator::visitProcDecl(ProcDeclNode* n) {
     currentDepth_--;      // keluar dari scope prosedur
 
     emit("RET", 0, 0);
+
+    frameStack_.pop_back();
+    currentLevel_--;
 }
 
 void ICGenerator::visitFuncDecl(FuncDeclNode* n) {

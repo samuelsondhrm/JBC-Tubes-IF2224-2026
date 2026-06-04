@@ -174,7 +174,7 @@ void ICGenerator::visitProcCall(ProcCallNode* n) {
         }
         auto it = funcLabels_.find(n->name);
         if (it != funcLabels_.end()) {
-            emit("CAL", 0, it->second);
+            emit("CAL", static_cast<int>(n->args.size()), it->second);
         }
     }
 }

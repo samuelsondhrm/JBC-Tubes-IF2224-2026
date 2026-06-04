@@ -347,6 +347,7 @@ void SemanticAnalyzer::visitProcDecl(ProcDeclNode* node) {
     }
 
     // 5. Simpan metadata parameter ke Btab
+    offsetTracker[currentLevel_] = psze;
     ms3::BtabEntry& bEntry = symTable.getBtabEntry(btabIdx);
     bEntry.psize = psze;
     bEntry.lpar = lastParamIdx;
@@ -411,6 +412,7 @@ void SemanticAnalyzer::visitFuncDecl(FuncDeclNode* node) {
     }
 
     // 6. Simpan metadata parameter ke Btab
+    offsetTracker[currentLevel_] = psze;
     ms3::BtabEntry& bEntry = symTable.getBtabEntry(btabIdx);
     bEntry.lpar = lastParamIdx;
     bEntry.psize = psze;
