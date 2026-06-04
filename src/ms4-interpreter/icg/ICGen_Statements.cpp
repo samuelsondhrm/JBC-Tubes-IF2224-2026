@@ -58,12 +58,12 @@ void ICGenerator::visitFor(ForNode* n) {
 
     // Evaluate starting value and store into variable
     visitNode(n->fromExpr);
-    emit("STO", entry.lev, entry.adr);
+    emit("STO", runtimeLevel(entry), runtimeAddr(entry));
 
     int condStart = currentLine();
     
     // Evaluate current value of loop variable
-    emit("LOD", entry.lev, entry.adr);
+    emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
     // Evaluate boundary expression
     visitNode(n->toExpr);
 
@@ -81,14 +81,14 @@ void ICGenerator::visitFor(ForNode* n) {
     visitNode(n->body);
 
     // Step (increment / decrement loop variable)
-    emit("LOD", entry.lev, entry.adr);
+    emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
     emit("LIT", 0, 1);
     if (n->downto) {
         emit("OPR", 0, 3); // SUB
     } else {
         emit("OPR", 0, 2); // ADD
     }
-    emit("STO", entry.lev, entry.adr);
+    emit("STO", runtimeLevel(entry), runtimeAddr(entry));
 
     emit("JMP", 0, condStart);
     backpatch(jpcLine, currentLine());
