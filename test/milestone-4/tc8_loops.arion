@@ -1,0 +1,31 @@
+program LoopsTest;
+var
+  i: integer;
+begin
+  { 1. Test While Loop }
+  writeln(1111);
+  i := 1;
+  while i <= 3 do
+  begin
+    writeln(i);
+    i := i + 1
+  end;
+
+  { 2. Test For-To Loop }
+  writeln(2222);
+  for i := 1 to 3 do
+    writeln(i);
+
+  { 3. Test For-Downto Loop }
+  writeln(3333);
+  for i := 3 downto 1 do
+    writeln(i);
+
+  { 4. Test Repeat-Until Loop }
+  writeln(4444);
+  i := 1;
+  repeat
+    writeln(i);
+    i := i + 1
+  until i == 4
+end.
