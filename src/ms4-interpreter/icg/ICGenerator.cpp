@@ -89,13 +89,32 @@ void ICGenerator::visitProgram(ProgramNode* n) {
 
 // Emit deklarasi non-variabel dan body untuk blok subprogram
 void ICGenerator::visitBlock(BlockNode* n) {
+    bool hasSubprogram = false;
     for (ASTNode* decl : n->declarations) {
-        if (decl->kind != ASTKind::VarDecl
+        if (decl && (decl->kind == ASTKind::ProcDecl || decl->kind == ASTKind::FuncDecl)) {
+            hasSubprogram = true;
+            break;
+        }
+    }
+
+    int jmpLine = -1;
+    if (hasSubprogram) {
+        jmpLine = currentLine();
+        emit("JMP", 0, 0);
+    }
+
+    for (ASTNode* decl : n->declarations) {
+        if (decl && decl->kind != ASTKind::VarDecl
             && decl->kind != ASTKind::ConstDecl
             && decl->kind != ASTKind::TypeDecl) {
             visitNode(decl);
         }
     }
+
+    if (hasSubprogram) {
+        backpatch(jmpLine, currentLine());
+    }
+
     visitNode(n->body);
 }
 

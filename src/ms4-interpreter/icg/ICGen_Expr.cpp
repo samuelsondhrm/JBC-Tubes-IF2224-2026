@@ -25,7 +25,11 @@ void ICGenerator::visitStringLit(StringLitNode* n) {
 
 void ICGenerator::visitVar(VarNode* n) {
     ms3::TabEntry& entry = symTable_.getTabEntry(n->sem.tab_index);
-    emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
+    if (entry.obj == OBJ_CONSTANT) {
+        emit("LIT", 0, entry.adr);
+    } else {
+        emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
+    }
 }
 
 void ICGenerator::visitAssign(AssignNode* n) {
