@@ -74,7 +74,6 @@ void ICGenerator::visitFuncDecl(FuncDeclNode* n) {
         }
     }
 
-    // TODO (Faza): interpreter RET handler harus preserve nilai puncak eval stack ini.
     emit("INT", paramCount, 4 + paramCount + varCount);
 
     FrameInfo f;
