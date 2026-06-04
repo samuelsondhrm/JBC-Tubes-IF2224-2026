@@ -114,7 +114,7 @@ int StackMachine::base(int level) const {
 StackVal StackMachine::load(int level, int addr) {
     int b = base(level);
     int idx = b + addr;
-    if (idx < 0 || idx > sp_) {
+    if (idx < 0 || idx >= MAX_STACK) {
         throw std::runtime_error("Runtime Error: Memory Access Out of Bounds (LOD)");
     }
     return stack_[idx];

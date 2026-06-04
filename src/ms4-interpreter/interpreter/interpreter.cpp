@@ -1,6 +1,8 @@
 #include "interpreter.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <cmath>
+#include <limits>
 
 namespace {
     bool is_str(const StackVal& v) { return std::holds_alternative<std::string>(v); }
@@ -75,9 +77,30 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
     } else if (op == "STO") {
         vm_.store(level, arg, vm_.pop());
         pc_++;
+    } else if (op == "LODA") {
+        int baseAddr = vm_.base(level);
+        vm_.push(baseAddr + arg);
+        pc_++;
+    } else if (op == "IXA") {
+        int idx = toInt(vm_.pop());
+        int baseAddr = toInt(vm_.pop());
+        if (idx < level || idx > arg) {
+            throw std::runtime_error("Runtime Error: Array index out of bounds");
+        }
+        vm_.push(baseAddr + (idx - level));
+        pc_++;
+    } else if (op == "LODI") {
+        int addr = toInt(vm_.pop());
+        vm_.push(vm_.at(addr));
+        pc_++;
+    } else if (op == "STOI") {
+        StackVal val = vm_.pop();
+        int addr = toInt(vm_.pop());
+        vm_.at(addr) = val;
+        pc_++;
     } else if (op == "INT") {
         if (vm_.getBP() == 0 && vm_.getSP() < 0) {
-            vm_.saveContext(0, (int)code_.size());
+            vm_.saveContext(0, false, 0, (int)code_.size());
         }
         vm_.allocFrame(arg);
         pc_++;
@@ -113,9 +136,20 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
             case 1: {
                 StackVal val = vm_.pop();
                 if (is_dbl(val)) {
-                    vm_.push(-toDouble(val));
+                    double res = -toDouble(val);
+                    if (std::isinf(res)) {
+                        throw std::runtime_error("Runtime Error: Real overflow");
+                    }
+                    vm_.push(res);
                 } else if (std::holds_alternative<int>(val)) {
-                    vm_.push(-toInt(val));
+                    int64_t res = -static_cast<int64_t>(toInt(val));
+                    if (res > std::numeric_limits<int>::max()) {
+                        throw std::runtime_error("Runtime Error: Integer overflow");
+                    }
+                    if (res < std::numeric_limits<int>::min()) {
+                        throw std::runtime_error("Runtime Error: Integer underflow");
+                    }
+                    vm_.push(static_cast<int>(res));
                 } else {
                     throw std::runtime_error("Runtime Error: Invalid operand type for Negate");
                 }
@@ -128,9 +162,20 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
                 if (is_str(x) || is_str(y)) {
                     vm_.push(toString(x) + toString(y));
                 } else if (is_dbl(x) || is_dbl(y)) {
-                    vm_.push(toDouble(x) + toDouble(y));
+                    double res = toDouble(x) + toDouble(y);
+                    if (std::isinf(res)) {
+                        throw std::runtime_error("Runtime Error: Real overflow");
+                    }
+                    vm_.push(res);
                 } else if (std::holds_alternative<int>(x) && std::holds_alternative<int>(y)) {
-                    vm_.push(toInt(x) + toInt(y));
+                    int64_t res = static_cast<int64_t>(toInt(x)) + static_cast<int64_t>(toInt(y));
+                    if (res > std::numeric_limits<int>::max()) {
+                        throw std::runtime_error("Runtime Error: Integer overflow");
+                    }
+                    if (res < std::numeric_limits<int>::min()) {
+                        throw std::runtime_error("Runtime Error: Integer underflow");
+                    }
+                    vm_.push(static_cast<int>(res));
                 } else {
                     throw std::runtime_error("Runtime Error: Invalid operand types for Add");
                 }
@@ -141,9 +186,20 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
                 StackVal y = vm_.pop();
                 StackVal x = vm_.pop();
                 if (is_dbl(x) || is_dbl(y)) {
-                    vm_.push(toDouble(x) - toDouble(y));
+                    double res = toDouble(x) - toDouble(y);
+                    if (std::isinf(res)) {
+                        throw std::runtime_error("Runtime Error: Real overflow");
+                    }
+                    vm_.push(res);
                 } else if (std::holds_alternative<int>(x) && std::holds_alternative<int>(y)) {
-                    vm_.push(toInt(x) - toInt(y));
+                    int64_t res = static_cast<int64_t>(toInt(x)) - static_cast<int64_t>(toInt(y));
+                    if (res > std::numeric_limits<int>::max()) {
+                        throw std::runtime_error("Runtime Error: Integer overflow");
+                    }
+                    if (res < std::numeric_limits<int>::min()) {
+                        throw std::runtime_error("Runtime Error: Integer underflow");
+                    }
+                    vm_.push(static_cast<int>(res));
                 } else {
                     throw std::runtime_error("Runtime Error: Invalid operand types for Subtract");
                 }
@@ -154,9 +210,20 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
                 StackVal y = vm_.pop();
                 StackVal x = vm_.pop();
                 if (is_dbl(x) || is_dbl(y)) {
-                    vm_.push(toDouble(x) * toDouble(y));
+                    double res = toDouble(x) * toDouble(y);
+                    if (std::isinf(res)) {
+                        throw std::runtime_error("Runtime Error: Real overflow");
+                    }
+                    vm_.push(res);
                 } else if (std::holds_alternative<int>(x) && std::holds_alternative<int>(y)) {
-                    vm_.push(toInt(x) * toInt(y));
+                    int64_t res = static_cast<int64_t>(toInt(x)) * static_cast<int64_t>(toInt(y));
+                    if (res > std::numeric_limits<int>::max()) {
+                        throw std::runtime_error("Runtime Error: Integer overflow");
+                    }
+                    if (res < std::numeric_limits<int>::min()) {
+                        throw std::runtime_error("Runtime Error: Integer underflow");
+                    }
+                    vm_.push(static_cast<int>(res));
                 } else {
                     throw std::runtime_error("Runtime Error: Invalid operand types for Multiply");
                 }
@@ -171,13 +238,24 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
                     if (dy == 0.0) {
                         throw std::runtime_error("Runtime Error: Division by zero");
                     }
-                    vm_.push(toDouble(x) / dy);
+                    double res = toDouble(x) / dy;
+                    if (std::isinf(res)) {
+                        throw std::runtime_error("Runtime Error: Real overflow");
+                    }
+                    vm_.push(res);
                 } else if (std::holds_alternative<int>(x) && std::holds_alternative<int>(y)) {
                     int iy = toInt(y);
                     if (iy == 0) {
                         throw std::runtime_error("Runtime Error: Division by zero");
                     }
-                    vm_.push(toInt(x) / iy);
+                    int64_t res = static_cast<int64_t>(toInt(x)) / iy;
+                    if (res > std::numeric_limits<int>::max()) {
+                        throw std::runtime_error("Runtime Error: Integer overflow");
+                    }
+                    if (res < std::numeric_limits<int>::min()) {
+                        throw std::runtime_error("Runtime Error: Integer underflow");
+                    }
+                    vm_.push(static_cast<int>(res));
                 } else {
                     throw std::runtime_error("Runtime Error: Invalid operand types for Divide");
                 }
@@ -192,7 +270,14 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
                     if (iy == 0) {
                         throw std::runtime_error("Runtime Error: Division by zero");
                     }
-                    vm_.push(toInt(x) % iy);
+                    int64_t res = static_cast<int64_t>(toInt(x)) % iy;
+                    if (res > std::numeric_limits<int>::max()) {
+                        throw std::runtime_error("Runtime Error: Integer overflow");
+                    }
+                    if (res < std::numeric_limits<int>::min()) {
+                        throw std::runtime_error("Runtime Error: Integer underflow");
+                    }
+                    vm_.push(static_cast<int>(res));
                 } else {
                     throw std::runtime_error("Runtime Error: Invalid operand types for Modulo");
                 }

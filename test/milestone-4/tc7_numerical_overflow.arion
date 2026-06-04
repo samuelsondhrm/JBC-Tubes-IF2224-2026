@@ -1,0 +1,11 @@
+program OverflowTest;
+var
+  a: integer;
+  b: integer;
+  res: integer;
+begin
+  a := 2147483647;
+  b := 1;
+  res := a + b;
+  writeln(res)
+end.

@@ -54,7 +54,16 @@ void ICGenerator::visitProgram(ProgramNode* n) {
     int varCount = 0;
     for (ASTNode* decl : n->declarations) {
         if (decl->kind == ASTKind::VarDecl) {
-            varCount += static_cast<VarDeclNode*>(decl)->names.size();
+            auto* vd = static_cast<VarDeclNode*>(decl);
+            for (const auto& name : vd->names) {
+                int idx = lookupInBlock(name, 1);
+                if (idx != -1) {
+                    ms3::TabEntry& entry = symTable_.getTabEntry(idx);
+                    varCount += symTable_.typeSize(entry.type, entry.ref);
+                } else {
+                    varCount += 1;
+                }
+            }
         }
     }
     emit("INT", 0, 3 + varCount);
@@ -175,4 +184,17 @@ int ICGenerator::countLocalVars(BlockNode* block) const {
     }
 
     return count;
+}
+
+int ICGenerator::lookupInBlock(const std::string& name, int btabIdx) const {
+    if (btabIdx < 0 || btabIdx >= symTable_.btabSize()) return -1;
+    int idx = symTable_.getBtabEntry(btabIdx).last;
+    while (idx >= 1) {
+        const auto& entry = symTable_.getTabEntry(idx);
+        if (entry.name == name) {
+            return idx;
+        }
+        idx = entry.link;
+    }
+    return -1;
 }

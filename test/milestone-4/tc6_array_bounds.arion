@@ -1,0 +1,12 @@
+program ArrayBoundsTest;
+var
+  arr: array [1 .. 5] of integer;
+  idx: integer;
+begin
+  idx := 3;
+  arr[idx] := 42;
+  writeln(arr[idx]);
+  
+  idx := 6;
+  arr[idx] := 99
+end.
