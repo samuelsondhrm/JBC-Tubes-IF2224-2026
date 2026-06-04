@@ -32,14 +32,16 @@ void ICGenerator::visitVar(VarNode* n) {
     }
     ms3::TabEntry& entry = symTable_.getTabEntry(n->sem.tab_index);
     
-    int relLev = currentDepth_ - entry.lev;
-    emit("LOD", relLev, entry.adr + 3);
+    emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
 }
 
 void ICGenerator::visitAssign(AssignNode* n) {
-    visitNode(n->value);
-
-    if (n->target->kind == ASTKind::Var) {
+    if (n->target->kind == ASTKind::ArrayAccess) {
+        emitAddr(n->target);
+        visitNode(n->value);
+        emit("STOI", 0, 0);
+    } else if (n->target->kind == ASTKind::Var) {
+        visitNode(n->value);
         auto* varNode = static_cast<VarNode*>(n->target);
         if (varNode->sem.tab_index < 0) {
             throw std::runtime_error(
@@ -48,15 +50,11 @@ void ICGenerator::visitAssign(AssignNode* n) {
         }
         ms3::TabEntry& entry = symTable_.getTabEntry(varNode->sem.tab_index);
         if (entry.obj == OBJ_FUNCTION) {
-            // TODO (Faza): handler RET di interpreter.cpp harus simpan nilai puncak eval stack
-            // sebelum restoreFrame(), lalu push kembali setelah frame pulih, sehingga caller
-            // menerima return value di atas eval stack-nya setelah instruksi CAL selesai.
+            emit("STO", 0, 3);
         } else {
-            int relLev = currentDepth_ - entry.lev;
-            emit("STO", relLev, entry.adr + 3);
+            emit("STO", runtimeLevel(entry), runtimeAddr(entry));
         }
     }
-    // Assignment ke ArrayAccess/RecordAccess tidak dalam scope M4 dasar (fitur bonus).
 }
 
 void ICGenerator::visitBinOp(BinOpNode* n) {
@@ -115,17 +113,36 @@ void ICGenerator::visitFuncCall(FuncCallNode* n) {
 
     auto it = funcLabels_.find(n->name);
     if (it != funcLabels_.end()) {
-        emit("CAL", 0, it->second);
+        emit("CAL", -static_cast<int>(n->args.size()) - 1, it->second);
     } else {
         throw std::runtime_error(
             "ICGen Error: fungsi '" + n->name + "' tidak ditemukan di funcLabels_");
     }
 }
 
+void ICGenerator::emitAddr(ASTNode* node) {
+    if (node->kind == ASTKind::Var) {
+        auto* varNode = static_cast<VarNode*>(node);
+        if (varNode->sem.tab_index < 0) {
+            throw std::runtime_error("ICGen Error: VarNode '" + varNode->name + "' has invalid tab_index");
+        }
+        ms3::TabEntry& entry = symTable_.getTabEntry(varNode->sem.tab_index);
+        emit("LODA", runtimeLevel(entry), runtimeAddr(entry));
+    } else if (node->kind == ASTKind::ArrayAccess) {
+        auto* arrNode = static_cast<ArrayAccessNode*>(node);
+        emitAddr(arrNode->array);
+        visitNode(arrNode->index);
+        int atabIdx = arrNode->array->sem.ref;
+        ms3::AtabEntry& a = symTable_.getAtabEntry(atabIdx);
+        emit("IXA", a.low, a.high);
+    } else {
+        throw std::runtime_error("ICGen Error: L-value not supported for address generation");
+    }
+}
+
 void ICGenerator::visitArrayAccess(ArrayAccessNode* n) {
-    (void)n;
-    throw std::runtime_error(
-        "ICGen Error: akses array belum diimplementasikan (fitur bonus M4)");
+    emitAddr(n);
+    emit("LODI", 0, 0);
 }
 
 void ICGenerator::visitRecordAccess(RecordAccessNode* n) {

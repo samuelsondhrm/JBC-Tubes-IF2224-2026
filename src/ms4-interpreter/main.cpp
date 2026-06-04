@@ -41,6 +41,10 @@ int main(int argc, char* argv[]) {
     ICGenerator icg(sa.getSymbolTable());
     std::vector<ICInstruction> code = icg.generate(ast);
 
+    for (const auto& inst : code) {
+        std::cout << inst.line << ": " << inst.op << " " << inst.level << " " << inst.arg << "\n";
+    }
+
     // Run interpreter
     Interpreter interpreter(code);
     try {

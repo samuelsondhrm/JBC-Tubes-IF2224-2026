@@ -14,12 +14,28 @@ void ICGenerator::visitProcDecl(ProcDeclNode* n) {
     if (n->block) {
         for (ASTNode* decl : n->block->declarations) {
             if (decl->kind == ASTKind::VarDecl) {
-                varCount += static_cast<int>(static_cast<VarDeclNode*>(decl)->names.size());
+                auto* vd = static_cast<VarDeclNode*>(decl);
+                for (const auto& name : vd->names) {
+                    int idx = lookupInBlock(name, n->sem.ref);
+                    if (idx != -1) {
+                        ms3::TabEntry& entry = symTable_.getTabEntry(idx);
+                        varCount += symTable_.typeSize(entry.type, entry.ref);
+                    } else {
+                        varCount += 1;
+                    }
+                }
             }
         }
     }
 
-    emit("INT", 0, 3 + paramCount + varCount);
+    emit("INT", paramCount, 3 + paramCount + varCount);
+
+    FrameInfo f;
+    f.paramCount = paramCount;
+    f.isFunction = false;
+    f.functionName = n->name;
+    frameStack_.push_back(f);
+    currentLevel_++;
 
     currentDepth_++;      // masuk ke scope prosedur
     visitNode(n->block);
@@ -44,17 +60,36 @@ void ICGenerator::visitFuncDecl(FuncDeclNode* n) {
     if (n->block) {
         for (ASTNode* decl : n->block->declarations) {
             if (decl->kind == ASTKind::VarDecl) {
-                varCount += static_cast<int>(static_cast<VarDeclNode*>(decl)->names.size());
+                auto* vd = static_cast<VarDeclNode*>(decl);
+                for (const auto& name : vd->names) {
+                    int idx = lookupInBlock(name, n->sem.ref);
+                    if (idx != -1) {
+                        ms3::TabEntry& entry = symTable_.getTabEntry(idx);
+                        varCount += symTable_.typeSize(entry.type, entry.ref);
+                    } else {
+                        varCount += 1;
+                    }
+                }
             }
         }
     }
 
     // TODO (Faza): interpreter RET handler harus preserve nilai puncak eval stack ini.
-    emit("INT", 0, 3 + paramCount + varCount);
+    emit("INT", paramCount, 4 + paramCount + varCount);
+
+    FrameInfo f;
+    f.paramCount = paramCount;
+    f.isFunction = true;
+    f.functionName = n->name;
+    frameStack_.push_back(f);
+    currentLevel_++;
 
     currentDepth_++;      // masuk ke scope fungsi
     visitNode(n->block);
     currentDepth_--;      // keluar dari scope fungsi
 
-    emit("RET", 0, 0);
+    emit("RET", 0, 1);
+
+    frameStack_.pop_back();
+    currentLevel_--;
 }

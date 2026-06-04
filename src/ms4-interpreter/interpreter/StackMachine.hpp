@@ -78,9 +78,10 @@ public:
         sp_ = val; 
     }
 
+    int base(int level) const;
+
 private:
     std::vector<StackVal> stack_;
     int sp_;
     int bp_;
-    int base(int level) const;
 };

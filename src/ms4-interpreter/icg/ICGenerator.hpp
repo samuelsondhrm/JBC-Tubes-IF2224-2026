@@ -33,11 +33,13 @@ private:
     int runtimeAddr(const ms3::TabEntry& entry) const;
     int countParams(const std::vector<ParamNode*>& params) const;
     int countLocalVars(BlockNode* block) const;
+    int lookupInBlock(const std::string& name, int btabIdx) const;
 
     void emit(const std::string& op, int level, int arg);
     int  currentLine() const;
     void backpatch(int targetLine, int value);
     void visitNode(ASTNode* node);
+    void emitAddr(ASTNode* node);
 
     void visitProgram(ProgramNode* n);
     void visitBlock(BlockNode* n);
