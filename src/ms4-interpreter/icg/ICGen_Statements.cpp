@@ -153,12 +153,20 @@ void ICGenerator::visitProcCall(ProcCallNode* n) {
     std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), [](unsigned char c) { return std::tolower(c); });
 
     if (lowerName == "writeln" || lowerName == "write") {
-        for (ASTNode* arg : n->args) {
-            visitNode(arg);
-            emit("OPR", 0, 14); // print top of stack
-        }
-        if (lowerName == "writeln") {
-            emit("OPR", 0, 15); // print newline
+        if (lowerName == "write") {
+            for (ASTNode* arg : n->args) {
+                visitNode(arg);
+                emit("OPR", 0, 13); // WRT: print top of stack without newline
+            }
+        } else {
+            if (n->args.empty()) {
+                throw std::runtime_error("Runtime Error: Writeln requires at least one argument");
+            }
+
+            for (size_t i = 0; i < n->args.size(); i++) {
+                visitNode(n->args[i]);
+                emit("OPR", 0, i + 1 == n->args.size() ? 14 : 13);
+            }
         }
     } else {
         for (ASTNode* arg : n->args) {

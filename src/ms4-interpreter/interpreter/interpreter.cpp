@@ -212,13 +212,13 @@ void Interpreter::executeInstruction(const ICInstruction& instr) {
                 pc_++;
                 break;
             }
-            case 14: {
+            case 13: {
                 std::cout << toString(vm_.pop());
                 pc_++;
                 break;
             }
-            case 15: {
-                std::cout << std::endl;
+            case 14: {
+                std::cout << toString(vm_.pop()) << std::endl;
                 pc_++;
                 break;
             }
