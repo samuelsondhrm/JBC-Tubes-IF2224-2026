@@ -4,16 +4,26 @@
 void ICGenerator::visitProcDecl(ProcDeclNode* n) {
     if (!n) return;
     funcLabels_[n->name] = currentLine();
-    
-    int paramCount = countParams(n->params);
-    int localVarCount = countLocalVars(n->block);
 
-    emit("INT", 0, 3 + paramCount + localVarCount);
+    int paramCount = 0;
+    for (ParamNode* param : n->params) {
+        paramCount += static_cast<int>(param->names.size());
+    }
 
-    currentLevel_++;
-    frameStack_.push_back({paramCount, false, ""});
+    int varCount = 0;
+    if (n->block) {
+        for (ASTNode* decl : n->block->declarations) {
+            if (decl->kind == ASTKind::VarDecl) {
+                varCount += static_cast<int>(static_cast<VarDeclNode*>(decl)->names.size());
+            }
+        }
+    }
 
-    if (n->block) visitBlock(n->block);
+    emit("INT", 0, 3 + paramCount + varCount);
+
+    currentDepth_++;      // masuk ke scope prosedur
+    visitNode(n->block);
+    currentDepth_--;      // keluar dari scope prosedur
 
     emit("RET", 0, 0);
 
@@ -24,19 +34,27 @@ void ICGenerator::visitProcDecl(ProcDeclNode* n) {
 void ICGenerator::visitFuncDecl(FuncDeclNode* n) {
     if (!n) return;
     funcLabels_[n->name] = currentLine();
-    
-    int paramCount = countParams(n->params);
-    int localVarCount = countLocalVars(n->block);
 
-    emit("INT", 0, 3 + 1 + paramCount + localVarCount);
+    int paramCount = 0;
+    for (ParamNode* param : n->params) {
+        paramCount += static_cast<int>(param->names.size());
+    }
 
-    currentLevel_++;
-    frameStack_.push_back({paramCount, true, n->name});
+    int varCount = 0;
+    if (n->block) {
+        for (ASTNode* decl : n->block->declarations) {
+            if (decl->kind == ASTKind::VarDecl) {
+                varCount += static_cast<int>(static_cast<VarDeclNode*>(decl)->names.size());
+            }
+        }
+    }
 
-    if (n->block) visitBlock(n->block);
+    // TODO (Faza): interpreter RET handler harus preserve nilai puncak eval stack ini.
+    emit("INT", 0, 3 + paramCount + varCount);
 
-    emit("RET", 0, 1);
+    currentDepth_++;      // masuk ke scope fungsi
+    visitNode(n->block);
+    currentDepth_--;      // keluar dari scope fungsi
 
-    frameStack_.pop_back();
-    currentLevel_--;
+    emit("RET", 0, 0);
 }

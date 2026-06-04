@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <algorithm>
+#include <stdexcept>
 
 void ICGenerator::visitIntLit(IntLitNode* n) {
     emit("LIT", 0, n->value);
@@ -24,12 +25,15 @@ void ICGenerator::visitStringLit(StringLitNode* n) {
 }
 
 void ICGenerator::visitVar(VarNode* n) {
-    ms3::TabEntry& entry = symTable_.getTabEntry(n->sem.tab_index);
-    if (entry.obj == OBJ_CONSTANT) {
-        emit("LIT", 0, entry.adr);
-    } else {
-        emit("LOD", runtimeLevel(entry), runtimeAddr(entry));
+    if (n->sem.tab_index < 0) {
+        throw std::runtime_error(
+            "ICGen Error: VarNode '" + n->name +
+            "' memiliki tab_index tidak valid -- tidak dianotasi oleh SemanticAnalyzer");
     }
+    ms3::TabEntry& entry = symTable_.getTabEntry(n->sem.tab_index);
+    
+    int relLev = currentDepth_ - entry.lev;
+    emit("LOD", relLev, entry.adr + 3);
 }
 
 void ICGenerator::visitAssign(AssignNode* n) {
@@ -37,15 +41,22 @@ void ICGenerator::visitAssign(AssignNode* n) {
 
     if (n->target->kind == ASTKind::Var) {
         auto* varNode = static_cast<VarNode*>(n->target);
-        // assignment return function
-        if (!frameStack_.empty() && frameStack_.back().isFunction && varNode->name == frameStack_.back().functionName) {
-            emit("STO", 0, 3);
-            return;
+        if (varNode->sem.tab_index < 0) {
+            throw std::runtime_error(
+                "ICGen Error: assignment target '" + varNode->name +
+                "' memiliki tab_index tidak valid yang tidak dianotasi oleh SemanticAnalyzer");
         }
         ms3::TabEntry& entry = symTable_.getTabEntry(varNode->sem.tab_index);
-        emit("STO", runtimeLevel(entry), runtimeAddr(entry));
+        if (entry.obj == OBJ_FUNCTION) {
+            // TODO (Faza): handler RET di interpreter.cpp harus simpan nilai puncak eval stack
+            // sebelum restoreFrame(), lalu push kembali setelah frame pulih, sehingga caller
+            // menerima return value di atas eval stack-nya setelah instruksi CAL selesai.
+        } else {
+            int relLev = currentDepth_ - entry.lev;
+            emit("STO", relLev, entry.adr + 3);
+        }
     }
-    // ArrayAccess dan RecordAccess perlu diimplementasi disini kalau jadi ambil bonus
+    // Assignment ke ArrayAccess/RecordAccess tidak dalam scope M4 dasar (fitur bonus).
 }
 
 void ICGenerator::visitBinOp(BinOpNode* n) {
@@ -66,9 +77,15 @@ void ICGenerator::visitBinOp(BinOpNode* n) {
         {">=", 10},   // GEQ
         {">",  11},   // GTR
         {"<=", 12},   // LEQ
-        {"and", 4},   // AND — gunakan MUL (1*1=1, 0*x=0)
-        {"or",  2},   // OR  — gunakan ADD (clamp di interpreter)
+        {"and", 4},   // AND via MUL: benar untuk boolean (0*x=0, 1*1=1)
     };
+
+    if (n->op == "or") {
+        emit("OPR", 0, 2); // ADD
+        emit("LIT", 0, 0);
+        emit("OPR", 0, 8); // NEQ: 1 jika (sum != 0), 0 jika (sum == 0)
+        return;
+    }
 
     auto it = opMap.find(n->op);
     if (it != opMap.end()) {
@@ -88,22 +105,31 @@ void ICGenerator::visitUnaryOp(UnaryOpNode* n) {
 }
 
 void ICGenerator::visitFuncCall(FuncCallNode* n) {
+    // TODO (Faza): handler RET di interpreter.cpp harus:
+    //   1. Simpan nilai puncak eval stack (return value) sebelum restoreFrame().
+    //   2. Push kembali nilai tersebut setelah frame dipulihkan.
+    // Ini memastikan caller menerima return value di atas eval stack-nya pasca-CAL.
     for (ASTNode* arg : n->args) {
         visitNode(arg);
     }
 
     auto it = funcLabels_.find(n->name);
     if (it != funcLabels_.end()) {
-        int argCount = static_cast<int>(n->args.size());
-        // function tanpa argumen tetap bisa dibedakan
-        emit("CAL", -(argCount + 1), it->second);
+        emit("CAL", 0, it->second);
+    } else {
+        throw std::runtime_error(
+            "ICGen Error: fungsi '" + n->name + "' tidak ditemukan di funcLabels_");
     }
 }
 
 void ICGenerator::visitArrayAccess(ArrayAccessNode* n) {
     (void)n;
+    throw std::runtime_error(
+        "ICGen Error: akses array belum diimplementasikan (fitur bonus M4)");
 }
 
 void ICGenerator::visitRecordAccess(RecordAccessNode* n) {
     (void)n;
+    throw std::runtime_error(
+        "ICGen Error: akses field record belum diimplementasikan (fitur bonus M4)");
 }

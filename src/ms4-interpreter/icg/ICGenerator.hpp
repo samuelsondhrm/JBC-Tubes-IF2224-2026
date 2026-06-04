@@ -17,6 +17,7 @@ private:
     ms3::SymbolTable& symTable_;
     std::vector<ICInstruction> code_;
     int nextLine_ = 0;
+    int currentDepth_ = 0;
     std::unordered_map<std::string, int> funcLabels_;
 
     struct FrameInfo {
