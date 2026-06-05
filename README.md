@@ -169,7 +169,6 @@ JBC-Tubes-IF2224-2026
 ### Architecture
 
 Proyek ini dibangun secara bertahap (incremental) sehingga setiap milestone menambahkan satu fase kompilasi baru di atas milestone sebelumnya. Ketiga fase dihubungkan melalui library statis CMake sehingga executable yang lebih tinggi secara otomatis menggunakan komponen milestone sebelumnya.
-![alt text](./img/image-1.png)
 
 ## Requirements
 
