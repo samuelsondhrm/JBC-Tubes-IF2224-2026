@@ -162,7 +162,8 @@ JBC-Tubes-IF2224-2026
     └── milestone-4/
         ├── tc1_simple_assign.arion
         ├── tc2_if_else.arion
-        └── ...
+        ├── ...
+        └── outputs/
 ```
 
 ### Architecture
