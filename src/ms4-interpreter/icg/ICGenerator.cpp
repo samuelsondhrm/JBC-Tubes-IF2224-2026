@@ -136,8 +136,7 @@ std::vector<ICInstruction> ICGenerator::generate(ASTNode* root) {
 }
 
 // Tulis daftar instruksi IC ke file teks dengan format: baris op level arg
-void ICGenerator::writeToFile(const std::vector<ICInstruction>& code,
-                               const std::string& filename) {
+void ICGenerator::writeToFile(const std::vector<ICInstruction>& code, const std::string& filename) {
     std::ofstream out(filename);
     if (!out) throw std::runtime_error("Cannot open output file: " + filename);
     for (const auto& instr : code) {

@@ -1,5 +1,7 @@
 # Arion Compiler - Tugas Besar IF2224 Teori Bahasa Formal dan Otomata
 
+> Milestone 4: Intermediate Code Generator & Interpreter
+
 > Milestone 3: Semantic Analyzer
 
 > Milestone 2: Syntax Analyzer
@@ -49,6 +51,16 @@ Selama proses traversal AST, semantic analyzer menggunakan beberapa **Symbol Tab
 
 Program menerima file source code Arion sebagai input (menjalankan seluruh pipeline lexer → parser → semantic) dan menghasilkan output berupa Decorated AST beserta Symbol Table yang ditampilkan pada terminal.
 
+### Milestone 4: Intermediate Code Generator & Interpreter
+
+Arion Intermediate Code Generator & Interpreter merupakan milestone keempat sekaligus tahapan akhir dari proyek Compiler Arion. Pada tahap ini, compiler mengonversi **Decorated AST** yang dihasilkan oleh Semantic Analyzer menjadi **Intermediate Code (IC)** berupa instruksi abstrak berbasis *stack machine*, yang kemudian dieksekusi oleh sebuah **Virtual Machine (Interpreter)**.
+
+Intermediate Code Generator menerima Decorated AST yang telah dianotasi dengan informasi semantik, seperti tipe data, scope, dan referensi simbol, kemudian melakukan traversal AST untuk menerjemahkan setiap ekspresi, assignment, percabangan, perulangan, serta pemanggilan prosedur dan fungsi ke dalam serangkaian instruksi intermediate code. Instruksi yang dihasilkan mencakup operasi manipulasi data, operasi aritmetika dan logika, pengendalian alur program, manajemen memori, serta pemanggilan subprogram.
+
+Setelah Intermediate Code terbentuk, Interpreter mengeksekusi instruksi tersebut menggunakan arsitektur **stack machine**. Selama proses eksekusi, interpreter mengelola memori runtime melalui stack dan activation record untuk mendukung lexical scoping, pemanggilan prosedur maupun fungsi, serta eksekusi subprogram bersarang. Interpreter juga bertanggung jawab melakukan evaluasi ekspresi, perpindahan alur kontrol, operasi input-output, dan penanganan berbagai kondisi runtime error.
+
+Program menerima file source code Arion sebagai input, menjalankan seluruh pipeline kompilasi mulai dari lexical analysis, syntax analysis, semantic analysis, hingga intermediate code generation, kemudian menghasilkan output berupa daftar Intermediate Code beserta hasil eksekusi program yang ditampilkan pada terminal.
+
 ## Struktur Project
 
 ```
@@ -90,29 +102,43 @@ JBC-Tubes-IF2224-2026
 │   │   ├── parser_expressions.cpp
 │   │   ├── parser_subprograms.cpp
 │   │   ├── TreePrinter.cpp
-│   │   └── TreePrinter.hpp
-│   └── ms3-semantic/
-│       ├── main.cpp
-│       ├── ast/
-│       │   └── ASTNode.hpp
-│       ├── builder/
-│       │   ├── ASTBuilder.cpp
-│       │   └── ASTBuilder.hpp
-│       ├── semantic/
-│       │   ├── SemanticAnalyzer.cpp
-│       │   ├── SemanticAnalyzer.hpp
-│       │   ├── visit_declarations.cpp
-│       │   ├── visit_expressions.cpp
-│       │   └── visit_statements.cpp
-│       ├── symtable/
-│       │   ├── SymbolTable.cpp
-│       │   └── SymbolTable.hpp
-│       ├── type/
-│       │   ├── TypeChecker.cpp
-│       │   └── TypeChecker.hpp
-│       └── printer/
-│           ├── DecoratedASTPrinter.cpp
-│           └── DecoratedASTPrinter.hpp
+│   │   ├── TreePrinter.hpp
+│   ├── ms3-semantic/
+│   │   ├── main.cpp
+│   │   ├── ast/
+│   │   │   └── ASTNode.hpp
+│   │   ├── builder/
+│   │   │   ├── ASTBuilder.cpp
+│   │   │   └── ASTBuilder.hpp
+│   │   ├── semantic/
+│   │   │   ├── SemanticAnalyzer.cpp
+│   │   │   ├── SemanticAnalyzer.hpp
+│   │   │   ├── visit_declarations.cpp
+│   │   │   ├── visit_expressions.cpp
+│   │   │   └── visit_statements.cpp
+│   │   ├── symtable/
+│   │   │   ├── SymbolTable.cpp
+│   │   │   └── SymbolTable.hpp
+│   │   ├── type/
+│   │   │   ├── TypeChecker.cpp
+│   │   │   └── TypeChecker.hpp
+│   │   ├── printer/
+│   │   │   ├── DecoratedASTPrinter.cpp
+│   │   │   └── DecoratedASTPrinter.hpp
+│   └── ms4-interpreter/
+│       ├── icg/
+│       │   ├── ICGen_Expr.cpp
+│       │   ├── ICGen_Statements.cpp
+│       │   ├── ICGen_Subprograms.cpp
+│       │   ├── ICGenerator.hpp
+│       │   ├── ICGenerator.cpp
+│       │   └── ICInstruction.hpp
+│       ├── interpreter/
+│       │   ├── interpreter.cpp
+│       │   ├── interpreter.hpp
+│       │   ├── StackMachine.cpp
+│       │   └── StackMachine.hpp
+│       └── main.cpp
 └── test/
     ├── milestone-1/
     │   ├── test-valid.txt
@@ -126,13 +152,17 @@ JBC-Tubes-IF2224-2026
     │   ├── ...
     │   ├── expected-errors/
     │   └── outputs/
-    └── milestone-3/
-        ├── test-01-minimal.txt
-        ├── test-02-alltypes.txt
-        ├── ...
-        ├── run_tests.sh
-        ├── expected-errors/
-        └── outputs/
+    ├── milestone-3/
+    │   ├── test-01-minimal.txt
+    │   ├── test-02-alltypes.txt
+    │   ├── ...
+    │   ├── run_tests.sh
+    │   ├── expected-errors/
+    │   └── outputs/
+    └── milestone-4/
+        ├── tc1_simple_assign.arion
+        ├── tc2_if_else.arion
+        └── ...
 ```
 
 ### Architecture
@@ -236,6 +266,16 @@ Semua executable dijalankan dari folder `build/`. Setiap executable menerima fil
 
 # Output ke terminal (output file belum didukung; gunakan redirect)
 ./build/arion-semantic <input.txt> > <output.txt>
+```
+
+### Milestone 4: Interpreter
+
+```bash
+# Output instruksi IC dan hasil eksekusi ke terminal
+./build/arion-interpreter <input.txt>
+
+# Output ke terminal (gunakan redirect untuk simpan file)
+./build/arion-interpreter <input.txt> > <output.txt>
 ```
 
 ---
@@ -350,6 +390,29 @@ Output:
  idx   xtyp   etyp   eref    low   high   elsz   size
 ```
 
+### Output Milestone 4 — Intermediate Code & Execution Result (Interpreter)
+
+Input (`test/milestone-4/tc1_simple_assign.arion`):
+```pascal
+program Test;
+var x: integer;
+begin
+  x := 5;
+  writeln(x)
+end.
+```
+
+Output:
+```
+0: INT 0 4
+1: LIT 0 5
+2: STO 0 3
+3: LOD 0 3
+4: OPR 0 14
+5: RET 0 0
+5
+```
+
 ---
 
 ## Testing
@@ -374,6 +437,9 @@ ctest -R ms2 --output-on-failure
 
 # Hanya test Milestone 3
 ctest -R ms3 --output-on-failure
+
+# Hanya test Milestone 4
+ctest -R ms4 --output-on-failure
 ```
 
 ### Script test khusus Milestone 3
@@ -407,6 +473,11 @@ Script ini menjalankan semua test case valid (test-01 s/d test-06) dan error (te
 |             | 13524029 | Implementasi visit_declarations, dan menyusun laporan                    |
 |             | 13524089 | Implementasi visit_expressions dan visit_statement, dan menyusun laporan                             |
 |             | 13524093 | Implementasi TypeChecker, dan menyusun laporan                        |
+|  4 | 13524001 | Implementasi ICGen_Expr, dan menyusun laporan                                    |
+|             | 13524027 | Implementasi interpreter, dan menyusun laporan                          |
+|             | 13524029 | Implementasi ICGen_Statements, ICGen_Subprograms, dan menyusun laporan                    |
+|             | 13524089 | Implementasi StackMachine, dan menyusun laporan                             |
+|             | 13524093 | Implementasi ICGenerator, ICInstruction dan menyusun laporan                        |
 
 ## Identitas Kelompok
 

@@ -28,23 +28,19 @@ private:
 
     int currentLevel_ = 0;
     std::vector<FrameInfo> frameStack_;
-
+    
     int runtimeLevel(const ms3::TabEntry& entry) const;
     int runtimeAddr(const ms3::TabEntry& entry) const;
     int countParams(const std::vector<ParamNode*>& params) const;
     int countLocalVars(BlockNode* block) const;
     int lookupInBlock(const std::string& name, int btabIdx) const;
-
     void emit(const std::string& op, int level, int arg);
-    int  currentLine() const;
+    int currentLine() const;
     void backpatch(int targetLine, int value);
     void visitNode(ASTNode* node);
     void emitAddr(ASTNode* node);
-
     void visitProgram(ProgramNode* n);
     void visitBlock(BlockNode* n);
-
-    // ICGen_Expr.cpp
     void visitAssign(AssignNode* n);
     void visitBinOp(BinOpNode* n);
     void visitUnaryOp(UnaryOpNode* n);
@@ -57,8 +53,6 @@ private:
     void visitStringLit(StringLitNode* n);
     void visitBoolLit(BoolLitNode* n);
     void visitFuncCall(FuncCallNode* n);
-
-    // ICGen_Statements.cpp
     void visitCompound(CompoundNode* n);
     void visitIf(IfNode* n);
     void visitWhile(WhileNode* n);
@@ -66,8 +60,6 @@ private:
     void visitRepeat(RepeatNode* n);
     void visitCase(CaseNode* n);
     void visitProcCall(ProcCallNode* n);
-
-    // ICGen_Subprograms.cpp 
     void visitProcDecl(ProcDeclNode* n);
     void visitFuncDecl(FuncDeclNode* n);
 };
