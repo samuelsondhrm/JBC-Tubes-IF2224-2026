@@ -1,0 +1,15 @@
+0: INT 0 6
+1: LIT 0 3
+2: STO 0 3
+3: LIT 0 4
+4: STO 0 4
+5: LOD 0 3
+6: LOD 0 4
+7: OPR 0 2
+8: LIT 0 2
+9: OPR 0 4
+10: STO 0 5
+11: LOD 0 5
+12: OPR 0 14
+13: RET 0 0
+14
