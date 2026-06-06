@@ -1,0 +1,170 @@
+@startuml
+title Workflow Eksekusi Compiler + Interpreter Arion
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #F8FAFC
+  BorderColor #334155
+  FontColor #0F172A
+  DiamondBackgroundColor #FEF3C7
+  DiamondBorderColor #92400E
+  StartColor #16A34A
+  EndColor #DC2626
+}
+skinparam partition {
+  BackgroundColor #EFF6FF
+  BorderColor #1D4ED8
+  FontColor #0F172A
+}
+
+start
+
+partition "Input & File Reader" {
+  :User menjalankan program;
+  :./arion-interpreter <input.txt>;
+
+  if (argc < 2?) then (ya)
+    :Cetak usage program;
+    stop
+  else (tidak)
+    :FileUtil::readFile(argv[1]);
+    :Source code Arion disimpan sebagai string;
+  endif
+}
+
+partition "MS1 - Lexical Analysis" {
+  :Buat Lexer(src);
+  :Lexer::tokenize();
+
+  repeat
+    :Lexer memanggil DFA::nextToken();
+    :DFA membaca karakter, pindah state,
+    membentuk lexeme/token;
+    if (Token COMMENT?) then (ya)
+      :Abaikan komentar;
+    else (tidak)
+      :Masukkan Token ke vector<Token>;
+    endif
+  repeat while (belum EOF?) is (ya)
+  -> tidak;
+
+  :Hasil: daftar token;
+}
+
+partition "MS2 - Syntax Analysis" {
+  :Buat Parser(tokens);
+  :Parser::parse();
+  :Recursive descent dimulai dari start symbol;
+  :Parser membangun ParseNode root
+  dan child secara depth-first;
+
+  if (parser.hasError()?) then (ya)
+    :Cetak semua syntax error dari parser.errors();
+    :delete parseTree;
+    stop
+  else (tidak)
+    :Hasil: parse tree valid;
+  endif
+}
+
+partition "MS3 - AST Construction" {
+  :Buat ASTBuilder;
+  :ASTBuilder::build(parseTree);
+  :Traverse parse tree depth-first;
+  :Konversi ParseNode menjadi ASTNode konkret
+  seperti ProgramNode, BlockNode,
+  AssignNode, BinOpNode, dst.;
+  :Hasil: AST yang lebih ringkas;
+}
+
+partition "MS3 - Semantic Analysis" {
+  :Buat SemanticAnalyzer;
+  :SemanticAnalyzer::analyze(ast);
+
+  fork
+    :SymbolTable mengelola tab, atab, btab;
+    :openBlock() / closeBlock()
+    untuk scope lexical;
+  fork again
+    :Visitor mengunjungi declaration,
+    statement, expression;
+  fork again
+    :TypeChecker memvalidasi kompatibilitas tipe;
+  end fork
+
+  :AST diberi anotasi SemanticInfo
+  menjadi decorated AST;
+
+  if (sa.hasError()?) then (ya)
+    :Cetak "Semantic Error detected.";
+    :delete parseTree;
+    stop
+  else (tidak)
+    :Semantic valid;
+  endif
+}
+
+partition "MS4 - Intermediate Code Generation" {
+  :Buat ICGenerator(sa.getSymbolTable());
+  :ICGenerator::generate(ast);
+  :Traverse decorated AST depth-first;
+  :Gunakan SymbolTable untuk level lexical
+  dan alamat runtime simbol;
+  :Emit vector<ICInstruction>;
+
+  note right
+    Contoh instruksi:
+    INT, LIT, LOD, STO,
+    OPR, JMP, JPC, CAL, RET
+  end note
+
+  :Cetak setiap instruksi IC ke stdout;
+}
+
+partition "MS4 - Interpretation / Runtime" {
+  :Buat Interpreter(code);
+  :Interpreter::run();
+
+  repeat
+    :Fetch instruksi berdasarkan program counter;
+    :Decode op, level, arg;
+    :Eksekusi instruksi pada StackMachine;
+
+    if (Instruksi control flow?) then (JMP/JPC/CAL/RET)
+      :Ubah program counter / activation record;
+    else (instruksi data/operasi)
+      :Manipulasi stack dan memori runtime;
+    endif
+  repeat while (program belum selesai?) is (ya)
+  -> tidak;
+
+  if (runtime exception?) then (ya)
+    :Tangkap exception;
+    :Cetak pesan error ke stderr;
+    :delete parseTree;
+    stop
+  else (tidak)
+    :Program selesai normal;
+  endif
+}
+
+partition "Cleanup" {
+  :delete parseTree;
+  :return 0;
+}
+
+stop
+
+legend right
+  |= Artefak |= Dibuat oleh |= Dipakai oleh |
+  | Source string | FileUtil::readFile | Lexer |
+  | vector<Token> | Lexer/DFA | Parser |
+  | Parse tree | Parser | ASTBuilder |
+  | AST | ASTBuilder | SemanticAnalyzer |
+  | Decorated AST + SymbolTable | SemanticAnalyzer | ICGenerator |
+  | vector<ICInstruction> | ICGenerator | Interpreter |
+  | Runtime stack/memory | StackMachine | Interpreter |
+endlegend
+
+@enduml
